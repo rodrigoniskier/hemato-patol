@@ -27,6 +27,10 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
+        html, body {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -101,6 +105,8 @@
         .sidebar-header {
             text-align: center;
             margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
         }
         .sidebar-header h1 {
             font-size: 1.5em;
@@ -141,12 +147,13 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease-in-out;
+            padding-left: 10px;
         }
         .sidebar-nav .has-submenu.open .submenu {
             max-height: 500px; /* Adjust as needed */
         }
         .sidebar-nav .submenu li a {
-            padding-left: 55px; /* Indent submenu items */
+            padding-left: 45px; /* Indent submenu items */
             font-size: 0.95em;
         }
         .sidebar-nav .nav-toggle .arrow {
@@ -191,10 +198,11 @@
             border-collapse: collapse;
             margin: 20px 0;
             box-shadow: var(--shadow);
+            font-size: 0.9em;
         }
         table th, table td {
             border: 1px solid #ddd;
-            padding: 12px;
+            padding: 10px;
             text-align: left;
         }
         table th {
@@ -232,8 +240,6 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        .flashcard-container, .quiz-builder-form-group, .modal, .quiz-question, .review-question { /* Estilos mantidos da versão anterior */ }
-        
         .flashcard-container { display: flex; flex-direction: column; align-items: center; }
         .flashcard { width: 500px; height: 300px; perspective: 1000px; cursor: pointer; margin-bottom: 20px; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
@@ -256,11 +262,11 @@
         .review-question.incorrect { background-color: #f8d7da; }
         
         .quiz-builder-form-group { margin-bottom: 20px; }
-        .quiz-builder-form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .quiz-builder-form-group > label { display: block; font-weight: bold; margin-bottom: 5px; }
         .quiz-builder-form-group input[type="range"] { width: 100%; }
         .quiz-builder-form-group .checkbox-group label { display: block; font-weight: normal; }
         
-        .reference-list li { margin-bottom: 15px; }
+        .reference-list li { margin-bottom: 15px; list-style-type: none; }
         .reference-list a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
         .reference-list a:hover { text-decoration: underline; }
         .reference-list p { margin-left: 20px; font-style: italic; color: #555; margin-top: 5px; margin-bottom: 0;}
@@ -340,9 +346,6 @@
     <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // ===============================================
-        // BANCO DE DADOS - 100% DO CONTEÚDO, QUIZZES E FONTES
-        // ===============================================
         const courseData = {
             modules: [
                 {
@@ -350,15 +353,15 @@
                     sections: [
                         {
                             id: 'sec1-1', title: 'Lesão Celular e Toxicidade Medular',
-                            [cite_start]content: `<h4>Fundamentos da Lesão Celular</h4><p>A patologia estuda as reações de células a estímulos nocivos. A célula opera em <span class="tooltip" data-definition="Estado de equilíbrio dinâmico da célula. [cite: 6][cite_start]">homeostase</span>, mas estresse severo ou prolongado causa lesão[cite: 8]. [cite_start]Inicialmente, a lesão pode ser reversível, mas se o ponto de não retorno for ultrapassado, torna-se irreversível, culminando na morte celular [cite: 9][cite_start].</p><h4>Mecanismos de Lesão Celular</h4><ul><li><b>Depleção de <span class="tooltip" data-definition="Adenosina Trifosfato, a principal moeda energética da célula. [cite: 11][cite_start]">ATP</span>:</b> A falta de energia por <span class="tooltip" data-definition="Baixa concentração de oxigênio nos tecidos. [cite: 12][cite_start]">hipóxia</span> ou toxinas afeta bombas iônicas (causando edema celular) e a síntese de proteínas [cite: 12, 14, 15][cite_start].</li><li><b>Dano Mitocondrial:</b> Leva à falha na produção de ATP e à liberação de proteínas que ativam a <span class="tooltip" data-definition="Morte celular programada, um processo organizado e sem inflamação. [cite: 18][cite_start]">apoptose</span>, como o citocromo c [cite: 18][cite_start].</li><li><b>Influxo de Cálcio (Ca²+):</b> Ativa enzimas destrutivas (fosfolipases, proteases) que degradam membranas e proteínas [cite: 21, 22][cite_start].</li><li><b>Estresse Oxidativo:</b> O acúmulo de <span class="tooltip" data-definition="Espécies Reativas de Oxigênio, ou radicais livres, que causam dano celular. [cite: 23][cite_start]">EROs</span> danifica lipídios, proteínas e DNA [cite: 23, 25][cite_start].</li></ul><h4>Aplicação Hematológica - Lesão Tóxica da Medula Óssea</h4><p>A medula óssea, por sua alta proliferação, é muito sensível a lesões[cite: 27]. [cite_start]A <span class="tooltip" data-definition="Célula-tronco hematopoiética, responsável por gerar todas as células do sangue. [cite: 28][cite_start]">CTH</span> é o alvo principal, e sua lesão resulta em <span class="tooltip" data-definition="Redução de todas as linhagens celulares do sangue (eritrócitos, leucócitos, plaquetas). [cite: 29][cite_start]">pancitopenia</span>.</p><h4>Estudo de Caso 1: Hematotoxicidade do Benzeno</h4><p>O benzeno é metabolizado no fígado e seus metabólitos atacam as CTHs na medula através de múltiplos mecanismos, incluindo estresse oxidativo, dano direto ao DNA e desregulação do receptor <span class="tooltip" data-definition="Receptor de Aril Hidrocarbonetos, um fator de transcrição que ajuda a manter as CTHs em repouso. [cite: 37][cite_start]">AhR</span>, forçando as CTHs a se dividirem e se tornarem mais suscetíveis a danos [cite: 33, 34, 35, 38][cite_start].</p><h4>Estudo de Caso 2: Lesão Medular por Cloranfenicol</h4><p>Este antibiótico ilustra a dualidade da lesão celular:<ul><li><b>Lesão Reversível:</b> Em altas doses, inibe a síntese de proteínas mitocondriais, especialmente nos precursores eritroides, causando uma lesão que se reverte após a suspensão do fármaco [cite: 44, 45, 47, 48][cite_start].</li><li><b>Lesão Irreversível:</b> Em casos raros e idiossincráticos, pode causar uma <span class="tooltip" data-definition="Condição rara e grave em que a medula óssea para de produzir células sanguíneas suficientes.">aplasia medular</span> fatal, um exemplo de lesão irreversível com morte em massa das CTHs, possivelmente por dano irreparável ao DNA em indivíduos geneticamente predispostos[cite: 49, 50].</li></ul>`
+                            content: `<h4>Fundamentos da Lesão Celular</h4><p>A patologia estuda as reações de células a estímulos nocivos. A célula opera em <span class="tooltip" data-definition="Estado de equilíbrio dinâmico da célula.">homeostase</span>, mas estresse severo ou prolongado causa lesão. Inicialmente, a lesão pode ser reversível, mas se o ponto de não retorno for ultrapassado, torna-se irreversível, culminando na morte celular.</p><h4>Mecanismos de Lesão Celular</h4><ul><li><b>Depleção de <span class="tooltip" data-definition="Adenosina Trifosfato, a principal moeda energética da célula.">ATP</span>:</b> A falta de energia por <span class="tooltip" data-definition="Baixa concentração de oxigênio nos tecidos.">hipóxia</span> ou toxinas afeta bombas iônicas (causando edema celular) e a síntese de proteínas.</li><li><b>Dano Mitocondrial:</b> Leva à falha na produção de ATP e à liberação de proteínas que ativam a <span class="tooltip" data-definition="Morte celular programada, um processo organizado e sem inflamação.">apoptose</span>, como o citocromo c.</li><li><b>Influxo de Cálcio (Ca²+):</b> Ativa enzimas destrutivas (fosfolipases, proteases) que degradam membranas e proteínas.</li><li><b>Estresse Oxidativo:</b> O acúmulo de <span class="tooltip" data-definition="Espécies Reativas de Oxigênio, ou radicais livres, que causam dano celular.">EROs</span> danifica lipídios, proteínas e DNA.</li></ul><h4>Aplicação Hematológica - Lesão Tóxica da Medula Óssea</h4><p>A medula óssea, por sua alta proliferação, é muito sensível a lesões. A <span class="tooltip" data-definition="Célula-tronco hematopoiética, responsável por gerar todas as células do sangue.">CTH</span> é o alvo principal, e sua lesão resulta em <span class="tooltip" data-definition="Redução de todas as linhagens celulares do sangue (eritrócitos, leucócitos, plaquetas).">pancitopenia</span>.</p><h4>Estudo de Caso 1: Hematotoxicidade do Benzeno</h4><p>O benzeno é metabolizado no fígado e seus metabólitos atacam as CTHs na medula através de múltiplos mecanismos, incluindo estresse oxidativo, dano direto ao DNA e desregulação do receptor <span class="tooltip" data-definition="Receptor de Aril Hidrocarbonetos, um fator de transcrição que ajuda a manter as CTHs em repouso.">AhR</span>, forçando as CTHs a se dividirem e se tornarem mais suscetíveis a danos.</p><h4>Estudo de Caso 2: Lesão Medular por Cloranfenicol</h4><p>Este antibiótico ilustra a dualidade da lesão celular:<ul><li><b>Lesão Reversível:</b> Em altas doses, inibe a síntese de proteínas mitocondriais, especialmente nos precursores eritroides, causando uma lesão que se reverte após a suspensão do fármaco.</li><li><b>Lesão Irreversível:</b> Em casos raros e idiossincráticos, pode causar uma <span class="tooltip" data-definition="Condição rara e grave em que a medula óssea para de produzir células sanguíneas suficientes.">aplasia medular</span> fatal, um exemplo de lesão irreversível com morte em massa das CTHs, possivelmente por dano irreparável ao DNA em indivíduos geneticamente predispostos.</li></ul>`
                         },
                         {
                             id: 'sec1-2', title: 'Adaptação Celular e Respostas Medulares',
-                            content: `<h4>Fundamentos da Adaptação Celular</h4><p>Células podem se adaptar a estresses, modificando sua estrutura e função. [cite_start]As adaptações incluem:</p><ul><li><span class="tooltip" data-definition="Aumento no NÚMERO de células. [cite: 55][cite_start]"><b>Hiperplasia</b></span></li><li><span class="tooltip" data-definition="Aumento no TAMANHO das células. [cite: 55][cite_start]"><b>Hipertrofia</b></span></li><li><span class="tooltip" data-definition="Redução no tamanho e atividade metabólica de uma célula. [cite: 56][cite_start]"><b>Atrofia</b></span></li><li><span class="tooltip" data-definition="Mudança reversível de um tipo celular diferenciado por outro. [cite: 57][cite_start]"><b>Metaplasia</b></span></li></ul><h4>Estudo de Caso 3: Hiperplasia Eritroide na Hipóxia Crônica</h4><p>Em condições de <span class="tooltip" data-definition="Baixa concentração de oxigênio nos tecidos. [cite: 62][cite_start]">hipóxia</span> crônica (ex: grandes altitudes, DPOC), os rins detectam o baixo oxigênio e estabilizam o fator de transcrição <span class="tooltip" data-definition="Fator Induzível por Hipóxia, um 'termostato de oxigênio' molecular. [cite: 65, 68][cite_start]">HIF</span>[cite: 63, 64]. [cite_start]O HIF-2α ativo aumenta a produção do hormônio <span class="tooltip" data-definition="Eritropoietina, hormônio que estimula a produção de glóbulos vermelhos. [cite: 68][cite_start]">EPO</span>, que age na medula óssea causando hiperplasia da linhagem eritroide[cite: 68, 69]. [cite_start]O resultado é a policitemia secundária, que, embora adaptativa, aumenta a viscosidade sanguínea e o risco de <span class="tooltip" data-definition="Formação patológica de um coágulo dentro de um vaso sanguíneo. [cite: 75][cite_start]">trombose</span> [cite: 74, 75][cite_start].</p><h4>Estudo de Caso 4: Atrofia Medular na Anemia Aplásica</h4><p>A anemia aplásica é a atrofia do órgão hematopoiético[cite: 78, 80]. [cite_start]A causa mais comum é um ataque autoimune mediado por linfócitos T citotóxicos (CD8+) contra as CTHs[cite: 83, 84, 87]. [cite_start]Esses linfócitos destroem as CTHs liberando citocinas inibitórias (IFN-γ, TNF-α) e induzindo apoptose, resultando em falência medular completa[cite: 89, 91].</p>`
+                            content: `<h4>Fundamentos da Adaptação Celular</h4><p>Células podem se adaptar a estresses, modificando sua estrutura e função. As adaptações incluem:</p><ul><li><span class="tooltip" data-definition="Aumento no NÚMERO de células."><b>Hiperplasia</b></span></li><li><span class="tooltip" data-definition="Aumento no TAMANHO das células."><b>Hipertrofia</b></span></li><li><span class="tooltip" data-definition="Redução no tamanho e atividade metabólica de uma célula."><b>Atrofia</b></span></li><li><span class="tooltip" data-definition="Mudança reversível de um tipo celular diferenciado por outro."><b>Metaplasia</b></span></li></ul><h4>Estudo de Caso 3: Hiperplasia Eritroide na Hipóxia Crônica</h4><p>Em condições de <span class="tooltip" data-definition="Baixa concentração de oxigênio nos tecidos.">hipóxia</span> crônica (ex: grandes altitudes, DPOC), os rins detectam o baixo oxigênio e estabilizam o fator de transcrição <span class="tooltip" data-definition="Fator Induzível por Hipóxia, um 'termostato de oxigênio' molecular.">HIF</span>. O HIF-2α ativo aumenta a produção do hormônio <span class="tooltip" data-definition="Eritropoietina, hormônio que estimula a produção de glóbulos vermelhos.">EPO</span>, que age na medula óssea causando hiperplasia da linhagem eritroide. O resultado é a policitemia secundária, que, embora adaptativa, aumenta a viscosidade sanguínea e o risco de <span class="tooltip" data-definition="Formação patológica de um coágulo dentro de um vaso sanguíneo.">trombose</span>.</p><h4>Estudo de Caso 4: Atrofia Medular na Anemia Aplásica</h4><p>A anemia aplásica é a atrofia do órgão hematopoiético. A causa mais comum é um ataque autoimune mediado por linfócitos T citotóxicos (CD8+) contra as CTHs. Esses linfócitos destroem as CTHs liberando citocinas inibitórias (IFN-γ, TNF-α) e induzindo apoptose, resultando em falência medular completa.</p>`
                         },
                         {
                             id: 'sec1-3', title: 'Morte Celular e Hemólise',
-                            [cite_start]content: `<h4>Fundamentos da Morte Celular</h4><p>Existem duas vias principais de morte celular: apoptose e necrose.</p><ul><li><span class="tooltip" data-definition="Morte celular programada, 'suicídio celular' organizado, que não causa inflamação. [cite: 98, 102][cite_start]"><b>Apoptose:</b></span> Processo ativo e regulado. A célula encolhe e é fagocitada sem inflamação[cite: 98, 101, 102]. [cite_start]Pode ser iniciada pela via intrínseca (mitocondrial) ou extrínseca (receptores de morte) [cite: 103][cite_start].</li><li><span class="tooltip" data-definition="Morte celular acidental, descontrolada, que sempre causa inflamação. [cite: 104, 107][cite_start]"><b>Necrose:</b></span> Processo passivo, resultado de lesão aguda. A célula incha, sua membrana se rompe (lise) e o conteúdo extravasa, causando inflamação [cite: 104, 105, 106, 107][cite_start].</li></ul>${getTableHtml('table1')}<h4>Estudo de Caso 5: Anemia Falciforme</h4><p>Uma mutação pontual no gene da β-globina cria a Hemoglobina S (HbS)[cite: 117]. [cite_start]Sob baixa tensão de oxigênio, a HbS se polimeriza, distorcendo os eritrócitos para a forma de foice (drepanócito)[cite: 120, 121, 123]. [cite_start]Estes eritrócitos rígidos são destruídos prematuramente (<span class="tooltip" data-definition="Destruição de hemácias. [cite: 127][cite_start]">hemólise</span>), com vida média de 10-20 dias [cite: 128][cite_start], e podem bloquear pequenos vasos (<span class="tooltip" data-definition="Obstrução de vasos sanguíneos. [cite: 130][cite_start]">vaso-oclusão</span>), causando dor intensa e <span class="tooltip" data-definition="Falta de suprimento sanguíneo para um tecido, levando à falta de oxigênio. [cite: 131][cite_start]">isquemia</span> tecidual[cite: 130, 131].</p>`
+                            content: `<h4>Fundamentos da Morte Celular</h4><p>Existem duas vias principais de morte celular: apoptose e necrose.</p><ul><li><span class="tooltip" data-definition="Morte celular programada, 'suicídio celular' organizado, que não causa inflamação."><b>Apoptose:</b></span> Processo ativo e regulado. A célula encolhe e é fagocitada sem inflamação. Pode ser iniciada pela via intrínseca (mitocondrial) ou extrínseca (receptores de morte).</li><li><span class="tooltip" data-definition="Morte celular acidental, descontrolada, que sempre causa inflamação."><b>Necrose:</b></span> Processo passivo, resultado de lesão aguda. A célula incha, sua membrana se rompe (lise) e o conteúdo extravasa, causando inflamação.</li></ul><div id="table1-container"></div><h4>Estudo de Caso 5: Anemia Falciforme</h4><p>Uma mutação pontual no gene da β-globina cria a Hemoglobina S (HbS). Sob baixa tensão de oxigênio, a HbS se polimeriza, distorcendo os eritrócitos para a forma de foice (drepanócito). Estes eritrócitos rígidos são destruídos prematuramente (<span class="tooltip" data-definition="Destruição de hemácias.">hemólise</span>), com vida média de 10-20 dias, e podem bloquear pequenos vasos (<span class="tooltip" data-definition="Obstrução de vasos sanguíneos.">vaso-oclusão</span>), causando dor intensa e <span class="tooltip" data-definition="Falta de suprimento sanguíneo para um tecido, levando à falta de oxigênio.">isquemia</span> tecidual.</p>`
                         }
                     ]
                 },
@@ -367,11 +370,11 @@
                     sections: [
                         {
                             id: 'sec2-1', title: 'Inflamação e o Leucograma',
-                            [cite_start]content: `<h4>Fundamentos da Inflamação</h4><p>A inflamação é uma resposta protetora a agentes agressores[cite: 135]. [cite_start]A <b>inflamação aguda</b> é rápida, de curta duração, e marcada pela migração de <span class="tooltip" data-definition="Tipo de leucócito que é a primeira linha de defesa contra infecções bacterianas. [cite: 139][cite_start]">neutrófilos</span>[cite: 139]. [cite_start]A <b>inflamação crônica</b> é prolongada e envolve <span class="tooltip" data-definition="Tipos de leucócitos envolvidos na imunidade específica e memória imunológica. [cite: 142][cite_start]">linfócitos</span> e macrófagos[cite: 142]. [cite_start]O processo é orquestrado por mediadores como <span class="tooltip" data-definition="Proteínas que mediam e regulam a resposta imune e inflamatória (ex: TNF, IL-1, IL-6). [cite: 144][cite_start]">citocinas</span> e <span class="tooltip" data-definition="Subfamília de citocinas que direcionam a migração de leucócitos. [cite: 146][cite_start]">quimiocinas</span>[cite: 143, 146].</p><h4>O Hemograma como Janela da Inflamação</h4><p>O leucograma reflete diretamente os processos inflamatórios. [cite_start]A análise deve ser feita com valores absolutos [cite: 151, 153][cite_start].</p>${getTableHtml('table2')}${getTableHtml('table3')}<h4>Análise Laboratorial 2: Efeitos Sistêmicos e a CIVD na Sepse</h4><p>A <span class="tooltip" data-definition="Resposta inflamatória sistêmica desregulada a uma infecção, que pode levar à falência de órgãos. [cite: 178][cite_start]">sepse</span> é uma resposta inflamatória sistêmica que pode levar à <span class="tooltip" data-definition="Coagulação Intravascular Disseminada: ativação sistêmica da coagulação, levando a trombose e hemorragia por consumo de fatores. [cite: 178][cite_start]">CIVD</span>[cite: 178]. [cite_start]Citocinas (TNF, IL-1) induzem a expressão massiva do <span class="tooltip" data-definition="Fator Tecidual, o principal iniciador da via extrínseca da coagulação. [cite: 180][cite_start]">Fator Tecidual</span>, ativando a coagulação de forma descontrolada[cite: 180, 181]. [cite_start]Simultaneamente, os sistemas anticoagulantes são suprimidos[cite: 182]. [cite_start]O resultado é a formação de microtrombos, isquemia, e um consumo de plaquetas e fatores que leva a um risco paradoxal de sangramento grave[cite: 183, 184].</p>`
+                            content: `<h4>Fundamentos da Inflamação</h4><p>A inflamação é uma resposta protetora a agentes agressores. A <b>inflamação aguda</b> é rápida, de curta duração, e marcada pela migração de <span class="tooltip" data-definition="Tipo de leucócito que é a primeira linha de defesa contra infecções bacterianas.">neutrófilos</span>. A <b>inflamação crônica</b> é prolongada e envolve <span class="tooltip" data-definition="Tipos de leucócitos envolvidos na imunidade específica e memória imunológica.">linfócitos</span> e macrófagos. O processo é orquestrado por mediadores como <span class="tooltip" data-definition="Proteínas que mediam e regulam a resposta imune e inflamatória (ex: TNF, IL-1, IL-6).">citocinas</span> e <span class="tooltip" data-definition="Subfamília de citocinas que direcionam a migração de leucócitos.">quimiocinas</span>.</p><h4>O Hemograma como Janela da Inflamação</h4><p>O leucograma reflete diretamente os processos inflamatórios. A análise deve ser feita com valores absolutos.</p><div id="table2-container"></div><div id="table3-container"></div><h4>Análise Laboratorial 2: Efeitos Sistêmicos e a CIVD na Sepse</h4><p>A <span class="tooltip" data-definition="Resposta inflamatória sistêmica desregulada a uma infecção, que pode levar à falência de órgãos.">sepse</span> é uma resposta inflamatória sistêmica que pode levar à <span class="tooltip" data-definition="Coagulação Intravascular Disseminada: ativação sistêmica da coagulação, levando a trombose e hemorragia por consumo de fatores.">CIVD</span>. Citocinas (TNF, IL-1) induzem a expressão massiva do <span class="tooltip" data-definition="Fator Tecidual, o principal iniciador da via extrínseca da coagulação.">Fator Tecidual</span>, ativando a coagulação de forma descontrolada. Simultaneamente, os sistemas anticoagulantes são suprimidos. O resultado é a formação de microtrombos, isquemia, e um consumo de plaquetas e fatores que leva a um risco paradoxal de sangramento grave.</p>`
                         },
                         {
                             id: 'sec2-2', title: 'Reparo Tecidual e Fibrose Medular',
-                            [cite_start]content: `<h4>Fundamentos do Reparo</h4><p>O reparo tecidual pode ocorrer por <b>regeneração</b> (restauração completa) ou <b>cicatrização</b> (<span class="tooltip" data-definition="Deposição de tecido conjuntivo, formando uma cicatriz. [cite: 194][cite_start]">fibrose</span>)[cite: 189]. [cite_start]A fibrose é orquestrada por fatores de crescimento como <span class="tooltip" data-definition="Fator de Crescimento Transformador-beta, o principal indutor da fibrose. [cite: 196][cite_start]">TGF-β</span> e <span class="tooltip" data-definition="Fator de Crescimento Derivado de Plaquetas, que recruta e ativa fibroblastos. [cite: 196][cite_start]">PDGF</span> [cite: 195, 196][cite_start].</p><h4>Estudo de Caso 6: Mielofibrose Primária (MFP)</h4><p>Na MFP, uma neoplasia mieloproliferativa, os megacariócitos clonais e atípicos liberam grandes quantidades de PDGF e TGF-β[cite: 199, 204, 206]. [cite_start]Esses fatores estimulam fibroblastos normais a depositar colágeno excessivamente na medula óssea, levando à fibrose reativa[cite: 200, 201, 207, 208]. [cite_start]A destruição do microambiente medular suprime a hematopoiese normal e a desloca para outros órgãos (hematopoiese extramedular)[cite: 212, 213]. [cite_start]Isso resulta em <span class="tooltip" data-definition="Presença de precursores de leucócitos e eritrócitos no sangue periférico. [cite: 215][cite_start]">leucoeritroblastose</span> e na formação de <span class="tooltip" data-definition="Hemácia em forma de lágrima, um achado morfológico altamente sugestivo de fibrose medular. [cite: 216][cite_start]">dacriócitos</span>[cite: 215, 216].</p>`
+                            content: `<h4>Fundamentos do Reparo</h4><p>O reparo tecidual pode ocorrer por <b>regeneração</b> (restauração completa) ou <b>cicatrização</b> (<span class="tooltip" data-definition="Deposição de tecido conjuntivo, formando uma cicatriz.">fibrose</span>). A fibrose é orquestrada por fatores de crescimento como <span class="tooltip" data-definition="Fator de Crescimento Transformador-beta, o principal indutor da fibrose.">TGF-β</span> e <span class="tooltip" data-definition="Fator de Crescimento Derivado de Plaquetas, que recruta e ativa fibroblastos.">PDGF</span>.</p><h4>Estudo de Caso 6: Mielofibrose Primária (MFP)</h4><p>Na MFP, uma neoplasia mieloproliferativa, os megacariócitos clonais e atípicos liberam grandes quantidades de PDGF e TGF-β. Esses fatores estimulam fibroblastos normais a depositar colágeno excessivamente na medula óssea, levando à fibrose reativa. A destruição do microambiente medular suprime a hematopoiese normal e a desloca para outros órgãos (hematopoiese extramedular). Isso resulta em <span class="tooltip" data-definition="Presença de precursores de leucócitos e eritrócitos no sangue periférico.">leucoeritroblastose</span> e na formação de <span class="tooltip" data-definition="Hemácia em forma de lágrima, um achado morfológico altamente sugestivo de fibrose medular.">dacriócitos</span>.</p>`
                         }
                     ]
                 },
@@ -380,7 +383,7 @@
                     sections: [
                         {
                             id: 'sec3-1', title: 'Hemostasia e Trombose',
-                            [cite_start]content: `<h4>Fundamentos da Hemostasia</h4><p>A <span class="tooltip" data-definition="Processo fisiológico que impede o sangramento, formando um coágulo no local da lesão. [cite: 229][cite_start]">hemostasia</span> é o equilíbrio entre manter o sangue fluido e formar coágulos. Ela se divide em:</p><ul><li><b>Hemostasia Primária:</b> Formação do tampão plaquetário. Envolve adesão (via <span class="tooltip" data-definition="Fator de von Willebrand, uma proteína que serve de ponte entre o colágeno e as plaquetas. [cite: 233][cite_start]">FvW</span>), ativação (com liberação de ADP e <span class="tooltip" data-definition="Potente ativador e recrutador de plaquetas. [cite: 234][cite_start]">TXA2</span>) e agregação de plaquetas [cite: 232, 233, 234, 235][cite_start].</li><li><b>Hemostasia Secundária:</b> Ativação da cascata da coagulação para formar uma malha de fibrina estável[cite: 237]. [cite_start]As vias extrínseca (iniciada pelo <span class="tooltip" data-definition="Fator Tecidual, o principal iniciador da via extrínseca da coagulação. [cite: 238][cite_start]">TF</span>) e intrínseca convergem para gerar a <span class="tooltip" data-definition="Enzima central da coagulação, que converte fibrinogênio em fibrina. [cite: 240][cite_start]">trombina</span>, a enzima central [cite: 238, 239, 240][cite_start].</li></ul><p>A <span class="tooltip" data-definition="Formação patológica de um coágulo dentro de um vaso sanguíneo intacto. [cite: 243][cite_start]">trombose</span> é influenciada pela <span class="tooltip" data-definition="Modelo que descreve os 3 fatores que contribuem para a trombose: lesão endotelial, alteração do fluxo sanguíneo e hipercoagulabilidade. [cite: 243][cite_start]">Tríade de Virchow</span>: (1) Lesão endotelial, (2) Estase ou turbulência do fluxo, e (3) Hipercoagulabilidade [cite: 243][cite_start].</p><h4>Falhas na Hemostasia</h4><ul><li><b>Estudo de Caso 7: PTI (Púrpura Trombocitopênica Imune):</b> Defeito na hemostasia primária[cite: 247]. [cite_start]Autoanticorpos (IgG) opsonizam plaquetas, que são destruídas no baço[cite: 249, 250]. [cite_start]Clínica: <span class="tooltip" data-definition="Pequenos pontos hemorrágicos (<2mm) na pele ou mucosas, característicos de problemas plaquetários. [cite: 253][cite_start]">petéquias</span> e equimoses [cite: 253][cite_start].</li><li><b>Estudo de Caso 8: Hemofilia A:</b> Defeito na hemostasia secundária[cite: 256]. [cite_start]Deficiência hereditária do Fator VIII, essencial para a via intrínseca[cite: 258, 259]. [cite_start]Clínica: sangramentos profundos em articulações (<span class="tooltip" data-definition="Sangramento dentro de uma articulação, muito doloroso e destrutivo. [cite: 263][cite_start]">hemartroses</span>) e músculos[cite: 263]. [cite_start]O TTPA é prolongado [cite: 264][cite_start].</li><li><b>Estudo de Caso 9: CIVD:</b> Falha sistêmica e tempestade hemostática[cite: 265]. [cite_start]Ativação massiva da coagulação consome plaquetas e fatores, gerando microtrombos e, paradoxalmente, hemorragia[cite: 267, 270]. O diagnóstico é auxiliado pelo escore da ISTH.</li></ul>${getTableHtml('table4')}`
+                            content: `<h4>Fundamentos da Hemostasia</h4><p>A <span class="tooltip" data-definition="Processo fisiológico que impede o sangramento, formando um coágulo no local da lesão.">hemostasia</span> é o equilíbrio entre manter o sangue fluido e formar coágulos. Ela se divide em:</p><ul><li><b>Hemostasia Primária:</b> Formação do tampão plaquetário. Envolve adesão (via <span class="tooltip" data-definition="Fator de von Willebrand, uma proteína que serve de ponte entre o colágeno e as plaquetas.">FvW</span>), ativação (com liberação de ADP e <span class="tooltip" data-definition="Potente ativador e recrutador de plaquetas.">TXA2</span>) e agregação de plaquetas.</li><li><b>Hemostasia Secundária:</b> Ativação da cascata da coagulação para formar uma malha de fibrina estável. As vias extrínseca (iniciada pelo <span class="tooltip" data-definition="Fator Tecidual, o principal iniciador da via extrínseca da coagulação.">TF</span>) e intrínseca convergem para gerar a <span class="tooltip" data-definition="Enzima central da coagulação, que converte fibrinogênio em fibrina.">trombina</span>, a enzima central.</li></ul><p>A <span class="tooltip" data-definition="Formação patológica de um coágulo dentro de um vaso sanguíneo intacto.">trombose</span> é influenciada pela <span class="tooltip" data-definition="Modelo que descreve os 3 fatores que contribuem para a trombose: lesão endotelial, alteração do fluxo sanguíneo e hipercoagulabilidade.">Tríade de Virchow</span>: (1) Lesão endotelial, (2) Estase ou turbulência do fluxo, e (3) Hipercoagulabilidade.</p><h4>Falhas na Hemostasia</h4><ul><li><b>Estudo de Caso 7: PTI (Púrpura Trombocitopênica Imune):</b> Defeito na hemostasia primária. Autoanticorpos (IgG) opsonizam plaquetas, que são destruídas no baço. Clínica: <span class="tooltip" data-definition="Pequenos pontos hemorrágicos (<2mm) na pele ou mucosas, característicos de problemas plaquetários.">petéquias</span> e equimoses.</li><li><b>Estudo de Caso 8: Hemofilia A:</b> Defeito na hemostasia secundária. Deficiência hereditária do Fator VIII, essencial para a via intrínseca. Clínica: sangramentos profundos em articulações (<span class="tooltip" data-definition="Sangramento dentro de uma articulação, muito doloroso e destrutivo.">hemartroses</span>) e músculos. O TTPA é prolongado.</li><li><b>Estudo de Caso 9: CIVD:</b> Falha sistêmica e tempestade hemostática. Ativação massiva da coagulação consome plaquetas e fatores, gerando microtrombos e, paradoxalmente, hemorragia. O diagnóstico é auxiliado pelo escore da ISTH.</li></ul><div id="table4-container"></div>`
                         }
                     ]
                 },
@@ -389,120 +392,38 @@
                     sections: [
                         {
                             id: 'sec4-1', title: 'Neoplasia e as "Marcas do Câncer"',
-                            [cite_start]content: `<h4>Fundamentos da Biologia do Câncer</h4><p>O câncer é uma doença genética resultante do acúmulo de mutações em classes de genes [cite: 281][cite_start]:</p><ul><li><span class="tooltip" data-definition="Genes normais que promovem o crescimento celular. Quando mutados, tornam-se oncogenes. [cite: 283][cite_start]"><b>Proto-oncogenes:</b></span> Atuam como 'aceleradores' presos quando se tornam <span class="tooltip" data-definition="Versão mutada de um proto-oncogene que impulsiona a proliferação celular de forma contínua. [cite: 284][cite_start]">oncogenes</span> [cite: 283, 284][cite_start].</li><li><span class="tooltip" data-definition="Genes que inibem a proliferação celular, atuando como 'freios'. Sua perda de função promove o câncer. [cite: 285][cite_start]"><b>Genes Supressores de Tumor:</b></span> Atuam como 'freios'[cite: 285]. [cite_start]O mais famoso é o <span class="tooltip" data-definition="Gene supressor de tumor conhecido como 'guardião do genoma', pois controla o ciclo celular e a apoptose. [cite: 287][cite_start]">TP53</span>, o 'guardião do genoma' [cite: 287][cite_start].</li><li><b>Genes de Reparo de DNA:</b> Sua inativação leva à instabilidade genômica [cite: 289][cite_start].</li></ul><p>As <span class="tooltip" data-definition="Conjunto de 8 capacidades biológicas fundamentais adquiridas pelas células durante o desenvolvimento do câncer (proliferação, evasão da morte, etc.). [cite: 290, 291][cite_start]">"Marcas do Câncer"</span> de Hanahan e Weinberg organizam a complexidade da biologia tumoral [cite: 290][cite_start].</p><h4>As "Marcas" nas Neoplasias Hematológicas</h4>${getTableHtml('table5')}<ul><li><b>Exemplo 1: LMC (Leucemia Mieloide Crônica):</b> Ilustra a 'sinalização proliferativa sustentada'[cite: 302]. [cite_start]A translocação t(9;22) cria a quinase <span class="tooltip" data-definition="Oncoproteína de fusão resultante da translocação t(9;22), definidora da LMC, que está permanentemente ativa. [cite: 305][cite_start]">BCR-ABL1</span>, que ativa vias de proliferação de forma independente de fatores de crescimento [cite: 305, 306][cite_start].</li><li><b>Exemplo 2: Linfoma Folicular (LF):</b> Mostra a 'resistência à morte celular'[cite: 307]. [cite_start]A translocação t(14;18) causa a superexpressão da proteína anti-apoptótica <span class="tooltip" data-definition="Proteína anti-apoptótica. Sua superexpressão no Linfoma Folicular impede a morte celular programada, conferindo uma vantagem de sobrevivência. [cite: 309][cite_start]">BCL2</span>, bloqueando a apoptose e permitindo o acúmulo das células do linfoma [cite: 308, 309, 310, 311][cite_start].</li><li><b>Exemplo 3: Mieloma Múltiplo (MM):</b> Demonstra a importância do microambiente tumoral[cite: 312]. [cite_start]As células de mieloma aderem às células estromais, que secretam <span class="tooltip" data-definition="Interleucina-6, um potente fator de crescimento e sobrevivência para as células de mieloma. [cite: 315][cite_start]">IL-6</span>, um fator de crescimento para o mieloma. Em troca, o mieloma remodela o osso, criando um ciclo vicioso de suporte[cite: 315, 316, 317].</li></ul>`
+                            content: `<h4>Fundamentos da Biologia do Câncer</h4><p>O câncer é uma doença genética resultante do acúmulo de mutações em classes de genes:</p><ul><li><span class="tooltip" data-definition="Genes normais que promovem o crescimento celular. Quando mutados, tornam-se oncogenes."><b>Proto-oncogenes:</b></span> Atuam como 'aceleradores' presos quando se tornam <span class="tooltip" data-definition="Versão mutada de um proto-oncogene que impulsiona a proliferação celular de forma contínua.">oncogenes</span>.</li><li><span class="tooltip" data-definition="Genes que inibem a proliferação celular, atuando como 'freios'. Sua perda de função promove o câncer."><b>Genes Supressores de Tumor:</b></span> Atuam como 'freios'. O mais famoso é o <span class="tooltip" data-definition="Gene supressor de tumor conhecido como 'guardião do genoma', pois controla o ciclo celular e a apoptose.">TP53</span>, o 'guardião do genoma'.</li><li><b>Genes de Reparo de DNA:</b> Sua inativação leva à instabilidade genômica.</li></ul><p>As <span class="tooltip" data-definition="Conjunto de 8 capacidades biológicas fundamentais adquiridas pelas células durante o desenvolvimento do câncer (proliferação, evasão da morte, etc.).">"Marcas do Câncer"</span> de Hanahan e Weinberg organizam a complexidade da biologia tumoral.</p><h4>As "Marcas" nas Neoplasias Hematológicas</h4><div id="table5-container"></div><ul><li><b>Exemplo 1: LMC (Leucemia Mieloide Crônica):</b> Ilustra a 'sinalização proliferativa sustentada'. A translocação t(9;22) cria a quinase <span class="tooltip" data-definition="Oncoproteína de fusão resultante da translocação t(9;22), definidora da LMC, que está permanentemente ativa.">BCR-ABL1</span>, que ativa vias de proliferação de forma independente de fatores de crescimento.</li><li><b>Exemplo 2: Linfoma Folicular (LF):</b> Mostra a 'resistência à morte celular'. A translocação t(14;18) causa a superexpressão da proteína anti-apoptótica <span class="tooltip" data-definition="Proteína anti-apoptótica. Sua superexpressão no Linfoma Folicular impede a morte celular programada, conferindo uma vantagem de sobrevivência.">BCL2</span>, bloqueando a apoptose e permitindo o acúmulo das células do linfoma.</li><li><b>Exemplo 3: Mieloma Múltiplo (MM):</b> Demonstra a importância do microambiente tumoral. As células de mieloma aderem às células estromais, que secretam <span class="tooltip" data-definition="Interleucina-6, um potente fator de crescimento e sobrevivência para as células de mieloma.">IL-6</span>, um fator de crescimento para o mieloma. Em troca, o mieloma remodela o osso, criando um ciclo vicioso de suporte.</li></ul>`
                         },
                         {
                             id: 'sec4-2', title: 'Autoimunidade e Citotoxicidade',
-                            [cite_start]content: `<h4>Fundamentos da Tolerância e Autoimunidade</h4><p>A <span class="tooltip" data-definition="Falha do sistema imune em reconhecer os próprios tecidos, levando a um ataque contra o 'próprio'. [cite: 331][cite_start]">autoimunidade</span> é a quebra da <span class="tooltip" data-definition="Capacidade do sistema imune de distinguir o 'próprio' do 'não-próprio', evitando ataques ao próprio corpo. [cite: 324][cite_start]">tolerância imunológica</span>[cite: 324, 331]. [cite_start]Esta tolerância é estabelecida pela tolerância central (no timo e medula óssea) e periférica (nos tecidos)[cite: 325, 326, 329]. [cite_start]A <span class="tooltip" data-definition="Reação imune mediada por anticorpos (IgG/IgM) que se ligam a antígenos na superfície celular, causando destruição da célula. [cite: 334, 335][cite_start]">Hipersensibilidade do Tipo II</span> é um mecanismo chave em doenças autoimunes, onde anticorpos causam destruição celular via opsonização, inflamação mediada por complemento ou citotoxicidade celular [cite: 335, 336, 337, 338][cite_start].</p><h4>Estudo de Caso 10: Anemia Hemolítica Autoimune (AHAI)</h4><p>A AHAI é um exemplo clássico de hipersensibilidade tipo II, onde autoanticorpos destroem eritrócitos[cite: 342]. [cite_start]O diagnóstico é confirmado pelo <span class="tooltip" data-definition="Teste de Antiglobulina Direto, que detecta anticorpos e/ou complemento ligados à superfície das hemácias do paciente. [cite: 343][cite_start]">TAD (Teste de Coombs Direto)</span> [cite: 343][cite_start].</p>${getTableHtml('table6')}<ul><li><b>AHAI por Anticorpos Quentes (WAIHA):</b> A forma mais comum, mediada por <b>IgG</b> que reage a 37°C[cite: 348, 349]. [cite_start]A hemólise é principalmente <b>extravascular (no baço)</b>, onde macrófagos fagocitam as hemácias opsonizadas[cite: 351]. [cite_start]A remoção parcial da membrana pelos macrófagos cria <span class="tooltip" data-definition="Hemácias pequenas, esféricas e sem palidez central, resultantes da perda de membrana. [cite: 352][cite_start]">esferócitos</span>[cite: 352]. [cite_start]O TAD é positivo para IgG (às vezes com C3) [cite: 354][cite_start].</li><li><b>Doença da Aglutinina a Frio (CAD):</b> Mediada por <b>IgM</b>, que se liga aos eritrócitos em temperaturas frias (<37°C) nas extremidades[cite: 356, 357]. [cite_start]A IgM é uma potente ativadora do <span class="tooltip" data-definition="Sistema de proteínas plasmáticas que, quando ativado, promove inflamação e lise celular. [cite: 358][cite_start]">complemento</span>[cite: 358]. [cite_start]A hemólise tem um componente <b>intravascular</b> (pela lise direta via MAC) e <b>extravascular (no fígado)</b>, onde macrófagos reconhecem hemácias opsonizadas com C3b[cite: 360, 361]. [cite_start]O TAD é caracteristicamente positivo apenas para <b>C3</b>[cite: 363].</li></ul>`
+                            content: `<h4>Fundamentos da Tolerância e Autoimunidade</h4><p>A <span class="tooltip" data-definition="Falha do sistema imune em reconhecer os próprios tecidos, levando a um ataque contra o 'próprio'.">autoimunidade</span> é a quebra da <span class="tooltip" data-definition="Capacidade do sistema imune de distinguir o 'próprio' do 'não-próprio', evitando ataques ao próprio corpo.">tolerância imunológica</span>. Esta tolerância é estabelecida pela tolerância central (no timo e medula óssea) e periférica (nos tecidos). A <span class="tooltip" data-definition="Reação imune mediada por anticorpos (IgG/IgM) que se ligam a antígenos na superfície celular, causando destruição da célula.">Hipersensibilidade do Tipo II</span> é um mecanismo chave em doenças autoimunes, onde anticorpos causam destruição celular via opsonização, inflamação mediada por complemento ou citotoxicidade celular.</p><h4>Estudo de Caso 10: Anemia Hemolítica Autoimune (AHAI)</h4><p>A AHAI é um exemplo clássico de hipersensibilidade tipo II, onde autoanticorpos destroem eritrócitos. O diagnóstico é confirmado pelo <span class="tooltip" data-definition="Teste de Antiglobulina Direto, que detecta anticorpos e/ou complemento ligados à superfície das hemácias do paciente.">TAD (Teste de Coombs Direto)</span>.</p><div id="table6-container"></div><ul><li><b>AHAI por Anticorpos Quentes (WAIHA):</b> A forma mais comum, mediada por <b>IgG</b> que reage a 37°C. A hemólise é principalmente <b>extravascular (no baço)</b>, onde macrófagos fagocitam as hemácias opsonizadas. A remoção parcial da membrana pelos macrófagos cria <span class="tooltip" data-definition="Hemácias pequenas, esféricas e sem palidez central, resultantes da perda de membrana.">esferócitos</span>. O TAD é positivo para IgG (às vezes com C3).</li><li><b>Doença da Aglutinina a Frio (CAD):</b> Mediada por <b>IgM</b>, que se liga aos eritrócitos em temperaturas frias (<37°C) nas extremidades. A IgM é uma potente ativadora do <span class="tooltip" data-definition="Sistema de proteínas plasmáticas que, quando ativado, promove inflamação e lise celular.">complemento</span>. A hemólise tem um componente <b>intravascular</b> (pela lise direta via MAC) e <b>extravascular (no fígado)</b>, onde macrófagos reconhecem hemácias opsonizadas com C3b. O TAD é caracteristicamente positivo apenas para <b>C3</b>.</li></ul>`
                         }
                     ]
                 }
             ],
+            quizzes: {
+                'sec1-1': [ { q: "Qual o termo para o estado de equilíbrio dinâmico da célula?", options: ["Metaplasia", "Homeostase", "Hipóxia", "Apoptose"], a: 1, d: 'Fácil' }, { q: "O influxo excessivo de qual íon ativa enzimas destrutivas como fosfolipases e proteases durante a lesão celular?", options: ["Sódio (Na+)", "Potássio (K+)", "Cálcio (Ca²+)", "Cloro (Cl-)"], a: 2, d: 'Difícil' } ],
+                'sec1-2': [ { q: "O aumento no TAMANHO das células em resposta a um estímulo é chamado de:", options: ["Hiperplasia", "Atrofia", "Hipertrofia", "Metaplasia"], a: 2, d: 'Fácil' }, { q: "Qual a principal consequência patológica do aumento excessivo da viscosidade sanguínea na policitemia secundária?", options: ["Aumento do risco de infecções", "Aumento do risco de eventos trombóticos", "Redução da pressão arterial", "Insuficiência renal aguda"], a: 1, d: 'Difícil' } ],
+                'sec1-3': [ { q: "Qual tipo de morte celular é caracterizado por ser um processo programado e que NÃO causa inflamação?", options: ["Necrose", "Apoptose", "Piroptose", "Oncrose"], a: 1, d: 'Fácil' }, { q: "O que desencadeia o afoiçamento dos eritrócitos na Anemia Falciforme?", options: ["Alta tensão de oxigênio", "Baixa tensão de oxigênio", "Aumento da glicose no sangue", "Presença de anticorpos"], a: 1, d: 'Médio' } ],
+                'sec2-1': [ { q: "Qual célula é predominante na inflamação aguda?", options: ["Linfócito", "Macrófago", "Neutrófilo", "Plasmócito"], a: 2, d: 'Fácil' }, { q: "Um desvio à esquerda degenerativo (mais imaturos que maduros) indica:", options: ["Uma resposta medular robusta e bom prognóstico", "Uma infecção viral leve", "Que a demanda excede a capacidade da medula, um mau prognóstico", "Uma reação alérgica"], a: 2, d: 'Difícil' } ],
+                'sec2-2': [ { q: "Qual fator de crescimento é considerado o principal indutor da fibrose?", options: ["EPO", "G-CSF", "TGF-β", "PDGF"], a: 2, d: 'Médio' }, { q: "A presença de dacriócitos (hemácias em lágrima) no sangue periférico é altamente sugestiva de:", options: ["Anemia falciforme", "Infecção viral", "Fibrose medular", "Deficiência de ferro"], a: 2, d: 'Médio' } ],
+                'sec3-1': [ { q: "Qual processo é responsável pela formação do tampão plaquetário inicial?", options: ["Hemostasia Secundária", "Fibrinólise", "Hemostasia Primária", "Inflamação"], a: 2, d: 'Fácil' }, { q: "Qual dos seguintes componentes NÃO faz parte da Tríade de Virchow?", options: ["Lesão endotelial", "Hipercoagulabilidade", "Estase do fluxo sanguíneo", "Hipotensão arterial"], a: 3, d: 'Médio' } ],
+                'sec4-1': [ { q: "Genes que normalmente funcionam como 'freios' da proliferação celular são chamados de:", options: ["Oncogenes", "Proto-oncogenes", "Genes Supressores de Tumor", "Genes de reparo"], a: 2, d: 'Fácil' }, { q: "No Linfoma Folicular, a superexpressão da proteína BCL2 confere qual 'marca do câncer' às células neoplásicas?", options: ["Indução de angiogênese", "Resistência à morte celular", "Sinalização proliferativa sustentada", "Invasão e metástase"], a: 1, d: 'Médio' } ],
+                'sec4-2': [ { q: "Qual teste laboratorial é crucial para confirmar o diagnóstico de Anemia Hemolítica Autoimune (AHAI)?", options: ["Hemograma completo", "Contagem de reticulócitos", "Teste de Coombs Direto (TAD)", "Biópsia de medula óssea"], a: 2, d: 'Fácil' }, { q: "Na AHAI por anticorpos quentes (WAIHA), qual classe de anticorpo está tipicamente envolvida e onde ocorre a principal destruição das hemácias?", options: ["IgM / Fígado", "IgA / Intestino", "IgG / Baço", "IgE / Pele"], a: 2, d: 'Médio' } ],
+            },
             tables: {
-                table1: {
-                    title: "Tabela 1: Necrose vs. Apoptose",
-                    headers: ["Característica", "Apoptose", "Necrose"],
-                    rows: [
-                        ["Estímulo", "Fisiológico ou Patológico", "Sempre Patológico"],
-                        ["Escopo", "Células individuais ou pequenos grupos", "Grandes grupos de células contíguas"],
-                        ["Morfologia Celular", "Encolhimento celular, condensação da cromatina", "Edema celular (oncrose), desnaturação de proteínas"],
-                        ["Integridade da Membrana", "Mantida; formação de corpos apoptóticos", "Perdida; ruptura da membrana e lise celular"],
-                        ["Mecanismo Bioquímico", "Processo ativo, dependente de ATP, mediado por caspases", "Processo passivo, falha na produção de ATP"],
-                        ["Resposta Tecidual", "Fagocitose silenciosa, sem inflamação", "Inflamação aguda com recrutamento de neutrófilos"],
-                        ["Marcadores Laboratoriais", "Nenhum específico no soro", "Liberação de enzimas (ex: LDH) para o soro"]
-                    ]
-                },
-                table2: {
-                    title: "Tabela 2: Principais Citocinas na Inflamação e Hematopoiese",
-                    headers: ["Citocina", "Principais Fontes", "Funções na Inflamação", "Funções na Hematopoiese"],
-                    rows: [
-                        ["IL-1, TNF-α", "Macrófagos, monócitos", "Ativação endotelial, febre, ativação de leucócitos", "Estimulam a produção de fatores de crescimento de colônias (CSFs)"],
-                        ["IL-6", "Macrófagos, linfócitos T", "Indução de proteínas de fase aguda, proliferação de linfócitos B", "Estimula a produção de plaquetas, promove diferenciação de células B"],
-                        ["G-CSF", "Macrófagos, fibroblastos", "Mobilização e ativação de neutrófilos", "Principal fator para proliferação e diferenciação de neutrófilos"],
-                        ["GM-CSF", "Linfócitos T, macrófagos", "Ativação de macrófagos e neutrófilos", "Estimula progenitores granulocíticos e monocíticos"],
-                        ["EPO", "Células renais, hepatócitos", "N/A", "Principal fator para proliferação e diferenciação da linhagem eritroide"]
-                    ]
-                },
-                table3: {
-                    title: "Tabela 3: Interpretação dos Padrões Leucocitários",
-                    headers: ["Padrão Leucocitário", "Definição", "Mecanismo Principal", "Interpretação Comum"],
-                    rows: [
-                        ["Neutrofilia", "Aumento de neutrófilos", "Liberação de reservas, aumento da produção, demarginação", "Infecção bacteriana aguda, inflamação estéril, estresse"],
-                        ["Neutropenia", "Redução de neutrófilos", "Consumo aumentado, produção diminuída, sequestro", "Sepse grave, quimioterapia, aplasia medular"],
-                        ["Desvio à Esquerda Regenerativo", "Neutrofilia com maduros > imaturos", "Resposta medular robusta à inflamação", "Inflamação aguda controlada, bom prognóstico"],
-                        ["Desvio à Esquerda Degenerativo", "Imaturos > maduros", "Demanda excede a capacidade de produção da medula", "Inflamação grave/sepse, prognóstico reservado"],
-                        ["Linfocitose", "Aumento de linfócitos", "Resposta imune a antígenos, proliferação clonal", "Infecções virais, inflamação crônica, LLC"],
-                        ["Monocitose", "Aumento de monócitos", "Demanda por macrófagos teciduais", "Inflamação crônica (ex: tuberculose), neoplasias mieloides"],
-                        ["Eosinofilia", "Aumento de eosinófilos", "Resposta a alérgenos ou parasitas (mediada por IL-5)", "Reações alérgicas, infecções parasitárias"]
-                    ]
-                },
-                table4: {
-                    title: "Tabela 4: Escore Diagnóstico da ISTH para CIVD Manifesta",
-                    headers: ["Parâmetro Laboratorial", "Resultado", "Pontos"],
-                    rows: [
-                        ["Contagem de Plaquetas", "> 100.000/μL", "0"],
-                        ["", "50.000-100.000/μL", "1"],
-                        ["", "< 50.000/μL", "2"],
-                        ["Marcadores Relacionados à Fibrina (ex: D-dímero)", "Sem aumento", "0"],
-                        ["", "Aumento moderado", "2"],
-                        ["", "Aumento acentuado", "3"],
-                        ["Tempo de Protrombina (TP) - Aumento", "< 3 segundos", "0"],
-                        ["", "3-6 segundos", "1"],
-                        ["", "> 6 segundos", "2"],
-                        ["Nível de Fibrinogênio", "> 1,0 g/L", "0"],
-                        ["", "< 1,0 g/L", "1"],
-                        ["<b>Interpretação</b>", "<b>< 5 pontos: Sugestivo de CIVD não manifesta</b>", ""],
-                        ["", "<b>≥ 5 pontos: Compatível com CIVD manifesta</b>", ""]
-                    ]
-                },
-                 table5: {
-                    title: "Tabela 5: As 'Marcas do Câncer' em Neoplasias Hematológicas",
-                    headers: ["Marca do Câncer", "Mecanismo Geral", "Exemplo Paradigmático em Hematologia"],
-                    rows: [
-                        ["Sinalização Proliferativa Sustentada", "Ativação de vias de crescimento independentemente de estímulos externos", "Tirosina quinase constitutivamente ativa; <b>BCR-ABL1</b> na Leucemia Mieloide Crônica (LMC)"],
-                        ["Evasão de Supressores de Crescimento", "Inativação de genes que freiam o ciclo celular", "Perda de função do gene <b>TP53</b> em muitas leucemias agudas"],
-                        ["Resistência à Morte Celular", "Inibição das vias de apoptose", "Superexpressão da proteína anti-apoptótica <b>BCL2</b> devido à translocação t(14;18) no Linfoma Folicular (LF)"],
-                        ["Imortalidade Replicativa", "Manutenção dos telômeros para permitir divisões ilimitadas", "Reativação da enzima telomerase, comum em neoplasias avançadas"],
-                        ["Indução de Angiogênese", "Estímulo à formação de novos vasos sanguíneos", "Secreção de VEGF por células leucêmicas na Leucemia Mieloide Aguda (LMA)"],
-                        ["Ativação de Invasão e Metástase", "Capacidade de invadir tecidos e colonizar locais distantes", "Infiltração da medula óssea, baço, fígado e SNC por blastos leucêmicos"],
-                        ["Reprogramação do Metabolismo Energético", "Alteração do metabolismo para suportar a proliferação rápida", "Aumento da captação de glicose em linfomas agressivos"],
-                        ["Evasão da Destruição Imune", "Capacidade de se esconder ou suprimir o sistema imunológico", "Interação com o microambiente (células estromais) e secreção de <b>IL-6</b> no Mieloma Múltiplo (MM)"]
-                    ]
-                },
-                table6: {
-                    title: "Tabela 6: Fisiopatologia e Achados na Anemia Hemolítica Autoimune (AHAI)",
-                    headers: ["Característica", "AHAI por Anticorpos Quentes (WAIHA)", "Doença da Aglutinina a Frio (CAD)"],
-                    rows: [
-                        ["Isotipo do Anticorpo", "Geralmente <b>IgG</b>", "Geralmente <b>IgM</b>"],
-                        ["Temperatura Ótima", "<b>37°C</b> (temperatura corporal)", "<b>< 37°C</b> (temperaturas frias, extremidades)"],
-                        ["Principal Local de Hemólise", "<b>Extravascular</b> (principalmente no baço)", "<b>Intravascular</b> e <b>Extravascular</b> (principalmente no fígado)"],
-                        ["Mecanismo de Destruição", "Opsonização por IgG e fagocitose por macrófagos esplênicos", "Potente ativação do complemento (lise pelo MAC ou fagocitose de células opsonizadas com C3b)"],
-                        ["Achados no Esfregaço", "<b>Esferócitos</b>, policromasia", "<b>Aglutinação de hemácias</b>, policromasia"],
-                        ["Resultado Típico do TAD", "Positivo para <b>IgG</b> (com ou sem C3)", "Positivo <b>apenas para C3</b>"],
-                        ["Sintomas Característicos", "Sinais de anemia (fadiga, palidez), icterícia, esplenomegalia", "Acrocianose (extremidades azuladas), hemoglobinúria induzida pelo frio"]
-                    ]
-                }
+                table1: { title: "Tabela 1: Necrose vs. Apoptose", headers: ["Característica", "Apoptose", "Necrose"], rows: [ ["Estímulo", "Fisiológico ou Patológico", "Sempre Patológico"], ["Escopo", "Células individuais ou pequenos grupos", "Grandes grupos de células contíguas"], ["Morfologia Celular", "Encolhimento celular, condensação da cromatina", "Edema celular (oncrose), desnaturação de proteínas"], ["Integridade da Membrana", "Mantida; formação de corpos apoptóticos", "Perdida; ruptura da membrana e lise celular"], ["Mecanismo Bioquímico", "Processo ativo, dependente de ATP, mediado por caspases", "Processo passivo, falha na produção de ATP"], ["Resposta Tecidual", "Fagocitose silenciosa, sem inflamação", "Inflamação aguda com recrutamento de neutrófilos"], ["Marcadores Laboratoriais", "Nenhum específico no soro", "Liberação de enzimas (ex: LDH) para o soro"] ] },
+                table2: { title: "Tabela 2: Principais Citocinas na Inflamação e Hematopoiese", headers: ["Citocina", "Principais Fontes", "Funções na Inflamação", "Funções na Hematopoiese"], rows: [ ["IL-1, TNF-α", "Macrófagos, monócitos", "Ativação endotelial, febre, ativação de leucócitos", "Estimulam a produção de fatores de crescimento de colônias (CSFs)"], ["IL-6", "Macrófagos, linfócitos T", "Indução de proteínas de fase aguda, proliferação de linfócitos B", "Estimula a produção de plaquetas, promove diferenciação de células B"], ["G-CSF", "Macrófagos, fibroblastos", "Mobilização e ativação de neutrófilos", "Principal fator para proliferação e diferenciação de neutrófilos"], ["GM-CSF", "Linfócitos T, macrófagos", "Ativação de macrófagos e neutrófilos", "Estimula progenitores granulocíticos e monocíticos"], ["EPO", "Células renais, hepatócitos", "N/A", "Principal fator para proliferação e diferenciação da linhagem eritroide"] ] },
+                table3: { title: "Tabela 3: Interpretação dos Padrões Leucocitários", headers: ["Padrão Leucocitário", "Definição", "Mecanismo Principal", "Interpretação Comum"], rows: [ ["Neutrofilia", "Aumento de neutrófilos", "Liberação de reservas, aumento da produção, demarginação", "Infecção bacteriana aguda, inflamação estéril, estresse"], ["Neutropenia", "Redução de neutrófilos", "Consumo aumentado, produção diminuída, sequestro", "Sepse grave, quimioterapia, aplasia medular"], ["Desvio à Esquerda Regenerativo", "Neutrofilia com maduros > imaturos", "Resposta medular robusta à inflamação", "Inflamação aguda controlada, bom prognóstico"], ["Desvio à Esquerda Degenerativo", "Imaturos > maduros", "Demanda excede a capacidade de produção da medula", "Inflamação grave/sepse, prognóstico reservado"], ["Linfocitose", "Aumento de linfócitos", "Resposta imune a antígenos, proliferação clonal", "Infecções virais, inflamação crônica, LLC"], ["Monocitose", "Aumento de monócitos", "Demanda por macrófagos teciduais", "Inflamação crônica (ex: tuberculose), neoplasias mieloides"], ["Eosinofilia", "Aumento de eosinófilos", "Resposta a alérgenos ou parasitas (mediada por IL-5)", "Reações alérgicas, infecções parasitárias"] ] },
+                table4: { title: "Tabela 4: Escore Diagnóstico da ISTH para CIVD Manifesta", headers: ["Parâmetro Laboratorial", "Resultado", "Pontos"], rows: [ ["Contagem de Plaquetas", "> 100.000/μL", "0"], ["", "50.000-100.000/μL", "1"], ["", "< 50.000/μL", "2"], ["Marcadores Relacionados à Fibrina (ex: D-dímero)", "Sem aumento", "0"], ["", "Aumento moderado", "2"], ["", "Aumento acentuado", "3"], ["Tempo de Protrombina (TP) - Aumento", "< 3 segundos", "0"], ["", "3-6 segundos", "1"], ["", "> 6 segundos", "2"], ["Nível de Fibrinogênio", "> 1,0 g/L", "0"], ["", "< 1,0 g/L", "1"], ["<b>Interpretação</b>", "<b>< 5 pontos: Sugestivo de CIVD não manifesta</b>", ""], ["", "<b>≥ 5 pontos: Compatível com CIVD manifesta</b>", ""] ] },
+                 table5: { title: "Tabela 5: As 'Marcas do Câncer' em Neoplasias Hematológicas", headers: ["Marca do Câncer", "Mecanismo Geral", "Exemplo Paradigmático em Hematologia"], rows: [ ["Sinalização Proliferativa Sustentada", "Ativação de vias de crescimento independentemente de estímulos externos", "Tirosina quinase constitutivamente ativa; <b>BCR-ABL1</b> na Leucemia Mieloide Crônica (LMC)"], ["Evasão de Supressores de Crescimento", "Inativação de genes que freiam o ciclo celular", "Perda de função do gene <b>TP53</b> em muitas leucemias agudas"], ["Resistência à Morte Celular", "Inibição das vias de apoptose", "Superexpressão da proteína anti-apoptótica <b>BCL2</b> devido à translocação t(14;18) no Linfoma Folicular (LF)"], ["Imortalidade Replicativa", "Manutenção dos telômeros para permitir divisões ilimitadas", "Reativação da enzima telomerase, comum em neoplasias avançadas"], ["Indução de Angiogênese", "Estímulo à formação de novos vasos sanguíneos", "Secreção de VEGF por células leucêmicas na Leucemia Mieloide Aguda (LMA)"], ["Ativação de Invasão e Metástase", "Capacidade de invadir tecidos e colonizar locais distantes", "Infiltração da medula óssea, baço, fígado e SNC por blastos leucêmicos"], ["Reprogramação do Metabolismo Energético", "Alteração do metabolismo para suportar a proliferação rápida", "Aumento da captação de glicose em linfomas agressivos"], ["Evasão da Destruição Imune", "Capacidade de se esconder ou suprimir o sistema imunológico", "Interação com o microambiente (células estromais) e secreção de <b>IL-6</b> no Mieloma Múltiplo (MM)"] ] },
+                table6: { title: "Tabela 6: Fisiopatologia e Achados na Anemia Hemolítica Autoimune (AHAI)", headers: ["Característica", "AHAI por Anticorpos Quentes (WAIHA)", "Doença da Aglutinina a Frio (CAD)"], rows: [ ["Isotipo do Anticorpo", "Geralmente <b>IgG</b>", "Geralmente <b>IgM</b>"], ["Temperatura Ótima", "<b>37°C</b> (temperatura corporal)", "<b>< 37°C</b> (temperaturas frias, extremidades)"], ["Principal Local de Hemólise", "<b>Extravascular</b> (principalmente no baço)", "<b>Intravascular</b> e <b>Extravascular</b> (principalmente no fígado)"], ["Mecanismo de Destruição", "Opsonização por IgG e fagocitose por macrófagos esplênicos", "Potente ativação do complemento (lise pelo MAC ou fagocitose de células opsonizadas com C3b)"], ["Achados no Esfregaço", "<b>Esferócitos</b>, policromasia", "<b>Aglutinação de hemácias</b>, policromasia"], ["Resultado Típico do TAD", "Positivo para <b>IgG</b> (com ou sem C3)", "Positivo <b>apenas para C3</b>"], ["Sintomas Característicos", "Sinais de anemia (fadiga, palidez), icterícia, esplenomegalia", "Acrocianose (extremidades azuladas), hemoglobinúria induzida pelo frio"] ] }
             },
             references: [
-                 { source: "PubMed Central (PMC7171462)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7171462/", comment: "Uma revisão aprofundada sobre os mecanismos e a morfologia da lesão, adaptação e morte celular." },
-                { source: "NCBI Bookshelf (NBK526045)", url: "https://www.ncbi.nlm.nih.gov/books/NBK526045/", comment: "Um capítulo de referência sobre a histologia da morte celular, abordando apoptose e necrose." },
-                { source: "PubMed Central (PMC3271273)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3271273/", comment: "Artigo detalhado sobre o mecanismo da toxicidade do benzeno e seus efeitos hematológicos." },
-                { source: "American Society of Hematology (Blood)", url: "https://ashpublications.org/blood/article/139/16/2441/476633/Breakthrough-science-hypoxia-inducible-factors", comment: "Artigo de ponta sobre os fatores induzíveis por hipóxia (HIF) e sua regulação da hematopoiese." },
-                { source: "Mayo Clinic (Aplastic Anemia)", url: "https://www.mayoclinic.org/diseases-conditions/aplastic-anemia/symptoms-causes/syc-20355015", comment: "Recurso clínico confiável explicando as causas e sintomas da anemia aplásica para pacientes e profissionais." },
-                { source: "FSJ (Fisiopatologia da Anemia Falciforme)", url: "https://www.fsj.edu.br/transformar/index.php/transformar/article/download/60/56", comment: "Artigo em português que detalha a fisiopatologia da anemia falciforme, desde a molécula até a clínica." },
-                { source: "PubMed Central (PMC10486945)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10486945/", comment: "Uma visão geral da fisiopatologia da Coagulação Intravascular Disseminada (CIVD) em condições críticas." },
-                { source: "Journal of Experimental Medicine", url: "https://rupress.org/jem/article/217/3/e20190103/133821/Transforming-growth-factor-in-tissue-fibrosisTGF", comment: "Investigação sobre o papel central do TGF-β na fibrose tecidual, relevante para a mielofibrose." },
-                { source: "ARUP Consult (Disseminated Intravascular Coagulation)", url: "https://arupconsult.com/content/disseminated-intravascular-coagulation", comment: "Guia prático para o diagnóstico laboratorial da CIVD, incluindo a aplicação do escore da ISTH." },
-                { source: "EPFL (Hallmarks of Cancer)", url: "https://www.epfl.ch/labs/hanahan-lab/wp-content/uploads/2019/02/HanahanWeinberg-CH_2-Oncology-DeVita2014.pdf", comment: "O capítulo original e fundamental de Hanahan e Weinberg que define o framework das 'Marcas do Câncer'." },
-                { source: "PubMed Central (PMC3461914)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3461914/", comment: "Análise da patogênese do Linfoma Folicular, com foco na translocação t(14;18) e no gene BCL2." },
-                { source: "Merck Manuals Professional (Autoimmune Hemolytic Anemia)", url: "https://www.merckmanuals.com/professional/hematology-and-oncology/anemias-caused-by-hemolysis/autoimmune-hemolytic-anemia", comment: "Referência clínica completa sobre a AHAI, detalhando as formas quente e fria." },
-                { source: "NCBI Bookshelf (NBK547707)", url: "https://www.ncbi.nlm.nih.gov/books/NBK547707/", comment: "Explicação detalhada sobre o Teste de Coombs (Antiglobulina), suas indicações, procedimento e interpretação." }
+                { source: "PubMed Central (PMC7171462)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7171462/", comment: "Uma revisão aprofundada sobre os mecanismos e a morfologia da lesão, adaptação e morte celular." }, { source: "NCBI Bookshelf (NBK526045)", url: "https://www.ncbi.nlm.nih.gov/books/NBK526045/", comment: "Um capítulo de referência sobre a histologia da morte celular, abordando apoptose e necrose." }, { source: "PubMed Central (PMC3271273)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3271273/", comment: "Artigo detalhado sobre o mecanismo da toxicidade do benzeno e seus efeitos hematológicos." }, { source: "American Society of Hematology (Blood)", url: "https://ashpublications.org/blood/article/139/16/2441/476633/Breakthrough-science-hypoxia-inducible-factors", comment: "Artigo de ponta sobre os fatores induzíveis por hipóxia (HIF) e sua regulação da hematopoiese." }, { source: "Mayo Clinic (Aplastic Anemia)", url: "https://www.mayoclinic.org/diseases-conditions/aplastic-anemia/symptoms-causes/syc-20355015", comment: "Recurso clínico confiável explicando as causas e sintomas da anemia aplásica para pacientes e profissionais." }, { source: "FSJ (Fisiopatologia da Anemia Falciforme)", url: "https://www.fsj.edu.br/transformar/index.php/transformar/article/download/60/56", comment: "Artigo em português que detalha a fisiopatologia da anemia falciforme, desde a molécula até a clínica." }, { source: "PubMed Central (PMC10486945)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10486945/", comment: "Uma visão geral da fisiopatologia da Coagulação Intravascular Disseminada (CIVD) em condições críticas." }, { source: "Journal of Experimental Medicine", url: "https://rupress.org/jem/article/217/3/e20190103/133821/Transforming-growth-factor-in-tissue-fibrosisTGF", comment: "Investigação sobre o papel central do TGF-β na fibrose tecidual, relevante para a mielofibrose." }, { source: "ARUP Consult (Disseminated Intravascular Coagulation)", url: "https://arupconsult.com/content/disseminated-intravascular-coagulation", comment: "Guia prático para o diagnóstico laboratorial da CIVD, incluindo a aplicação do escore da ISTH." }, { source: "EPFL (Hallmarks of Cancer)", url: "https://www.epfl.ch/labs/hanahan-lab/wp-content/uploads/2019/02/HanahanWeinberg-CH_2-Oncology-DeVita2014.pdf", comment: "O capítulo original e fundamental de Hanahan e Weinberg que define o framework das 'Marcas do Câncer'." }, { source: "PubMed Central (PMC3461914)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3461914/", comment: "Análise da patogênese do Linfoma Folicular, com foco na translocação t(14;18) e no gene BCL2." }, { source: "Merck Manuals Professional (Autoimmune Hemolytic Anemia)", url: "https://www.merckmanuals.com/professional/hematology-and-oncology/anemias-caused-by-hemolysis/autoimmune-hemolytic-anemia", comment: "Referência clínica completa sobre a AHAI, detalhando as formas quente e fria." }, { source: "NCBI Bookshelf (NBK547707)", url: "https://www.ncbi.nlm.nih.gov/books/NBK547707/", comment: "Explicação detalhada sobre o Teste de Coombs (Antiglobulina), suas indicações, procedimento e interpretação." }
             ]
         };
 
-        // ===============================================
-        // LÓGICA DA APLICAÇÃO
-        // ===============================================
         const mainContent = document.getElementById('main-content');
         const sidebarNav = document.getElementById('sidebar-nav');
         const sidebar = document.getElementById('sidebar');
@@ -513,16 +434,9 @@
         const getTableHtml = (tableId) => {
             const tableData = courseData.tables[tableId];
             if (!tableData) return '';
-            let html = `<h4>${tableData.title}</h4><table><thead><tr>`;
-            tableData.headers.forEach(header => html += `<th>${header}</th>`);
-            html += '</tr></thead><tbody>';
-            tableData.rows.forEach(row => {
-                html += '<tr>';
-                row.forEach(cell => html += `<td>${cell}</td>`);
-                html += '</tr>';
-            });
-            html += '</tbody></table>';
-            return html;
+            let html = `<h4>${tableData.title}</h4><table><thead><tr>${tableData.headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>`;
+            tableData.rows.forEach(row => { html += `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`; });
+            return html + '</tbody></table>';
         };
 
         const renderPage = (targetId) => {
@@ -532,21 +446,22 @@
 
             let html = '';
             if (targetId.startsWith('module-')) {
-                const moduleId = targetId.replace('module-', '');
-                html = renderModuleContent(moduleId);
-            } else if (targetId === 'home') {
-                html = `<div class="content-box"><h2>Bem-vindo ao Curso Interativo de Patologia e Hematologia</h2><p>Esta plataforma foi desenhada para transformar seu estudo em uma experiência dinâmica e eficaz. Navegue pelos módulos no menu expansível à esquerda para explorar o conteúdo, teste seus conhecimentos com quizzes e reforce o aprendizado com flashcards.</p><h3>Recursos Disponíveis:</h3><ul><li><b>📚 Conteúdo do Curso:</b> Quatro módulos completos, com textos, tabelas e estudos de caso.</li><li><b>🧠 Flashcards de Revisão:</b> Revise os principais termos e conceitos de forma rápida.</li><li><b>✍️ Montar Simulado:</b> Crie provas personalizadas para testar seu domínio.</li><li><b>🔗 Aprofundamento e Fontes:</b> Explore as referências bibliográficas comentadas para ir além.</li></ul></div>`;
-            } else if (targetId === 'flashcards') {
-                html = renderFlashcards();
-            } else if (targetId === 'custom-quiz') {
-                html = renderCustomQuizBuilder();
-            } else if (targetId === 'references') {
-                html = renderReferences();
+                html = renderModuleContent(targetId.replace('module-', ''));
+            } else {
+                switch (targetId) {
+                    case 'home':
+                        html = `<div class="content-box"><h2>Bem-vindo ao Curso Interativo de Patologia e Hematologia</h2><p>Esta plataforma foi desenhada para transformar seu estudo em uma experiência dinâmica e eficaz. Navegue pelos módulos no menu expansível à esquerda para explorar o conteúdo, teste seus conhecimentos com quizzes e reforce o aprendizado com flashcards.</p><h3>Recursos Disponíveis:</h3><ul><li><b>📚 Conteúdo do Curso:</b> Quatro módulos completos, com textos, tabelas e estudos de caso.</li><li><b>🧠 Flashcards de Revisão:</b> Revise os principais termos e conceitos de forma rápida.</li><li><b>✍️ Montar Simulado:</b> Crie provas personalizadas para testar seu domínio.</li><li><b>🔗 Aprofundamento e Fontes:</b> Explore as referências bibliográficas comentadas para ir além.</li></ul></div>`;
+                        break;
+                    case 'flashcards': html = renderFlashcards(); break;
+                    case 'custom-quiz': html = renderCustomQuizBuilder(); break;
+                    case 'references': html = renderReferences(); break;
+                    default: html = '<div class="content-box"><h2>Página não encontrada</h2></div>';
+                }
             }
             mainContent.innerHTML = html;
             attachEventListenersForPage(targetId);
         };
-
+        
         const renderModuleContent = (moduleId) => {
             const module = courseData.modules.find(m => m.id === moduleId);
             if (!module) return '<div class="content-box"><h2>Módulo não encontrado</h2></div>';
@@ -557,7 +472,13 @@
             });
             html += '</div>';
             module.sections.forEach((section, index) => {
-                html += `<div class="tab-content ${index === 0 ? 'active' : ''}" id="${section.id}">${section.content}<br><button class="button start-quiz-btn" data-module-id="${module.id}" data-section-id="${section.id}">Testar Conhecimentos</button></div>`;
+                let sectionContent = section.content;
+                Object.keys(courseData.tables).forEach(tableId => {
+                    if (sectionContent.includes(`<div id="${tableId}-container"></div>`)) {
+                        sectionContent = sectionContent.replace(`<div id="${tableId}-container"></div>`, getTableHtml(tableId));
+                    }
+                });
+                html += `<div class="tab-content ${index === 0 ? 'active' : ''}" id="${section.id}">${sectionContent}<br><button class="button start-quiz-btn" data-section-id="${section.id}">Testar Conhecimentos</button></div>`;
             });
             html += '</div>';
             return html;
@@ -568,31 +489,8 @@
             courseData.references.forEach(ref => {
                 html += `<li><a href="${ref.url}" target="_blank" rel="noopener noreferrer">${ref.source}</a><p>${ref.comment}</p></li>`;
             });
-            html += '</ul></div>';
-            return html;
+            return html + '</ul></div>';
         };
-
-        // --- MANIPULADORES DE EVENTOS ---
-        sidebarNav.addEventListener('click', (e) => {
-            const targetElement = e.target;
-            const navLink = targetElement.closest('.nav-link');
-            const navToggle = targetElement.closest('.nav-toggle');
-
-            if (navToggle) {
-                navToggle.parentElement.classList.toggle('open');
-            } else if (navLink) {
-                e.preventDefault();
-                const targetId = navLink.dataset.target;
-                renderPage(targetId);
-                if (window.innerWidth <= 992) {
-                    sidebar.classList.remove('active');
-                }
-            }
-        });
-
-        hamburgerMenu.addEventListener('click', () => {
-            sidebar.classList.toggle('active');
-        });
 
         const attachEventListenersForPage = (pageId) => {
             if (pageId.startsWith('module-')) {
@@ -605,71 +503,78 @@
                         contentBox.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
                         document.getElementById(tabId).classList.add('active');
                     } else if (e.target.matches('.start-quiz-btn')) {
-                        const moduleId = e.target.dataset.moduleId;
                         const sectionId = e.target.dataset.sectionId;
-                        const module = courseData.modules.find(m => m.id === moduleId);
-                        const section = module.sections.find(s => s.id === sectionId);
-                        const quizData = courseData.modules.flatMap(m => m.sections).find(s => s.id === sectionId)?.quiz;
-                        if(quizData) startQuiz(quizData, `Quiz: ${section.title}`);
+                        const quizData = courseData.quizzes[sectionId];
+                        const section = courseData.modules.flatMap(m => m.sections).find(s => s.id === sectionId);
+                        if (quizData && section) {
+                            startQuiz(quizData, `Quiz: ${section.title}`);
+                        }
                     }
                 });
             } else if (pageId === 'flashcards') {
-                 // Lógica dos flashcards
                 document.getElementById('flashcard')?.addEventListener('click', e => e.currentTarget.classList.toggle('flipped'));
                 document.getElementById('prev-card')?.addEventListener('click', () => navigateFlashcard(-1));
                 document.getElementById('next-card')?.addEventListener('click', () => navigateFlashcard(1));
                 document.getElementById('shuffle-cards')?.addEventListener('click', shuffleFlashcards);
             } else if (pageId === 'custom-quiz') {
-                // Lógica do construtor de quiz
-                 document.getElementById('num-questions').addEventListener('input', (e) => {
+                document.getElementById('num-questions').addEventListener('input', e => {
                     document.getElementById('num-questions-value').textContent = e.target.value;
                 });
-                document.getElementById('custom-quiz-form').addEventListener('submit', (e) => {
+                document.getElementById('custom-quiz-form').addEventListener('submit', e => {
                     e.preventDefault();
                     const formData = new FormData(e.target);
                     const selectedTopics = formData.getAll('topics');
                     const numQuestions = parseInt(formData.get('numQuestions'));
                     const selectedDifficulties = formData.getAll('difficulty');
-                    
-                    if (selectedTopics.length === 0) {
-                        alert('Por favor, selecione pelo menos um tema.');
-                        return;
-                    }
-                    const allQuizzes = courseData.modules.flatMap(m => m.sections.map(s => s.quiz ? {...s, quiz: s.quiz.map(q => ({...q, sectionId: s.id}))} : s )).filter(s => s.quiz);
-                    let questionPool = allQuizzes.filter(s => selectedTopics.includes(s.id)).flatMap(s => s.quiz).filter(q => selectedDifficulties.includes(q.d));
-                    
+                    if (selectedTopics.length === 0) { alert('Por favor, selecione pelo menos um tema.'); return; }
+                    let questionPool = [];
+                    selectedTopics.forEach(topicId => {
+                        if (courseData.quizzes[topicId]) {
+                            courseData.quizzes[topicId].forEach(q => {
+                                if (selectedDifficulties.includes(q.d)) {
+                                    questionPool.push(q);
+                                }
+                            });
+                        }
+                    });
                     questionPool.sort(() => 0.5 - Math.random());
-                    const finalQuizQuestions = questionPool.slice(0, numQuestions);
-
-                    if (finalQuizQuestions.length === 0) {
-                        alert('Nenhuma questão encontrada para os critérios selecionados. Tente selecionar mais temas ou dificuldades.');
-                        return;
-                    }
-                    startQuiz(finalQuizQuestions, 'Simulado Personalizado');
+                    const finalQuestions = questionPool.slice(0, numQuestions);
+                    if (finalQuestions.length === 0) { alert('Nenhuma questão encontrada para os critérios selecionados.'); return; }
+                    startQuiz(finalQuestions, 'Simulado Personalizado');
                 });
             }
         };
 
-        // --- Demais funções (renderFlashcards, startQuiz, etc.) ---
-        // Estas funções são mantidas da versão anterior, pois sua lógica interna não precisa de grandes alterações.
-        // Pequenos ajustes foram feitos para se adaptar à nova estrutura de dados se necessário.
-        const renderFlashcards = () => { /* Código mantido */ 
-            const allFlashcards = [];
-            const tempDiv = document.createElement('div');
-            courseData.modules.forEach(mod => {
-                mod.sections.forEach(sec => {
-                    tempDiv.innerHTML = sec.content;
-                    tempDiv.querySelectorAll('.tooltip').forEach(t => {
-                        allFlashcards.push({
-                            term: t.textContent,
-                            definition: t.dataset.definition
-                        });
-                    });
-                });
-            });
-            const uniqueFlashcards = allFlashcards.filter((v, i, a) => a.findIndex(t => (t.term === v.term)) === i);
+        sidebarNav.addEventListener('click', (e) => {
+            const navToggle = e.target.closest('.nav-toggle');
+            if (navToggle) {
+                navToggle.parentElement.classList.toggle('open');
+                return;
+            }
+            const navLink = e.target.closest('.nav-link');
+            if (navLink) {
+                e.preventDefault();
+                const targetId = navLink.dataset.target;
+                renderPage(targetId);
+                if (!navLink.closest('.has-submenu')) {
+                    sidebarNav.querySelector('.has-submenu').classList.remove('open');
+                }
+                if (window.innerWidth <= 992) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+        
+        hamburgerMenu.addEventListener('click', () => sidebar.classList.toggle('active'));
+        
+        const renderFlashcards = () => {
+            const allFlashcards = []; const tempDiv = document.createElement('div');
+            courseData.modules.forEach(mod => mod.sections.forEach(sec => {
+                tempDiv.innerHTML = sec.content;
+                tempDiv.querySelectorAll('.tooltip').forEach(t => allFlashcards.push({ term: t.textContent, definition: t.dataset.definition }));
+            }));
+            const uniqueFlashcards = allFlashcards.filter((v, i, a) => a.findIndex(t => t.term === v.term) === i);
             if (uniqueFlashcards.length === 0) return `<div class="content-box"><h2>Flashcards</h2><p>Nenhum flashcard disponível.</p></div>`;
-            
             setTimeout(() => {
                 const container = document.getElementById('flashcard-container');
                 if (container) {
@@ -677,48 +582,37 @@
                     updateFlashcardView();
                 }
             }, 0);
-             return `
-                <div class="content-box">
-                    <h2>Flashcards de Revisão</h2>
-                    <p>Clique no card para virar. Use os botões para navegar.</p>
-                    <div class="flashcard-container" id="flashcard-container">
-                        <div class="flashcard" id="flashcard"><div class="flashcard-inner"><div class="flashcard-front"></div><div class="flashcard-back"></div></div></div>
-                        <div class="flashcard-nav"><button class="button secondary" id="prev-card">Anterior</button><span id="card-counter"></span><button class="button secondary" id="next-card">Próximo</button></div>
-                        <button class="button" id="shuffle-cards" style="margin-top: 15px;">Embaralhar</button>
-                    </div>
-                </div>`;
+            return `<div class="content-box"><h2>Flashcards de Revisão</h2><p>Clique no card para virar. Use os botões para navegar.</p><div class="flashcard-container" id="flashcard-container"><div class="flashcard" id="flashcard"><div class="flashcard-inner"><div class="flashcard-front"></div><div class="flashcard-back"></div></div></div><div class="flashcard-nav"><button class="button secondary" id="prev-card">Anterior</button><span id="card-counter"></span><button class="button secondary" id="next-card">Próximo</button></div><button class="button" id="shuffle-cards" style="margin-top: 15px;">Embaralhar</button></div></div>`;
         };
-        const updateFlashcardView = () => { /* Código mantido */ 
+        const updateFlashcardView = () => {
             const container = document.getElementById('flashcard-container'); if (!container || !container.dataset.state) return;
             let state = JSON.parse(container.dataset.state); const card = state.cards[state.currentIndex];
             document.getElementById('flashcard-front').textContent = card.term; document.getElementById('flashcard-back').textContent = card.definition;
             document.getElementById('card-counter').textContent = `${state.currentIndex + 1} / ${state.cards.length}`;
             document.getElementById('flashcard').classList.remove('flipped');
         };
-        const navigateFlashcard = (direction) => { /* Código mantido */
-             const container = document.getElementById('flashcard-container'); if (!container || !container.dataset.state) return;
+        const navigateFlashcard = (direction) => {
+            const container = document.getElementById('flashcard-container'); if (!container || !container.dataset.state) return;
             let state = JSON.parse(container.dataset.state); state.currentIndex += direction;
             if (state.currentIndex < 0) state.currentIndex = state.cards.length - 1;
             if (state.currentIndex >= state.cards.length) state.currentIndex = 0;
             container.dataset.state = JSON.stringify(state); updateFlashcardView();
         };
-        const shuffleFlashcards = () => { /* Código mantido */
+        const shuffleFlashcards = () => {
             const container = document.getElementById('flashcard-container'); if (!container || !container.dataset.state) return;
             let state = JSON.parse(container.dataset.state);
             for (let i = state.cards.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [state.cards[i], state.cards[j]] = [state.cards[j], state.cards[i]]; }
             state.currentIndex = 0; container.dataset.state = JSON.stringify(state); updateFlashcardView();
         };
-        const renderCustomQuizBuilder = () => { /* Código mantido */
+        const renderCustomQuizBuilder = () => {
             let quizOptionsHtml = '';
             courseData.modules.forEach(mod => {
                 quizOptionsHtml += `<label style="font-weight:bold; margin-top:10px; display:block;">${mod.title}</label>`;
-                mod.sections.forEach(sec => {
-                    quizOptionsHtml += `<label><input type="checkbox" name="topics" value="${sec.id}"> ${sec.title}</label>`;
-                });
+                mod.sections.forEach(sec => { quizOptionsHtml += `<label><input type="checkbox" name="topics" value="${sec.id}"> ${sec.title}</label>`; });
             });
             return `<div class="content-box"><h2>Montar Simulado Personalizado</h2><form id="custom-quiz-form"><div class="quiz-builder-form-group"><label>1. Selecione os Temas:</label><div class="checkbox-group">${quizOptionsHtml}</div></div><div class="quiz-builder-form-group"><label for="num-questions">2. Número de Questões: <span id="num-questions-value">20</span></label><input type="range" id="num-questions" name="numQuestions" min="5" max="50" value="20"></div><div class="quiz-builder-form-group"><label>3. Nível de Dificuldade:</label><div class="checkbox-group"><label><input type="checkbox" name="difficulty" value="Fácil" checked> Fácil</label><label><input type="checkbox" name="difficulty" value="Médio" checked> Médio</label><label><input type="checkbox" name="difficulty" value="Difícil" checked> Difícil</label></div></div><button type="submit" class="button">Gerar Simulado</button></form></div>`;
         };
-        const startQuiz = (quizData, title) => { /* Código mantido */ 
+        const startQuiz = (quizData, title) => {
              let quizHtml = `<span class="close-button">&times;</span><h2>${title}</h2><form id="quiz-form">`;
             let startTime = Date.now();
             quizData.forEach((q, index) => { quizHtml += `<div class="quiz-question"><p><b>${index + 1}. ${q.q}</b></p><div class="quiz-options">${q.options.map((opt, i) => `<label><input type="radio" name="question${index}" value="${i}"> ${opt}</label>`).join('')}</div></div>`; });
@@ -735,15 +629,14 @@
                 showQuizResult(score, quizData.length, results, title, timeTaken);
             });
         };
-        const showQuizResult = (score, total, results, title, timeTaken) => { /* Código mantido */ 
-             const percentage = total > 0 ? ((score / total) * 100).toFixed(1) : 0;
+        const showQuizResult = (score, total, results, title, timeTaken) => {
+            const percentage = total > 0 ? ((score / total) * 100).toFixed(1) : 0;
             const minutes = Math.floor(timeTaken / 60); const seconds = timeTaken % 60;
             let resultHtml = `<span class="close-button">&times;</span><h2>Resultado: ${title}</h2><div class="quiz-result"><h3>Sua pontuação: ${score} de ${total} (${percentage}%)</h3><p><b>Tempo gasto:</b> ${minutes} min e ${seconds} seg</p><p>${percentage >= 70 ? 'Parabéns, ótimo resultado!' : 'Continue estudando para melhorar!'}</p><hr><h4>Revisão das Questões:</h4></div>`;
             results.forEach(res => { resultHtml += `<div class="review-question ${res.isCorrect ? 'correct' : 'incorrect'}"><p><b>${res.question.q}</b></p><p>Sua resposta: ${res.userAnswer !== null ? res.question.options[res.userAnswer] : 'Não respondida'}</p>${!res.isCorrect ? `<p>Resposta correta: <b>${res.question.options[res.question.a]}</b></p>` : ''}</div>`; });
             quizModalContent.innerHTML = resultHtml; quizModalContent.querySelector('.close-button').addEventListener('click', () => quizModal.style.display = 'none');
         };
-
-        // --- INICIALIZAÇÃO ---
+        
         renderPage('home');
 
     });
