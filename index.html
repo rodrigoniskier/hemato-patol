@@ -3,643 +3,2090 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patologia Geral e Hematologia Interativa</title>
-
+    <title>Patologia Geral e Hematologia - Curso Interativo</title>
     <style>
-        /* ------------------- */
-        /* RESET E VARIAVEIS   */
-        /* ------------------- */
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --highlight-color: #e74c3c;
-            --text-color: #333;
-            --bg-color: #ecf0f1;
-            --sidebar-width: 320px;
-            --border-radius: 8px;
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
+        /* Reset e configurações básicas */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        html, body {
-            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-        }
-        
-        /* ------------------- */
-        /* LAYOUT PRINCIPAL    */
-        /* ------------------- */
-        .app-container {
-            display: flex;
-        }
-
-        .sidebar {
-            width: var(--sidebar-width);
-            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
-            color: white;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
-
-        .sidebar-content {
-            padding: 20px;
-            flex-grow: 1;
-            overflow-y: auto;
-        }
-
-        .content-wrapper {
-            flex-grow: 1;
-            margin-left: var(--sidebar-width);
-            display: flex;
-            flex-direction: column;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
             min-height: 100vh;
         }
 
-        .main-content {
-            flex-grow: 1;
-            padding: 20px;
-            background-image: url('./laboratory-background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        .main-footer {
-            text-align: center;
-            padding: 15px;
-            background-color: var(--secondary-color);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9em;
-        }
-        
-        .content-box {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            margin-bottom: 20px;
-        }
-
-        /* ------------------- */
-        /* SIDEBAR E NAVEGAÇÃO */
-        /* ------------------- */
-        .sidebar-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-        }
-        .sidebar-header h1 {
-            font-size: 1.5em;
-            margin-bottom: 5px;
-        }
-
-        .sidebar-nav ul { list-style: none; }
-        .sidebar-nav li a, .sidebar-nav li .nav-toggle {
+        /* Layout principal */
+        .container {
             display: flex;
-            align-items: center;
-            padding: 12px 15px;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
             color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #ecf0f1;
+        }
+
+        .sidebar-header p {
+            font-size: 0.9rem;
+            color: #bdc3c7;
+            line-height: 1.4;
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #ecf0f1;
             text-decoration: none;
-            border-radius: var(--border-radius);
-            transition: background 0.2s ease;
-            margin-bottom: 5px;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
             cursor: pointer;
         }
 
-        .sidebar-nav li a:hover, .sidebar-nav li .nav-toggle:hover, .sidebar-nav li a.active {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .sidebar-nav li a.active {
-            border-left: 4px solid var(--highlight-color);
-            padding-left: 11px;
-        }
-        
-        .sidebar-nav li .icon {
-            margin-right: 15px;
-            font-size: 1.2em;
-            width: 25px;
-            text-align: center;
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1);
+            border-left-color: #e74c3c;
         }
 
-        /* Submenu */
-        .sidebar-nav .submenu {
-            list-style: none;
+        .nav-item.active {
+            background: rgba(255,255,255,0.15);
+            border-left-color: #e74c3c;
+        }
+
+        .nav-item .icon {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Área principal */
+        .main-content {
+            flex: 1;
+            margin-left: 300px;
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        /* Botão hamburger */
+        .hamburger {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1001;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Caixas de conteúdo */
+        .content-box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Acordeão */
+        .accordion {
+            margin-bottom: 1rem;
+        }
+
+        .accordion-header {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 1.5rem;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .accordion-header.active {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.4s ease-in-out;
-            padding-left: 10px;
-        }
-        .sidebar-nav .has-submenu.open .submenu {
-            max-height: 500px; /* Adjust as needed */
-        }
-        .sidebar-nav .submenu li a {
-            padding-left: 45px; /* Indent submenu items */
-            font-size: 0.95em;
-        }
-        .sidebar-nav .nav-toggle .arrow {
-            margin-left: auto;
-            transition: transform 0.3s;
-        }
-        .sidebar-nav .has-submenu.open .nav-toggle .arrow {
-            transform: rotate(90deg);
+            transition: max-height 0.3s ease;
+            background: white;
+            border-radius: 0 0 10px 10px;
         }
 
-
-        .hamburger-menu { display: none; }
-        
-        /* ------------------- */
-        /* COMPONENTES GERAIS  */
-        /* ------------------- */
-        h2 {
-            color: var(--secondary-color);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary-color);
+        .accordion-content.active {
+            max-height: 5000px;
+            padding: 2rem;
         }
 
-        h3 { color: var(--primary-color); margin-top: 20px; margin-bottom: 15px; }
-        h4 { color: var(--secondary-color); margin-top: 15px; margin-bottom: 10px; }
-        
-        p { margin-bottom: 1em; }
-        ul, ol { padding-left: 20px; margin-bottom: 1em; }
-
-        .button {
-            display: inline-block; background-color: var(--primary-color); color: white;
-            padding: 10px 20px; border: none; border-radius: var(--border-radius);
-            cursor: pointer; text-decoration: none; font-size: 1em;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+        /* Abas */
+        .tabs {
+            margin: 2rem 0;
         }
-        .button:hover { background-color: #2980b9; transform: translateY(-2px); }
-        .button.secondary { background-color: var(--secondary-color); }
-        .button.secondary:hover { background-color: #1f2b38; }
-        
+
+        .tab-headers {
+            display: flex;
+            border-bottom: 2px solid #ecf0f1;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-header {
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px 10px 0 0;
+            margin-right: 0.5rem;
+            margin-bottom: -2px;
+        }
+
+        .tab-header.active {
+            background: #3498db;
+            color: white;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0 10px 10px 10px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            display: inline;
+            cursor: help;
+            color: #3498db;
+            font-weight: bold;
+            border-bottom: 1px dotted #3498db;
+        }
+
+        .tooltip-content {
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e50;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            max-width: 300px;
+            white-space: normal;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .tooltip:hover .tooltip-content {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tooltip-content::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #2c3e50;
+        }
+
+        /* Flashcards */
+        .flashcard {
+            width: 300px;
+            height: 200px;
+            margin: 1rem;
+            perspective: 1000px;
+            display: inline-block;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .question {
+            margin-bottom: 2rem;
+        }
+
+        .question h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .options {
+            list-style: none;
+        }
+
+        .options li {
+            margin: 0.5rem 0;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        .options label {
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .options label:hover {
+            background: #ecf0f1;
+        }
+
+        /* Botões */
+        .btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60, #229954);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        /* Tabelas */
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            box-shadow: var(--shadow);
-            font-size: 0.9em;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 10px;
+
+        th, td {
+            padding: 1rem;
             text-align: left;
+            border-bottom: 1px solid #ecf0f1;
         }
-        table th {
-            background-color: var(--secondary-color);
+
+        th {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
             color: white;
+            font-weight: bold;
         }
-        table tr:nth-child(even) { background-color: #f2f2f2; }
-        table tr:hover { background-color: #d6eaf8; }
 
-        /* ------------------- */
-        /* COMPONENTES INTERATIVOS */
-        /* ------------------- */
-        .tooltip {
-            position: relative; cursor: help; color: var(--primary-color);
-            font-weight: bold; border-bottom: 2px dotted var(--primary-color);
+        tr:hover {
+            background: #f8f9fa;
         }
-        .tooltip .tooltip-text {
-            visibility: hidden; width: 280px; background-color: var(--secondary-color);
-            color: #fff; text-align: center; border-radius: var(--border-radius);
-            padding: 10px; position: absolute; z-index: 10; bottom: 125%;
-            left: 50%; margin-left: -140px; opacity: 0; transition: opacity 0.3s;
-            font-size: 0.9em; font-weight: normal;
-        }
-        .tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
 
-        .tabs-container {
-            display: flex; margin-bottom: 20px; border-bottom: 1px solid #ccc;
-            flex-wrap: wrap;
+        /* Simulado */
+        .simulado-config {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
         }
-        .tab-button {
-            padding: 10px 20px; cursor: pointer; border: none; background: none;
-            font-size: 1em; border-bottom: 3px solid transparent;
+
+        .config-group {
+            margin: 1.5rem 0;
         }
-        .tab-button.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
 
-        .flashcard-container { display: flex; flex-direction: column; align-items: center; }
-        .flashcard { width: 500px; height: 300px; perspective: 1000px; cursor: pointer; margin-bottom: 20px; }
-        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
-        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 20px; border-radius: var(--border-radius); box-shadow: var(--shadow); font-size: 1.5em; text-align: center; }
-        .flashcard-front { background: linear-gradient(135deg, #f0f0f0, #ffffff); color: var(--secondary-color); }
-        .flashcard-back { background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%); color: white; transform: rotateY(180deg); font-size: 1.2em; }
-        .flashcard-nav { display: flex; gap: 15px; align-items: center; }
-        
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
-        .modal-content { background-color: #fefefe; margin: auto; padding: 30px; border-radius: var(--border-radius); width: 90%; max-width: 800px; position: relative; max-height: 90vh; overflow-y: auto; }
-        .close-button { color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 28px; font-weight: bold; cursor: pointer; }
-        
-        .quiz-question { margin-bottom: 20px; }
-        .quiz-options label { display: block; margin-bottom: 10px; padding: 10px; border-radius: 5px; cursor: pointer; transition: background-color 0.2s; }
-        .quiz-options label:hover { background-color: #f0f0f0; }
-        .quiz-result div { margin-bottom: 10px; }
-        .review-question { margin-bottom: 15px; padding: 15px; border-radius: 5px; }
-        .review-question.correct { background-color: #d4edda; }
-        .review-question.incorrect { background-color: #f8d7da; }
-        
-        .quiz-builder-form-group { margin-bottom: 20px; }
-        .quiz-builder-form-group > label { display: block; font-weight: bold; margin-bottom: 5px; }
-        .quiz-builder-form-group input[type="range"] { width: 100%; }
-        .quiz-builder-form-group .checkbox-group label { display: block; font-weight: normal; }
-        
-        .reference-list li { margin-bottom: 15px; list-style-type: none; }
-        .reference-list a { color: var(--primary-color); text-decoration: none; font-weight: bold; }
-        .reference-list a:hover { text-decoration: underline; }
-        .reference-list p { margin-left: 20px; font-style: italic; color: #555; margin-top: 5px; margin-bottom: 0;}
+        .config-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
 
-        /* ------------------- */
-        /* RESPONSIVIDADE      */
-        /* ------------------- */
-        @media (max-width: 992px) {
-            .sidebar { transform: translateX(calc(-1 * var(--sidebar-width))); }
-            .sidebar.active { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.2); }
-            .content-wrapper { margin-left: 0; }
-            .hamburger-menu {
-                display: block; position: fixed; top: 15px; left: 15px;
-                z-index: 1001; background-color: var(--secondary-color); color: white;
-                border: none; border-radius: 50%; width: 50px; height: 50px;
-                font-size: 24px; cursor: pointer; box-shadow: var(--shadow);
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-item input {
+            margin-right: 0.5rem;
+        }
+
+        .slider {
+            width: 100%;
+            height: 5px;
+            border-radius: 5px;
+            background: #ecf0f1;
+            outline: none;
+            margin: 1rem 0;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
             }
-            .flashcard { width: 100%; max-width: 400px; }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .flashcard {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .tab-headers {
+                flex-direction: column;
+            }
+
+            .tab-header {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+                border-radius: 10px;
+            }
         }
-        
-        @media (max-width: 576px) {
-            .content-box { padding: 15px; }
-            .flashcard { height: 250px; font-size: 1.2em; }
-            .flashcard-back { font-size: 1em; }
-            .tabs-container { flex-direction: column; }
-            .tab-button { width: 100%; text-align: left; border-bottom: 1px solid #ccc; }
-            .tab-button.active { border-bottom: 3px solid var(--primary-color); }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Estilo para casos clínicos */
+        .case-study {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .case-study h4 {
+            margin-bottom: 1rem;
+        }
+
+        /* Progresso */
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #27ae60, #229954);
+            transition: width 0.3s ease;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <!-- Botão Hamburger -->
+        <button class="hamburger" onclick="toggleSidebar()">☰</button>
 
-    <div class="app-container">
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-content">
-                <div class="sidebar-header">
-                    <h1>Patologia Interativa</h1>
-                    <p>Princípios e Aplicações em Hematologia</p>
-                </div>
-                <nav class="sidebar-nav" id="sidebar-nav">
-                    <ul>
-                        <li><a href="#" class="nav-link active" data-target="home"><span class="icon">🏠</span> Início</a></li>
-                        <li class="has-submenu">
-                            <div class="nav-toggle">
-                                <span class="icon">📚</span> Conteúdo do Curso <span class="arrow">▶</span>
-                            </div>
-                            <ul class="submenu">
-                                <li><a href="#" class="nav-link" data-target="module-mod1"><span class="icon">🩺</span> Módulo 1</a></li>
-                                <li><a href="#" class="nav-link" data-target="module-mod2"><span class="icon">🔬</span> Módulo 2</a></li>
-                                <li><a href="#" class="nav-link" data-target="module-mod3"><span class="icon">🩸</span> Módulo 3</a></li>
-                                <li><a href="#" class="nav-link" data-target="module-mod4"><span class="icon">🧬</span> Módulo 4</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="nav-link" data-target="flashcards"><span class="icon">🧠</span> Flashcards de Revisão</a></li>
-                        <li><a href="#" class="nav-link" data-target="custom-quiz"><span class="icon">✍️</span> Montar Simulado</a></li>
-                        <li><a href="#" class="nav-link" data-target="references"><span class="icon">🔗</span> Aprofundamento e Fontes</a></li>
-                    </ul>
-                </nav>
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>🩺 Patologia & Hematologia</h1>
+                <p>Curso interativo baseado nos princípios fundamentais da patologia geral aplicados à hematologia clínica e laboratorial.</p>
             </div>
-        </aside>
+            <div class="nav-menu">
+                <a href="#" class="nav-item active" onclick="showSection('home')">
+                    <span class="icon">🏠</span> Início
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('modulo1')">
+                    <span class="icon">🔬</span> Módulo 1: A Célula Sob Ameaça
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('modulo2')">
+                    <span class="icon">🛡️</span> Módulo 2: Resposta do Hospedeiro
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('modulo3')">
+                    <span class="icon">🩸</span> Módulo 3: Fluidez e Contenção
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('modulo4')">
+                    <span class="icon">⚡</span> Módulo 4: Crescimento Descontrolado
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('flashcards')">
+                    <span class="icon">📚</span> Flashcards
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('simulado')">
+                    <span class="icon">📝</span> Simulado
+                </a>
+                <a href="#" class="nav-item" onclick="showSection('glossario')">
+                    <span class="icon">📖</span> Glossário
+                </a>
+            </div>
+        </nav>
 
-        <button class="hamburger-menu" id="hamburger-menu">☰</button>
+        <!-- Conteúdo Principal -->
+        <main class="main-content" id="mainContent">
+            <!-- Seção Inicial -->
+            <div id="home" class="section active">
+                <div class="content-box fade-in">
+                    <h1>Bem-vindo ao Curso de Patologia Geral e Hematologia</h1>
+                    <p>Este curso demonstra de forma sistemática que a compreensão da Hematologia Clínica e Laboratorial é indissociável dos princípios fundamentais da Patologia Geral.</p>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%" id="courseProgress"></div>
+                    </div>
+                    <p>Progresso do curso: <span id="progressText">0%</span></p>
 
-        <div class="content-wrapper">
-            <main class="main-content" id="main-content"></main>
-            <footer class="main-footer">
-                <p>&copy; 2025 Parceiro de Programação. Todos os direitos reservados.</p>
-                <p>Conteúdo educacional adaptado do material fornecido.</p>
-            </footer>
-        </div>
-    </div>
+                    <h2>Objetivos do Curso</h2>
+                    <ul>
+                        <li>Compreender os princípios fundamentais da patologia geral</li>
+                        <li>Aplicar esses princípios à hematologia clínica</li>
+                        <li>Analisar casos clínicos paradigmáticos</li>
+                        <li>Interpretar achados laboratoriais</li>
+                        <li>Desenvolver raciocínio clínico-patológico</li>
+                    </ul>
 
-    <div id="quiz-modal" class="modal">
-        <div class="modal-content" id="quiz-modal-content"></div>
+                    <h2>Estrutura do Curso</h2>
+                    <div class="tabs">
+                        <div class="tab-headers">
+                            <button class="tab-header active" onclick="showTab('overview', this)">Visão Geral</button>
+                            <button class="tab-header" onclick="showTab('methodology', this)">Metodologia</button>
+                            <button class="tab-header" onclick="showTab('resources', this)">Recursos</button>
+                        </div>
+                        <div id="overview" class="tab-content active">
+                            <p>O curso está organizado em 4 módulos principais, cada um focando em um aspecto fundamental da patologia:</p>
+                            <ul>
+                                <li><strong>Módulo 1:</strong> Lesão, adaptação e morte celular no sistema hematopoiético</li>
+                                <li><strong>Módulo 2:</strong> Inflamação e reparo no contexto hematológico</li>
+                                <li><strong>Módulo 3:</strong> Distúrbios hemodinâmicos e da coagulação</li>
+                                <li><strong>Módulo 4:</strong> Neoplasia e autoimunidade</li>
+                            </ul>
+                        </div>
+                        <div id="methodology" class="tab-content">
+                            <p>Nossa abordagem pedagógica combina:</p>
+                            <ul>
+                                <li>Estudos de caso clínicos reais</li>
+                                <li>Análises laboratoriais detalhadas</li>
+                                <li>Correlações fisiopatológicas</li>
+                                <li>Avaliações interativas</li>
+                                <li>Flashcards para revisão</li>
+                            </ul>
+                        </div>
+                        <div id="resources" class="tab-content">
+                            <p>Recursos disponíveis nesta plataforma:</p>
+                            <ul>
+                                <li>📚 Flashcards interativos com termos-chave</li>
+                                <li>📝 Quiz por módulo para autoavaliação</li>
+                                <li>🎯 Simulado personalizado configurável</li>
+                                <li>📖 Glossário completo com tooltips</li>
+                                <li>📊 Tabelas comparativas interativas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 1 -->
+            <div id="modulo1" class="section">
+                <div class="content-box fade-in">
+                    <h1>Módulo 1: A Célula Sob Ameaça</h1>
+                    <p>Lesão, Adaptação e Morte no Sistema Hematopoiético</p>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Seção 1.1: O Princípio da Lesão Celular e a Toxicidade Medular</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h3>1.1.1. Fundamentos da Lesão Celular</h3>
+                            <p>A <span class="tooltip">patologia<span class="tooltip-content">Estudo das reações fundamentais de células e tecidos a estímulos nocivos, que são a base de todas as doenças</span></span>, em sua essência, estuda as reações fundamentais de células e tecidos a estímulos nocivos. A célula opera em um estado de equilíbrio dinâmico conhecido como <span class="tooltip">homeostase<span class="tooltip-content">Estado de equilíbrio dinâmico mantido pelos sistemas biológicos</span></span>.</p>
+
+                            <p>Quatro mecanismos bioquímicos inter-relacionados são centrais para a maioria das formas de lesão celular:</p>
+                            
+                            <ol>
+                                <li><strong>Depleção de <span class="tooltip">ATP<span class="tooltip-content">Adenosina Trifosfato - a moeda energética da célula</span></span>:</strong> O ATP é a moeda energética da célula. Sua depleção tem efeitos cascata, incluindo falha das bombas de íons dependentes de ATP.</li>
+                                <li><strong>Dano <span class="tooltip">Mitocondrial<span class="tooltip-content">Organelas responsáveis pela produção de energia celular</span></span>:</strong> As mitocôndrias são alvos cruciais de lesão, podendo levar à falha na produção de ATP e ativação da morte celular.</li>
+                                <li><strong>Influxo de Cálcio:</strong> A perda da homeostase do cálcio ativa enzimas destrutivas como fosfolipases e proteases.</li>
+                                <li><strong>Estresse Oxidativo:</strong> O acúmulo de espécies reativas de oxigênio causa danos extensos às membranas e DNA.</li>
+                            </ol>
+
+                            <div class="case-study">
+                                <h4>📋 Estudo de Caso 1: Hematotoxicidade do Benzeno</h4>
+                                <p>O <span class="tooltip">benzeno<span class="tooltip-content">Contaminante ambiental e ocupacional, potente agente mielotóxico</span></span> é um potente agente mielotóxico que ataca as células-tronco hematopoiéticas através de múltiplos mecanismos:</p>
+                                <ul>
+                                    <li>Estresse oxidativo e dano mitocondrial</li>
+                                    <li>Dano direto ao DNA</li>
+                                    <li>Desregulação do receptor de aril hidrocarbonetos</li>
+                                    <li>Indução de apoptose</li>
+                                </ul>
+                            </div>
+
+                            <div class="case-study">
+                                <h4>📋 Estudo de Caso 2: Lesão Medular por Cloranfenicol</h4>
+                                <p>O <span class="tooltip">cloranfenicol<span class="tooltip-content">Antibiótico que pode causar lesão medular reversível ou irreversível</span></span> ilustra o espectro da lesão celular:</p>
+                                <ul>
+                                    <li><strong>Lesão Reversível:</strong> Supressão tóxica dose-dependente</li>
+                                    <li><strong>Lesão Irreversível:</strong> Aplasia medular idiossincrática (1 em 20.000-40.000 tratamentos)</li>
+                                </ul>
+                            </div>
+
+                            <button class="btn" onclick="startQuiz('modulo1_secao1')">🎯 Testar Conhecimentos</button>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Seção 1.2: O Princípio da Adaptação Celular e as Respostas Medulares</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h3>1.2.1. Fundamentos da Adaptação Celular</h3>
+                            <p>As células podem modificar sua estrutura e função para alcançar um novo estado de equilíbrio. Essas respostas incluem:</p>
+                            
+                            <ul>
+                                <li><strong><span class="tooltip">Hiperplasia<span class="tooltip-content">Aumento no número de células</span></span>:</strong> Aumento no número de células</li>
+                                <li><strong><span class="tooltip">Hipertrofia<span class="tooltip-content">Aumento no tamanho das células</span></span>:</strong> Aumento no tamanho das células</li>
+                                <li><strong><span class="tooltip">Atrofia<span class="tooltip-content">Redução no tamanho e atividade metabólica de uma célula</span></span>:</strong> Redução no tamanho e atividade metabólica</li>
+                                <li><strong><span class="tooltip">Metaplasia<span class="tooltip-content">Mudança reversível onde um tipo celular é substituído por outro</span></span>:</strong> Substituição de um tipo celular por outro</li>
+                            </ul>
+
+                            <div class="case-study">
+                                <h4>📋 Estudo de Caso 3: Hiperplasia Eritroide na Hipóxia Crônica</h4>
+                                <p>A <span class="tooltip">policitemia secundária<span class="tooltip-content">Aumento da massa eritrocitária em resposta à hipóxia crônica</span></span> é um exemplo de adaptação que se torna patológica:</p>
+                                <ul>
+                                    <li><strong>Estímulo:</strong> Hipóxia tecidual crônica</li>
+                                    <li><strong>Mecanismo:</strong> Ativação do sistema HIF-EPO</li>
+                                    <li><strong>Consequência:</strong> Eritrocitose excessiva e aumento da viscosidade sanguínea</li>
+                                </ul>
+                            </div>
+
+                            <div class="case-study">
+                                <h4>📋 Estudo de Caso 4: Atrofia Medular na Anemia Aplásica</h4>
+                                <p>A <span class="tooltip">anemia aplásica<span class="tooltip-content">Falência da medula óssea com pancitopenia e medula hipocelular</span></span> representa a falha completa da adaptação medular:</p>
+                                <ul>
+                                    <li><strong>Mecanismo:</strong> Ataque imunológico às células-tronco hematopoiéticas</li>
+                                    <li><strong>Resultado:</strong> Atrofia severa e falência medular completa</li>
+                                </ul>
+                            </div>
+
+                            <button class="btn" onclick="startQuiz('modulo1_secao2')">🎯 Testar Conhecimentos</button>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Seção 1.3: O Princípio da Morte Celular e a Hemólise</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h3>1.3.1. Fundamentos da Morte Celular</h3>
+                            <p>Existem duas vias principais de morte celular:</p>
+
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Característica</th>
+                                            <th>Apoptose</th>
+                                            <th>Necrose</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Estímulo</td>
+                                            <td>Fisiológico ou Patológico</td>
+                                            <td>Sempre Patológico</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Escopo</td>
+                                            <td>Células individuais</td>
+                                            <td>Grupos de células contíguas</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Morfologia</td>
+                                            <td>Encolhimento, condensação da cromatina</td>
+                                            <td>Edema celular, desnaturação de proteínas</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Integridade da Membrana</td>
+                                            <td>Mantida</td>
+                                            <td>Perdida</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Resposta Tecidual</td>
+                                            <td>Fagocitose silenciosa</td>
+                                            <td>Inflamação aguda</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="case-study">
+                                <h4>📋 Estudo de Caso 5: Anemia Falciforme e a Crise Vaso-oclusiva</h4>
+                                <p>A <span class="tooltip">anemia falciforme<span class="tooltip-content">Doença causada por mutação na β-globina, resultando em HbS</span></span> ilustra como uma alteração molecular desencadeia uma cascata patológica:</p>
+                                <ul>
+                                    <li><strong>Causa:</strong> Mutação no gene da β-globina (HbS)</li>
+                                    <li><strong>Mecanismo:</strong> Polimerização da HbS desoxigenada</li>
+                                    <li><strong>Consequências:</strong> Hemólise, vaso-oclusão, crises álgicas</li>
+                                </ul>
+                            </div>
+
+                            <button class="btn" onclick="startQuiz('modulo1_secao3')">🎯 Testar Conhecimentos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 2 -->
+            <div id="modulo2" class="section">
+                <div class="content-box fade-in">
+                    <h1>Módulo 2: A Resposta do Hospedeiro</h1>
+                    <p>Inflamação e Reparo no Contexto Hematológico</p>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Seção 2.1: O Princípio da Inflamação e o Leucograma</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h3>2.1.1. Fundamentos da Resposta Inflamatória</h3>
+                            <p>A <span class="tooltip">inflamação<span class="tooltip-content">Resposta protetora dos tecidos vascularizados a agentes agressores</span></span> é uma resposta fundamental e protetora dos tecidos vascularizados a agentes agressores.</p>
+
+                            <ul>
+                                <li><strong>Inflamação Aguda:</strong> Início rápido, curta duração, predomínio de neutrófilos</li>
+                                <li><strong>Inflamação Crônica:</strong> Duração prolongada, presença de linfócitos e macrófagos</li>
+                            </ul>
+
+                            <h3>2.1.2. O Hemograma como Janela da Inflamação</h3>
+                            <p>O <span class="tooltip">leucograma<span class="tooltip-content">Contagem diferencial de leucócitos que reflete processos inflamatórios</span></span> funciona como uma "biópsia líquida" da resposta inflamatória:</p>
+
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Padrão Leucocitário</th>
+                                            <th>Mecanismo</th>
+                                            <th>Interpretação Clínica</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="tooltip">Neutrofilia<span class="tooltip-content">Aumento da contagem absoluta de neutrófilos</span></span></td>
+                                            <td>Liberação de reservas medulares</td>
+                                            <td>Infecção bacteriana aguda</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Desvio à Esquerda Regenerativo</td>
+                                            <td>Resposta medular robusta</td>
+                                            <td>Inflamação controlada</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Desvio à Esquerda Degenerativo</td>
+                                            <td>Demanda excede produção</td>
+                                            <td>Sepse grave</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="tooltip">Linfocitose<span class="tooltip-content">Aumento da contagem absoluta de linfócitos</span></span></td>
+                                            <td>Resposta a antígenos específicos</td>
+                                            <td>Infecções virais</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="case-study">
+                                <h4>📋 Análise Laboratorial: CIVD na Sepse</h4>
+                                <p>A <span class="tooltip">CIVD<span class="tooltip-content">Coagulação Intravascular Disseminada - ativação sistêmica da coagulação</span></span> representa a intersecção catastrófica entre inflamação e distúrbios hemodinâmicos:</p>
+                                <ul>
+                                    <li><strong>Mecanismo:</strong> Ativação massiva da coagulação por citocinas</li>
+                                    <li><strong>Resultado:</strong> Trombose microvascular e hemorragia sistêmica</li>
+                                </ul>
+                            </div>
+
+                            <button class="btn" onclick="startQuiz('modulo2_secao1')">🎯 Testar Conhecimentos</button>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Seção 2.2: O Princípio do Reparo Tecidual e a Fibrose Medular</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h3>2.2.1. Fundamentos do Reparo</h3>
+                            <p>O reparo pode ocorrer de duas maneiras principais:</p>
+                            <ul>
+                                <li><strong>Regeneração:</strong> Substituição por células do mesmo tipo</li>
+                                <li><strong>Cicatrização (Fibrose):</strong> Deposição de tecido conjuntivo fibroso</li>
+                            </ul>
+
+                            <div class="case-study">
+                                <h4>📋 Estudo de Caso 6: Mielofibrose Primária</h4>
+                                <p>A <span class="tooltip">mielofibrose primária<span class="tooltip-content">Neoplasia mieloproliferativa com fibrose medular reativa</span></span> exemplifica como o reparo pode ser sequestrado:</p>
+                                <ul>
+                                    <li><strong>Evento inicial:</strong> Proliferação megacariocítica neoplásica</li>
+                                    <li><strong>Mecanismo:</strong> Liberação de citocinas fibrogênicas (TGF-β, PDGF)</li>
+                                    <li><strong>Resultado:</strong> Fibrose medular progressiva e <span class="tooltip">leucoeritroblastose<span class="tooltip-content">Presença de precursores granulocíticos e eritroides no sangue periférico</span></span></li>
+                                </ul>
+                            </div>
+
+                            <button class="btn" onclick="startQuiz('modulo2_secao2')">🎯 Testar Conhecimentos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 3 -->
+            <div id="modulo3" class="section">
+                <div class="content-box fade-in">
+                    <h1>Módulo 3: Fluidez e Contenção</h1>
+                    <p>Distúrbios Hemodinâmicos e da Coagulação</p>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Seção 3.1: O Princípio da Hemostasia e Trombose</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h3>3.1.1. Fundamentos da Hemostasia Normal</h3>
+                            <p>A <span class="tooltip">hemostasia<span class="tooltip-content">Processo que mantém o sangue fluido mas permite formação de tampão hemostático</span></span> é o processo que mantém o sangue em estado fluido mas permite a formação rápida de um tampão hemostático.</p>
+
+                            <ul>
+                                <li><strong>Hemostasia Primária:</strong> Formação do tampão plaquetário</li>
+                                <li><strong>Hemostasia Secundária:</strong> Cascata da coagulação e formação de fibrina</li>
+                            </ul>
+
+                            <h3>3.1.2. A Tríade de Virchow</h3>
+                            <p>A trombose é promovida por três anormalidades principais:</p>
+                            <ol>
+                                <li>Lesão endotelial</li>
+                                <li>Estase ou turbulência do fluxo sanguíneo</li>
+                                <li>Hipercoagulabilidade do sangue</li>
+                            </ol>
+
+                            <div class="case-study">
+                                <h4>📋 Estudo de Caso 7: Púrpura Trombocitopênica Imune (PTI)</h4>
+                                <p>A <span class="tooltip">PTI<span class="tooltip-content">Doença autoimune com destruição de plaquetas por autoanticorpos</span></span> é um exemplo de distúrbio da hemostasia primária:</p>
+                                <ul>
+                                    <li><strong>Mecanismo:</strong> Autoanticorpos contra glicoproteínas plaquetárias</li>
+                                    <li><strong>Manifestação:</strong> Petéquias e púrpuras, raramente sangramentos profundos</li>
+                                </ul>
+                            </div>
+
+                            <div class="case-study">
+                                <h4>📋 Estudo de Caso 8: Hemofilia A</h4>
+                                <p>A <span class="tooltip">hemofilia A<span class="tooltip-content">Deficiência hereditária do Fator VIII da coagulação</span></span> ilustra defeito na hemostasia secundária:</p>
+                                <ul>
+                                    <li><strong>Causa:</strong> Mutações no gene do Fator VIII</li>
+                                    <li><strong>Manifestação:</strong> Hemartroses e hematomas musculares</li>
+                                </ul>
+                            </div>
+
+                            <div class="case-study">
+                                <h4>📋 Estudo de Caso 9: CIVD - Falha Sistêmica</h4>
+                                <p>Escore Diagnóstico da ISTH para CIVD:</p>
+                                <div class="table-container">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Parâmetro</th>
+                                                <th>Resultado</th>
+                                                <th>Pontos</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Plaquetas</td>
+                                                <td>&gt; 100.000/µL</td>
+                                                <td>0</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>50.000-100.000/µL</td>
+                                                <td>1</td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>&lt; 50.000/µL</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td>D-dímero</td>
+                                                <td>Aumento acentuado</td>
+                                                <td>3</td>
+                                            </tr>
+                                            <tr>
+                                                <td>TP (aumento)</td>
+                                                <td>&gt; 6 segundos</td>
+                                                <td>2</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fibrinogênio</td>
+                                                <td>&lt; 1,0 g/L</td>
+                                                <td>1</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p><strong>Interpretação:</strong> ≥ 5 pontos = CIVD manifesta</p>
+                            </div>
+
+                            <button class="btn" onclick="startQuiz('modulo3_secao1')">🎯 Testar Conhecimentos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 4 -->
+            <div id="modulo4" class="section">
+                <div class="content-box fade-in">
+                    <h1>Módulo 4: Crescimento Descontrolado e Autoagressão</h1>
+                    <p>Neoplasia e Autoimunidade</p>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Seção 4.1: O Princípio da Neoplasia e as "Marcas do Câncer"</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h3>4.1.1. Fundamentos da Biologia do Câncer</h3>
+                            <p>O câncer resulta do acúmulo de mutações em três classes principais de genes:</p>
+                            <ul>
+                                <li><strong>Proto-oncogenes:</strong> "Aceleradores" do crescimento celular</li>
+                                <li><strong>Genes Supressores de Tumor:</strong> "Freios" da proliferação</li>
+                                <li><strong>Genes de Reparo de DNA:</strong> Mantêm a estabilidade genômica</li>
+                            </ul>
+
+                            <h3>4.1.2. As "Marcas do Câncer"</h3>
+                            <p>Hanahan e Weinberg propuseram oito capacidades fundamentais:</p>
+                            <ol>
+                                <li>Sinalização proliferativa sustentada</li>
+                                <li>Evasão de supressores de crescimento</li>
+                                <li>Resistência à morte celular</li>
+                                <li>Imortalidade replicativa</li>
+                                <li>Indução de angiogênese</li>
+                                <li>Ativação de invasão e metástase</li>
+                                <li>Reprogramação do metabolismo energético</li>
+                                <li>Evasão da destruição imune</li>
+                            </ol>
+
+                            <div class="case-study">
+                                <h4>📋 Exemplo 1: Leucemia Mieloide Crônica (LMC)</h4>
+                                <p>A <span class="tooltip">LMC<span class="tooltip-content">Neoplasia definida pela translocação t(9;22) e gene BCR-ABL1</span></span> exemplifica sinalização proliferativa sustentada:</p>
+                                <ul>
+                                    <li><strong>Alteração:</strong> Translocação t(9;22) → BCR-ABL1</li>
+                                    <li><strong>Mecanismo:</strong> Tirosina quinase constitutivamente ativa</li>
+                                    <li><strong>Resultado:</strong> Proliferação independente de fatores externos</li>
+                                </ul>
+                            </div>
+
+                            <div class="case-study">
+                                <h4>📋 Exemplo 2: Linfoma Folicular</h4>
+                                <p>O <span class="tooltip">linfoma folicular<span class="tooltip-content">Linfoma definido pela translocação t(14;18) e superexpressão de BCL2</span></span> ilustra resistência à morte celular:</p>
+                                <ul>
+                                    <li><strong>Alteração:</strong> Translocação t(14;18) → superexpressão BCL2</li>
+                                    <li><strong>Mecanismo:</strong> Bloqueio da via intrínseca da apoptose</li>
+                                    <li><strong>Resultado:</strong> Acúmulo de células neoplásicas</li>
+                                </ul>
+                            </div>
+
+                            <button class="btn" onclick="startQuiz('modulo4_secao1')">🎯 Testar Conhecimentos</button>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Seção 4.2: O Princípio da Autoimunidade e a Citotoxicidade</span>
+                            <span>▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <h3>4.2.1. Fundamentos da Tolerância e Autoimunidade</h3>
+                            <p>A <span class="tooltip">tolerância imunológica<span class="tooltip-content">Capacidade de distinguir o "próprio" do "não-próprio"</span></span> é estabelecida por dois mecanismos:</p>
+                            <ul>
+                                <li><strong>Tolerância Central:</strong> Eliminação de linfócitos autorreativos nos órgãos linfoides primários</li>
+                                <li><strong>Tolerância Periférica:</strong> Controle de linfócitos autorreativos nos tecidos periféricos</li>
+                            </ul>
+
+                            <div class="case-study">
+                                <h4>📋 Estudo de Caso 10: Anemia Hemolítica Autoimune (AHAI)</h4>
+                                <p>A <span class="tooltip">AHAI<span class="tooltip-content">Destruição prematura de eritrócitos por autoanticorpos</span></span> exemplifica hipersensibilidade tipo II:</p>
+                                
+                                <div class="table-container">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Característica</th>
+                                                <th>AHAI por Anticorpos Quentes</th>
+                                                <th>Doença da Aglutinina a Frio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Isotipo</td>
+                                                <td>IgG</td>
+                                                <td>IgM</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Temperatura</td>
+                                                <td>37°C</td>
+                                                <td>&lt; 37°C</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Local de Hemólise</td>
+                                                <td>Extravascular (baço)</td>
+                                                <td>Intravascular e Extravascular</td>
+                                            </tr>
+                                            <tr>
+                                                <td>TAD</td>
+                                                <td>Positivo para IgG</td>
+                                                <td>Positivo apenas para C3</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <button class="btn" onclick="startQuiz('modulo4_secao2')">🎯 Testar Conhecimentos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcards -->
+            <div id="flashcards" class="section">
+                <div class="content-box fade-in">
+                    <h1>📚 Flashcards de Revisão</h1>
+                    <p>Clique nos cartões para revisar conceitos importantes</p>
+                    
+                    <div class="flashcards-container" id="flashcardsContainer">
+                        <!-- Flashcards serão gerados dinamicamente -->
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <button class="btn" onclick="shuffleFlashcards()">🔄 Embaralhar Cartões</button>
+                        <button class="btn btn-secondary" onclick="resetFlashcards()">↺ Resetar Todos</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulado -->
+            <div id="simulado" class="section">
+                <div class="content-box fade-in">
+                    <h1>📝 Simulado Personalizado</h1>
+                    
+                    <div class="simulado-config">
+                        <h2>Configurar Simulado</h2>
+                        
+                        <div class="config-group">
+                            <label>Selecione os Módulos:</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="sim_modulo1" checked>
+                                    <label for="sim_modulo1">Módulo 1: A Célula Sob Ameaça</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="sim_modulo2" checked>
+                                    <label for="sim_modulo2">Módulo 2: Resposta do Hospedeiro</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="sim_modulo3" checked>
+                                    <label for="sim_modulo3">Módulo 3: Fluidez e Contenção</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="sim_modulo4" checked>
+                                    <label for="sim_modulo4">Módulo 4: Crescimento Descontrolado</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="config-group">
+                            <label for="numQuestions">Número de Questões: <span id="numQuestionsValue">20</span></label>
+                            <input type="range" id="numQuestions" class="slider" min="10" max="50" value="20" oninput="updateSliderValue('numQuestions', 'numQuestionsValue')">
+                        </div>
+
+                        <div class="config-group">
+                            <label>Nível de Dificuldade:</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="radio" id="facil" name="dificuldade" value="facil" checked>
+                                    <label for="facil">Fácil (Conceitos básicos)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="medio" name="dificuldade" value="medio">
+                                    <label for="medio">Médio (Aplicação)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="dificil" name="dificuldade" value="dificil">
+                                    <label for="dificil">Difícil (Análise de casos)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <button class="btn btn-success" onclick="startSimulado()">🚀 Iniciar Simulado</button>
+                        </div>
+                    </div>
+
+                    <div id="simuladoQuiz" style="display: none;">
+                        <!-- Quiz do simulado será gerado aqui -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Glossário -->
+            <div id="glossario" class="section">
+                <div class="content-box fade-in">
+                    <h1>📖 Glossário</h1>
+                    <p>Termos e conceitos importantes do curso</p>
+                    
+                    <div id="glossarioContent">
+                        <!-- Glossário será gerado dinamicamente -->
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-
+        // Dados do curso
         const courseData = {
-            modules: [
-                {
-                    id: 'mod1', title: 'Módulo 1: A Célula Sob Ameaça: Lesão, Adaptação e Morte',
-                    sections: [
-                        {
-                            id: 'sec1-1', title: 'Lesão Celular e Toxicidade Medular',
-                            content: `<h4>Fundamentos da Lesão Celular</h4><p>A patologia estuda as reações de células a estímulos nocivos. A célula opera em <span class="tooltip" data-definition="Estado de equilíbrio dinâmico da célula.">homeostase</span>, mas estresse severo ou prolongado causa lesão. Inicialmente, a lesão pode ser reversível, mas se o ponto de não retorno for ultrapassado, torna-se irreversível, culminando na morte celular.</p><h4>Mecanismos de Lesão Celular</h4><ul><li><b>Depleção de <span class="tooltip" data-definition="Adenosina Trifosfato, a principal moeda energética da célula.">ATP</span>:</b> A falta de energia por <span class="tooltip" data-definition="Baixa concentração de oxigênio nos tecidos.">hipóxia</span> ou toxinas afeta bombas iônicas (causando edema celular) e a síntese de proteínas.</li><li><b>Dano Mitocondrial:</b> Leva à falha na produção de ATP e à liberação de proteínas que ativam a <span class="tooltip" data-definition="Morte celular programada, um processo organizado e sem inflamação.">apoptose</span>, como o citocromo c.</li><li><b>Influxo de Cálcio (Ca²+):</b> Ativa enzimas destrutivas (fosfolipases, proteases) que degradam membranas e proteínas.</li><li><b>Estresse Oxidativo:</b> O acúmulo de <span class="tooltip" data-definition="Espécies Reativas de Oxigênio, ou radicais livres, que causam dano celular.">EROs</span> danifica lipídios, proteínas e DNA.</li></ul><h4>Aplicação Hematológica - Lesão Tóxica da Medula Óssea</h4><p>A medula óssea, por sua alta proliferação, é muito sensível a lesões. A <span class="tooltip" data-definition="Célula-tronco hematopoiética, responsável por gerar todas as células do sangue.">CTH</span> é o alvo principal, e sua lesão resulta em <span class="tooltip" data-definition="Redução de todas as linhagens celulares do sangue (eritrócitos, leucócitos, plaquetas).">pancitopenia</span>.</p><h4>Estudo de Caso 1: Hematotoxicidade do Benzeno</h4><p>O benzeno é metabolizado no fígado e seus metabólitos atacam as CTHs na medula através de múltiplos mecanismos, incluindo estresse oxidativo, dano direto ao DNA e desregulação do receptor <span class="tooltip" data-definition="Receptor de Aril Hidrocarbonetos, um fator de transcrição que ajuda a manter as CTHs em repouso.">AhR</span>, forçando as CTHs a se dividirem e se tornarem mais suscetíveis a danos.</p><h4>Estudo de Caso 2: Lesão Medular por Cloranfenicol</h4><p>Este antibiótico ilustra a dualidade da lesão celular:<ul><li><b>Lesão Reversível:</b> Em altas doses, inibe a síntese de proteínas mitocondriais, especialmente nos precursores eritroides, causando uma lesão que se reverte após a suspensão do fármaco.</li><li><b>Lesão Irreversível:</b> Em casos raros e idiossincráticos, pode causar uma <span class="tooltip" data-definition="Condição rara e grave em que a medula óssea para de produzir células sanguíneas suficientes.">aplasia medular</span> fatal, um exemplo de lesão irreversível com morte em massa das CTHs, possivelmente por dano irreparável ao DNA em indivíduos geneticamente predispostos.</li></ul>`
-                        },
-                        {
-                            id: 'sec1-2', title: 'Adaptação Celular e Respostas Medulares',
-                            content: `<h4>Fundamentos da Adaptação Celular</h4><p>Células podem se adaptar a estresses, modificando sua estrutura e função. As adaptações incluem:</p><ul><li><span class="tooltip" data-definition="Aumento no NÚMERO de células."><b>Hiperplasia</b></span></li><li><span class="tooltip" data-definition="Aumento no TAMANHO das células."><b>Hipertrofia</b></span></li><li><span class="tooltip" data-definition="Redução no tamanho e atividade metabólica de uma célula."><b>Atrofia</b></span></li><li><span class="tooltip" data-definition="Mudança reversível de um tipo celular diferenciado por outro."><b>Metaplasia</b></span></li></ul><h4>Estudo de Caso 3: Hiperplasia Eritroide na Hipóxia Crônica</h4><p>Em condições de <span class="tooltip" data-definition="Baixa concentração de oxigênio nos tecidos.">hipóxia</span> crônica (ex: grandes altitudes, DPOC), os rins detectam o baixo oxigênio e estabilizam o fator de transcrição <span class="tooltip" data-definition="Fator Induzível por Hipóxia, um 'termostato de oxigênio' molecular.">HIF</span>. O HIF-2α ativo aumenta a produção do hormônio <span class="tooltip" data-definition="Eritropoietina, hormônio que estimula a produção de glóbulos vermelhos.">EPO</span>, que age na medula óssea causando hiperplasia da linhagem eritroide. O resultado é a policitemia secundária, que, embora adaptativa, aumenta a viscosidade sanguínea e o risco de <span class="tooltip" data-definition="Formação patológica de um coágulo dentro de um vaso sanguíneo.">trombose</span>.</p><h4>Estudo de Caso 4: Atrofia Medular na Anemia Aplásica</h4><p>A anemia aplásica é a atrofia do órgão hematopoiético. A causa mais comum é um ataque autoimune mediado por linfócitos T citotóxicos (CD8+) contra as CTHs. Esses linfócitos destroem as CTHs liberando citocinas inibitórias (IFN-γ, TNF-α) e induzindo apoptose, resultando em falência medular completa.</p>`
-                        },
-                        {
-                            id: 'sec1-3', title: 'Morte Celular e Hemólise',
-                            content: `<h4>Fundamentos da Morte Celular</h4><p>Existem duas vias principais de morte celular: apoptose e necrose.</p><ul><li><span class="tooltip" data-definition="Morte celular programada, 'suicídio celular' organizado, que não causa inflamação."><b>Apoptose:</b></span> Processo ativo e regulado. A célula encolhe e é fagocitada sem inflamação. Pode ser iniciada pela via intrínseca (mitocondrial) ou extrínseca (receptores de morte).</li><li><span class="tooltip" data-definition="Morte celular acidental, descontrolada, que sempre causa inflamação."><b>Necrose:</b></span> Processo passivo, resultado de lesão aguda. A célula incha, sua membrana se rompe (lise) e o conteúdo extravasa, causando inflamação.</li></ul><div id="table1-container"></div><h4>Estudo de Caso 5: Anemia Falciforme</h4><p>Uma mutação pontual no gene da β-globina cria a Hemoglobina S (HbS). Sob baixa tensão de oxigênio, a HbS se polimeriza, distorcendo os eritrócitos para a forma de foice (drepanócito). Estes eritrócitos rígidos são destruídos prematuramente (<span class="tooltip" data-definition="Destruição de hemácias.">hemólise</span>), com vida média de 10-20 dias, e podem bloquear pequenos vasos (<span class="tooltip" data-definition="Obstrução de vasos sanguíneos.">vaso-oclusão</span>), causando dor intensa e <span class="tooltip" data-definition="Falta de suprimento sanguíneo para um tecido, levando à falta de oxigênio.">isquemia</span> tecidual.</p>`
-                        }
-                    ]
-                },
-                {
-                    id: 'mod2', title: 'Módulo 2: A Resposta do Hospedeiro: Inflamação e Reparo',
-                    sections: [
-                        {
-                            id: 'sec2-1', title: 'Inflamação e o Leucograma',
-                            content: `<h4>Fundamentos da Inflamação</h4><p>A inflamação é uma resposta protetora a agentes agressores. A <b>inflamação aguda</b> é rápida, de curta duração, e marcada pela migração de <span class="tooltip" data-definition="Tipo de leucócito que é a primeira linha de defesa contra infecções bacterianas.">neutrófilos</span>. A <b>inflamação crônica</b> é prolongada e envolve <span class="tooltip" data-definition="Tipos de leucócitos envolvidos na imunidade específica e memória imunológica.">linfócitos</span> e macrófagos. O processo é orquestrado por mediadores como <span class="tooltip" data-definition="Proteínas que mediam e regulam a resposta imune e inflamatória (ex: TNF, IL-1, IL-6).">citocinas</span> e <span class="tooltip" data-definition="Subfamília de citocinas que direcionam a migração de leucócitos.">quimiocinas</span>.</p><h4>O Hemograma como Janela da Inflamação</h4><p>O leucograma reflete diretamente os processos inflamatórios. A análise deve ser feita com valores absolutos.</p><div id="table2-container"></div><div id="table3-container"></div><h4>Análise Laboratorial 2: Efeitos Sistêmicos e a CIVD na Sepse</h4><p>A <span class="tooltip" data-definition="Resposta inflamatória sistêmica desregulada a uma infecção, que pode levar à falência de órgãos.">sepse</span> é uma resposta inflamatória sistêmica que pode levar à <span class="tooltip" data-definition="Coagulação Intravascular Disseminada: ativação sistêmica da coagulação, levando a trombose e hemorragia por consumo de fatores.">CIVD</span>. Citocinas (TNF, IL-1) induzem a expressão massiva do <span class="tooltip" data-definition="Fator Tecidual, o principal iniciador da via extrínseca da coagulação.">Fator Tecidual</span>, ativando a coagulação de forma descontrolada. Simultaneamente, os sistemas anticoagulantes são suprimidos. O resultado é a formação de microtrombos, isquemia, e um consumo de plaquetas e fatores que leva a um risco paradoxal de sangramento grave.</p>`
-                        },
-                        {
-                            id: 'sec2-2', title: 'Reparo Tecidual e Fibrose Medular',
-                            content: `<h4>Fundamentos do Reparo</h4><p>O reparo tecidual pode ocorrer por <b>regeneração</b> (restauração completa) ou <b>cicatrização</b> (<span class="tooltip" data-definition="Deposição de tecido conjuntivo, formando uma cicatriz.">fibrose</span>). A fibrose é orquestrada por fatores de crescimento como <span class="tooltip" data-definition="Fator de Crescimento Transformador-beta, o principal indutor da fibrose.">TGF-β</span> e <span class="tooltip" data-definition="Fator de Crescimento Derivado de Plaquetas, que recruta e ativa fibroblastos.">PDGF</span>.</p><h4>Estudo de Caso 6: Mielofibrose Primária (MFP)</h4><p>Na MFP, uma neoplasia mieloproliferativa, os megacariócitos clonais e atípicos liberam grandes quantidades de PDGF e TGF-β. Esses fatores estimulam fibroblastos normais a depositar colágeno excessivamente na medula óssea, levando à fibrose reativa. A destruição do microambiente medular suprime a hematopoiese normal e a desloca para outros órgãos (hematopoiese extramedular). Isso resulta em <span class="tooltip" data-definition="Presença de precursores de leucócitos e eritrócitos no sangue periférico.">leucoeritroblastose</span> e na formação de <span class="tooltip" data-definition="Hemácia em forma de lágrima, um achado morfológico altamente sugestivo de fibrose medular.">dacriócitos</span>.</p>`
-                        }
-                    ]
-                },
-                {
-                    id: 'mod3', title: 'Módulo 3: Distúrbios Hemodinâmicos e da Coagulação',
-                    sections: [
-                        {
-                            id: 'sec3-1', title: 'Hemostasia e Trombose',
-                            content: `<h4>Fundamentos da Hemostasia</h4><p>A <span class="tooltip" data-definition="Processo fisiológico que impede o sangramento, formando um coágulo no local da lesão.">hemostasia</span> é o equilíbrio entre manter o sangue fluido e formar coágulos. Ela se divide em:</p><ul><li><b>Hemostasia Primária:</b> Formação do tampão plaquetário. Envolve adesão (via <span class="tooltip" data-definition="Fator de von Willebrand, uma proteína que serve de ponte entre o colágeno e as plaquetas.">FvW</span>), ativação (com liberação de ADP e <span class="tooltip" data-definition="Potente ativador e recrutador de plaquetas.">TXA2</span>) e agregação de plaquetas.</li><li><b>Hemostasia Secundária:</b> Ativação da cascata da coagulação para formar uma malha de fibrina estável. As vias extrínseca (iniciada pelo <span class="tooltip" data-definition="Fator Tecidual, o principal iniciador da via extrínseca da coagulação.">TF</span>) e intrínseca convergem para gerar a <span class="tooltip" data-definition="Enzima central da coagulação, que converte fibrinogênio em fibrina.">trombina</span>, a enzima central.</li></ul><p>A <span class="tooltip" data-definition="Formação patológica de um coágulo dentro de um vaso sanguíneo intacto.">trombose</span> é influenciada pela <span class="tooltip" data-definition="Modelo que descreve os 3 fatores que contribuem para a trombose: lesão endotelial, alteração do fluxo sanguíneo e hipercoagulabilidade.">Tríade de Virchow</span>: (1) Lesão endotelial, (2) Estase ou turbulência do fluxo, e (3) Hipercoagulabilidade.</p><h4>Falhas na Hemostasia</h4><ul><li><b>Estudo de Caso 7: PTI (Púrpura Trombocitopênica Imune):</b> Defeito na hemostasia primária. Autoanticorpos (IgG) opsonizam plaquetas, que são destruídas no baço. Clínica: <span class="tooltip" data-definition="Pequenos pontos hemorrágicos (<2mm) na pele ou mucosas, característicos de problemas plaquetários.">petéquias</span> e equimoses.</li><li><b>Estudo de Caso 8: Hemofilia A:</b> Defeito na hemostasia secundária. Deficiência hereditária do Fator VIII, essencial para a via intrínseca. Clínica: sangramentos profundos em articulações (<span class="tooltip" data-definition="Sangramento dentro de uma articulação, muito doloroso e destrutivo.">hemartroses</span>) e músculos. O TTPA é prolongado.</li><li><b>Estudo de Caso 9: CIVD:</b> Falha sistêmica e tempestade hemostática. Ativação massiva da coagulação consome plaquetas e fatores, gerando microtrombos e, paradoxalmente, hemorragia. O diagnóstico é auxiliado pelo escore da ISTH.</li></ul><div id="table4-container"></div>`
-                        }
-                    ]
-                },
-                {
-                    id: 'mod4', title: 'Módulo 4: Neoplasia e Autoimunidade',
-                    sections: [
-                        {
-                            id: 'sec4-1', title: 'Neoplasia e as "Marcas do Câncer"',
-                            content: `<h4>Fundamentos da Biologia do Câncer</h4><p>O câncer é uma doença genética resultante do acúmulo de mutações em classes de genes:</p><ul><li><span class="tooltip" data-definition="Genes normais que promovem o crescimento celular. Quando mutados, tornam-se oncogenes."><b>Proto-oncogenes:</b></span> Atuam como 'aceleradores' presos quando se tornam <span class="tooltip" data-definition="Versão mutada de um proto-oncogene que impulsiona a proliferação celular de forma contínua.">oncogenes</span>.</li><li><span class="tooltip" data-definition="Genes que inibem a proliferação celular, atuando como 'freios'. Sua perda de função promove o câncer."><b>Genes Supressores de Tumor:</b></span> Atuam como 'freios'. O mais famoso é o <span class="tooltip" data-definition="Gene supressor de tumor conhecido como 'guardião do genoma', pois controla o ciclo celular e a apoptose.">TP53</span>, o 'guardião do genoma'.</li><li><b>Genes de Reparo de DNA:</b> Sua inativação leva à instabilidade genômica.</li></ul><p>As <span class="tooltip" data-definition="Conjunto de 8 capacidades biológicas fundamentais adquiridas pelas células durante o desenvolvimento do câncer (proliferação, evasão da morte, etc.).">"Marcas do Câncer"</span> de Hanahan e Weinberg organizam a complexidade da biologia tumoral.</p><h4>As "Marcas" nas Neoplasias Hematológicas</h4><div id="table5-container"></div><ul><li><b>Exemplo 1: LMC (Leucemia Mieloide Crônica):</b> Ilustra a 'sinalização proliferativa sustentada'. A translocação t(9;22) cria a quinase <span class="tooltip" data-definition="Oncoproteína de fusão resultante da translocação t(9;22), definidora da LMC, que está permanentemente ativa.">BCR-ABL1</span>, que ativa vias de proliferação de forma independente de fatores de crescimento.</li><li><b>Exemplo 2: Linfoma Folicular (LF):</b> Mostra a 'resistência à morte celular'. A translocação t(14;18) causa a superexpressão da proteína anti-apoptótica <span class="tooltip" data-definition="Proteína anti-apoptótica. Sua superexpressão no Linfoma Folicular impede a morte celular programada, conferindo uma vantagem de sobrevivência.">BCL2</span>, bloqueando a apoptose e permitindo o acúmulo das células do linfoma.</li><li><b>Exemplo 3: Mieloma Múltiplo (MM):</b> Demonstra a importância do microambiente tumoral. As células de mieloma aderem às células estromais, que secretam <span class="tooltip" data-definition="Interleucina-6, um potente fator de crescimento e sobrevivência para as células de mieloma.">IL-6</span>, um fator de crescimento para o mieloma. Em troca, o mieloma remodela o osso, criando um ciclo vicioso de suporte.</li></ul>`
-                        },
-                        {
-                            id: 'sec4-2', title: 'Autoimunidade e Citotoxicidade',
-                            content: `<h4>Fundamentos da Tolerância e Autoimunidade</h4><p>A <span class="tooltip" data-definition="Falha do sistema imune em reconhecer os próprios tecidos, levando a um ataque contra o 'próprio'.">autoimunidade</span> é a quebra da <span class="tooltip" data-definition="Capacidade do sistema imune de distinguir o 'próprio' do 'não-próprio', evitando ataques ao próprio corpo.">tolerância imunológica</span>. Esta tolerância é estabelecida pela tolerância central (no timo e medula óssea) e periférica (nos tecidos). A <span class="tooltip" data-definition="Reação imune mediada por anticorpos (IgG/IgM) que se ligam a antígenos na superfície celular, causando destruição da célula.">Hipersensibilidade do Tipo II</span> é um mecanismo chave em doenças autoimunes, onde anticorpos causam destruição celular via opsonização, inflamação mediada por complemento ou citotoxicidade celular.</p><h4>Estudo de Caso 10: Anemia Hemolítica Autoimune (AHAI)</h4><p>A AHAI é um exemplo clássico de hipersensibilidade tipo II, onde autoanticorpos destroem eritrócitos. O diagnóstico é confirmado pelo <span class="tooltip" data-definition="Teste de Antiglobulina Direto, que detecta anticorpos e/ou complemento ligados à superfície das hemácias do paciente.">TAD (Teste de Coombs Direto)</span>.</p><div id="table6-container"></div><ul><li><b>AHAI por Anticorpos Quentes (WAIHA):</b> A forma mais comum, mediada por <b>IgG</b> que reage a 37°C. A hemólise é principalmente <b>extravascular (no baço)</b>, onde macrófagos fagocitam as hemácias opsonizadas. A remoção parcial da membrana pelos macrófagos cria <span class="tooltip" data-definition="Hemácias pequenas, esféricas e sem palidez central, resultantes da perda de membrana.">esferócitos</span>. O TAD é positivo para IgG (às vezes com C3).</li><li><b>Doença da Aglutinina a Frio (CAD):</b> Mediada por <b>IgM</b>, que se liga aos eritrócitos em temperaturas frias (<37°C) nas extremidades. A IgM é uma potente ativadora do <span class="tooltip" data-definition="Sistema de proteínas plasmáticas que, quando ativado, promove inflamação e lise celular.">complemento</span>. A hemólise tem um componente <b>intravascular</b> (pela lise direta via MAC) e <b>extravascular (no fígado)</b>, onde macrófagos reconhecem hemácias opsonizadas com C3b. O TAD é caracteristicamente positivo apenas para <b>C3</b>.</li></ul>`
-                        }
-                    ]
-                }
+            flashcards: [
+                { front: "ATP", back: "Adenosina Trifosfato - a moeda energética da célula, essencial para processos celulares" },
+                { front: "Homeostase", back: "Estado de equilíbrio dinâmico mantido pelos sistemas biológicos" },
+                { front: "Apoptose", back: "Morte celular programada, processo ativo que requer energia" },
+                { front: "Necrose", back: "Morte celular acidental e descontrolada após lesão severa" },
+                { front: "Hiperplasia", back: "Aumento no número de células em resposta a estímulos" },
+                { front: "Hipertrofia", back: "Aumento no tamanho das células" },
+                { front: "Atrofia", back: "Redução no tamanho e atividade metabólica de uma célula" },
+                { front: "Metaplasia", back: "Mudança reversível onde um tipo celular é substituído por outro" },
+                { front: "Eritropoietina (EPO)", back: "Hormônio que estimula a produção de eritrócitos na medula óssea" },
+                { front: "HIF", back: "Fator Induzível por Hipóxia - regula a resposta celular à baixa concentração de oxigênio" },
+                { front: "Hemoglobina S (HbS)", back: "Hemoglobina anormal na anemia falciforme que polimeriza sob desoxigenação" },
+                { front: "Inflamação", back: "Resposta protetora dos tecidos vascularizados a agentes agressores" },
+                { front: "Leucograma", back: "Contagem diferencial de leucócitos que reflete processos inflamatórios" },
+                { front: "Neutrofilia", back: "Aumento da contagem absoluta de neutrófilos, comum em infecções bacterianas" },
+                { front: "Linfocitose", back: "Aumento da contagem absoluta de linfócitos, típico de infecções virais" },
+                { front: "CIVD", back: "Coagulação Intravascular Disseminada - ativação sistêmica da coagulação" },
+                { front: "Hemostasia", back: "Processo que mantém o sangue fluido mas permite formação de tampão hemostático" },
+                { front: "Tríade de Virchow", back: "Lesão endotelial, estase sanguínea e hipercoagulabilidade - fatores de trombose" },
+                { front: "PTI", back: "Púrpura Trombocitopênica Imune - doença autoimune com destruição de plaquetas" },
+                { front: "Hemofilia A", back: "Deficiência hereditária do Fator VIII da coagulação" },
+                { front: "BCR-ABL1", back: "Gene de fusão na LMC que codifica tirosina quinase constitutivamente ativa" },
+                { front: "BCL2", back: "Proteína anti-apoptótica superexpressa no linfoma folicular" },
+                { front: "Tolerância Imunológica", back: "Capacidade de distinguir o 'próprio' do 'não-próprio'" },
+                { front: "AHAI", back: "Anemia Hemolítica Autoimune - destruição prematura de eritrócitos por autoanticorpos" },
+                { front: "TAD", back: "Teste de Antiglobulina Direto - confirma a natureza imune da hemólise" }
             ],
-            quizzes: {
-                'sec1-1': [ { q: "Qual o termo para o estado de equilíbrio dinâmico da célula?", options: ["Metaplasia", "Homeostase", "Hipóxia", "Apoptose"], a: 1, d: 'Fácil' }, { q: "O influxo excessivo de qual íon ativa enzimas destrutivas como fosfolipases e proteases durante a lesão celular?", options: ["Sódio (Na+)", "Potássio (K+)", "Cálcio (Ca²+)", "Cloro (Cl-)"], a: 2, d: 'Difícil' } ],
-                'sec1-2': [ { q: "O aumento no TAMANHO das células em resposta a um estímulo é chamado de:", options: ["Hiperplasia", "Atrofia", "Hipertrofia", "Metaplasia"], a: 2, d: 'Fácil' }, { q: "Qual a principal consequência patológica do aumento excessivo da viscosidade sanguínea na policitemia secundária?", options: ["Aumento do risco de infecções", "Aumento do risco de eventos trombóticos", "Redução da pressão arterial", "Insuficiência renal aguda"], a: 1, d: 'Difícil' } ],
-                'sec1-3': [ { q: "Qual tipo de morte celular é caracterizado por ser um processo programado e que NÃO causa inflamação?", options: ["Necrose", "Apoptose", "Piroptose", "Oncrose"], a: 1, d: 'Fácil' }, { q: "O que desencadeia o afoiçamento dos eritrócitos na Anemia Falciforme?", options: ["Alta tensão de oxigênio", "Baixa tensão de oxigênio", "Aumento da glicose no sangue", "Presença de anticorpos"], a: 1, d: 'Médio' } ],
-                'sec2-1': [ { q: "Qual célula é predominante na inflamação aguda?", options: ["Linfócito", "Macrófago", "Neutrófilo", "Plasmócito"], a: 2, d: 'Fácil' }, { q: "Um desvio à esquerda degenerativo (mais imaturos que maduros) indica:", options: ["Uma resposta medular robusta e bom prognóstico", "Uma infecção viral leve", "Que a demanda excede a capacidade da medula, um mau prognóstico", "Uma reação alérgica"], a: 2, d: 'Difícil' } ],
-                'sec2-2': [ { q: "Qual fator de crescimento é considerado o principal indutor da fibrose?", options: ["EPO", "G-CSF", "TGF-β", "PDGF"], a: 2, d: 'Médio' }, { q: "A presença de dacriócitos (hemácias em lágrima) no sangue periférico é altamente sugestiva de:", options: ["Anemia falciforme", "Infecção viral", "Fibrose medular", "Deficiência de ferro"], a: 2, d: 'Médio' } ],
-                'sec3-1': [ { q: "Qual processo é responsável pela formação do tampão plaquetário inicial?", options: ["Hemostasia Secundária", "Fibrinólise", "Hemostasia Primária", "Inflamação"], a: 2, d: 'Fácil' }, { q: "Qual dos seguintes componentes NÃO faz parte da Tríade de Virchow?", options: ["Lesão endotelial", "Hipercoagulabilidade", "Estase do fluxo sanguíneo", "Hipotensão arterial"], a: 3, d: 'Médio' } ],
-                'sec4-1': [ { q: "Genes que normalmente funcionam como 'freios' da proliferação celular são chamados de:", options: ["Oncogenes", "Proto-oncogenes", "Genes Supressores de Tumor", "Genes de reparo"], a: 2, d: 'Fácil' }, { q: "No Linfoma Folicular, a superexpressão da proteína BCL2 confere qual 'marca do câncer' às células neoplásicas?", options: ["Indução de angiogênese", "Resistência à morte celular", "Sinalização proliferativa sustentada", "Invasão e metástase"], a: 1, d: 'Médio' } ],
-                'sec4-2': [ { q: "Qual teste laboratorial é crucial para confirmar o diagnóstico de Anemia Hemolítica Autoimune (AHAI)?", options: ["Hemograma completo", "Contagem de reticulócitos", "Teste de Coombs Direto (TAD)", "Biópsia de medula óssea"], a: 2, d: 'Fácil' }, { q: "Na AHAI por anticorpos quentes (WAIHA), qual classe de anticorpo está tipicamente envolvida e onde ocorre a principal destruição das hemácias?", options: ["IgM / Fígado", "IgA / Intestino", "IgG / Baço", "IgE / Pele"], a: 2, d: 'Médio' } ],
+            
+            glossario: {
+                "ATP": "Adenosina Trifosfato - a moeda energética da célula, essencial para todos os processos que requerem energia",
+                "Homeostase": "Estado de equilíbrio dinâmico mantido pelos sistemas biológicos para preservar condições internas estáveis",
+                "Patologia": "Estudo das reações fundamentais de células e tecidos a estímulos nocivos, que são a base de todas as doenças",
+                "Mitocôndria": "Organelas responsáveis pela produção de energia celular através da fosforilação oxidativa",
+                "Apoptose": "Morte celular programada, processo ativo que requer energia e é mediado por caspases",
+                "Necrose": "Morte celular acidental e descontrolada que ocorre após lesão aguda e severa",
+                "Hiperplasia": "Aumento no número de células em resposta a estímulos fisiológicos ou patológicos",
+                "Hipertrofia": "Aumento no tamanho das células sem aumento no número",
+                "Atrofia": "Redução no tamanho e na atividade metabólica de uma célula",
+                "Metaplasia": "Mudança reversível na qual um tipo celular diferenciado é substituído por outro",
+                "Benzeno": "Contaminante ambiental e ocupacional, potente agente mielotóxico capaz de induzir leucemia",
+                "Cloranfenicol": "Antibiótico que pode causar lesão medular reversível ou irreversível",
+                "Policitemia Secundária": "Aumento da massa eritrocitária em resposta à hipóxia crônica",
+                "Anemia Aplásica": "Falência da medula óssea caracterizada por pancitopenia e medula hipocelular",
+                "Eritropoietina": "Hormônio produzido pelos rins que estimula a produção de eritrócitos",
+                "HIF": "Fator Induzível por Hipóxia - regula a resposta celular à baixa concentração de oxigênio",
+                "Anemia Falciforme": "Doença hereditária causada por mutação na β-globina, resultando em HbS",
+                "Hemoglobina S": "Hemoglobina anormal que polimeriza sob desoxigenação, causando deformação eritrocitária",
+                "Inflamação": "Resposta fundamental e protetora dos tecidos vascularizados a agentes agressores",
+                "Leucograma": "Contagem diferencial de leucócitos que funciona como 'biópsia líquida' da resposta inflamatória",
+                "Neutrofilia": "Aumento da contagem absoluta de neutrófilos, resposta comum a infecções bacterianas",
+                "Linfocitose": "Aumento da contagem absoluta de linfócitos, típico de infecções virais",
+                "CIVD": "Coagulação Intravascular Disseminada - ativação sistêmica e descontrolada da coagulação",
+                "Mielofibrose Primária": "Neoplasia mieloproliferativa caracterizada por fibrose medular reativa",
+                "Leucoeritroblastose": "Presença simultânea de precursores granulocíticos e eritroides no sangue periférico",
+                "Hemostasia": "Processo fisiológico que mantém o sangue fluido mas permite formação de tampão hemostático",
+                "Tríade de Virchow": "Três fatores que promovem trombose: lesão endotelial, estase e hipercoagulabilidade",
+                "PTI": "Púrpura Trombocitopênica Imune - doença autoimune com destruição de plaquetas por autoanticorpos",
+                "Hemofilia A": "Doença hereditária ligada ao X causada por deficiência do Fator VIII",
+                "LMC": "Leucemia Mieloide Crônica - neoplasia definida pela translocação t(9;22)",
+                "BCR-ABL1": "Gene de fusão que codifica tirosina quinase constitutivamente ativa na LMC",
+                "Linfoma Folicular": "Linfoma definido pela translocação t(14;18) e superexpressão de BCL2",
+                "BCL2": "Proteína anti-apoptótica que bloqueia a via intrínseca da morte celular",
+                "Tolerância Imunológica": "Capacidade do sistema imune de distinguir o 'próprio' do 'não-próprio'",
+                "AHAI": "Anemia Hemolítica Autoimune - destruição prematura de eritrócitos por autoanticorpos",
+                "TAD": "Teste de Antiglobulina Direto - confirma a presença de anticorpos na superfície eritrocitária"
             },
-            tables: {
-                table1: { title: "Tabela 1: Necrose vs. Apoptose", headers: ["Característica", "Apoptose", "Necrose"], rows: [ ["Estímulo", "Fisiológico ou Patológico", "Sempre Patológico"], ["Escopo", "Células individuais ou pequenos grupos", "Grandes grupos de células contíguas"], ["Morfologia Celular", "Encolhimento celular, condensação da cromatina", "Edema celular (oncrose), desnaturação de proteínas"], ["Integridade da Membrana", "Mantida; formação de corpos apoptóticos", "Perdida; ruptura da membrana e lise celular"], ["Mecanismo Bioquímico", "Processo ativo, dependente de ATP, mediado por caspases", "Processo passivo, falha na produção de ATP"], ["Resposta Tecidual", "Fagocitose silenciosa, sem inflamação", "Inflamação aguda com recrutamento de neutrófilos"], ["Marcadores Laboratoriais", "Nenhum específico no soro", "Liberação de enzimas (ex: LDH) para o soro"] ] },
-                table2: { title: "Tabela 2: Principais Citocinas na Inflamação e Hematopoiese", headers: ["Citocina", "Principais Fontes", "Funções na Inflamação", "Funções na Hematopoiese"], rows: [ ["IL-1, TNF-α", "Macrófagos, monócitos", "Ativação endotelial, febre, ativação de leucócitos", "Estimulam a produção de fatores de crescimento de colônias (CSFs)"], ["IL-6", "Macrófagos, linfócitos T", "Indução de proteínas de fase aguda, proliferação de linfócitos B", "Estimula a produção de plaquetas, promove diferenciação de células B"], ["G-CSF", "Macrófagos, fibroblastos", "Mobilização e ativação de neutrófilos", "Principal fator para proliferação e diferenciação de neutrófilos"], ["GM-CSF", "Linfócitos T, macrófagos", "Ativação de macrófagos e neutrófilos", "Estimula progenitores granulocíticos e monocíticos"], ["EPO", "Células renais, hepatócitos", "N/A", "Principal fator para proliferação e diferenciação da linhagem eritroide"] ] },
-                table3: { title: "Tabela 3: Interpretação dos Padrões Leucocitários", headers: ["Padrão Leucocitário", "Definição", "Mecanismo Principal", "Interpretação Comum"], rows: [ ["Neutrofilia", "Aumento de neutrófilos", "Liberação de reservas, aumento da produção, demarginação", "Infecção bacteriana aguda, inflamação estéril, estresse"], ["Neutropenia", "Redução de neutrófilos", "Consumo aumentado, produção diminuída, sequestro", "Sepse grave, quimioterapia, aplasia medular"], ["Desvio à Esquerda Regenerativo", "Neutrofilia com maduros > imaturos", "Resposta medular robusta à inflamação", "Inflamação aguda controlada, bom prognóstico"], ["Desvio à Esquerda Degenerativo", "Imaturos > maduros", "Demanda excede a capacidade de produção da medula", "Inflamação grave/sepse, prognóstico reservado"], ["Linfocitose", "Aumento de linfócitos", "Resposta imune a antígenos, proliferação clonal", "Infecções virais, inflamação crônica, LLC"], ["Monocitose", "Aumento de monócitos", "Demanda por macrófagos teciduais", "Inflamação crônica (ex: tuberculose), neoplasias mieloides"], ["Eosinofilia", "Aumento de eosinófilos", "Resposta a alérgenos ou parasitas (mediada por IL-5)", "Reações alérgicas, infecções parasitárias"] ] },
-                table4: { title: "Tabela 4: Escore Diagnóstico da ISTH para CIVD Manifesta", headers: ["Parâmetro Laboratorial", "Resultado", "Pontos"], rows: [ ["Contagem de Plaquetas", "> 100.000/μL", "0"], ["", "50.000-100.000/μL", "1"], ["", "< 50.000/μL", "2"], ["Marcadores Relacionados à Fibrina (ex: D-dímero)", "Sem aumento", "0"], ["", "Aumento moderado", "2"], ["", "Aumento acentuado", "3"], ["Tempo de Protrombina (TP) - Aumento", "< 3 segundos", "0"], ["", "3-6 segundos", "1"], ["", "> 6 segundos", "2"], ["Nível de Fibrinogênio", "> 1,0 g/L", "0"], ["", "< 1,0 g/L", "1"], ["<b>Interpretação</b>", "<b>< 5 pontos: Sugestivo de CIVD não manifesta</b>", ""], ["", "<b>≥ 5 pontos: Compatível com CIVD manifesta</b>", ""] ] },
-                 table5: { title: "Tabela 5: As 'Marcas do Câncer' em Neoplasias Hematológicas", headers: ["Marca do Câncer", "Mecanismo Geral", "Exemplo Paradigmático em Hematologia"], rows: [ ["Sinalização Proliferativa Sustentada", "Ativação de vias de crescimento independentemente de estímulos externos", "Tirosina quinase constitutivamente ativa; <b>BCR-ABL1</b> na Leucemia Mieloide Crônica (LMC)"], ["Evasão de Supressores de Crescimento", "Inativação de genes que freiam o ciclo celular", "Perda de função do gene <b>TP53</b> em muitas leucemias agudas"], ["Resistência à Morte Celular", "Inibição das vias de apoptose", "Superexpressão da proteína anti-apoptótica <b>BCL2</b> devido à translocação t(14;18) no Linfoma Folicular (LF)"], ["Imortalidade Replicativa", "Manutenção dos telômeros para permitir divisões ilimitadas", "Reativação da enzima telomerase, comum em neoplasias avançadas"], ["Indução de Angiogênese", "Estímulo à formação de novos vasos sanguíneos", "Secreção de VEGF por células leucêmicas na Leucemia Mieloide Aguda (LMA)"], ["Ativação de Invasão e Metástase", "Capacidade de invadir tecidos e colonizar locais distantes", "Infiltração da medula óssea, baço, fígado e SNC por blastos leucêmicos"], ["Reprogramação do Metabolismo Energético", "Alteração do metabolismo para suportar a proliferação rápida", "Aumento da captação de glicose em linfomas agressivos"], ["Evasão da Destruição Imune", "Capacidade de se esconder ou suprimir o sistema imunológico", "Interação com o microambiente (células estromais) e secreção de <b>IL-6</b> no Mieloma Múltiplo (MM)"] ] },
-                table6: { title: "Tabela 6: Fisiopatologia e Achados na Anemia Hemolítica Autoimune (AHAI)", headers: ["Característica", "AHAI por Anticorpos Quentes (WAIHA)", "Doença da Aglutinina a Frio (CAD)"], rows: [ ["Isotipo do Anticorpo", "Geralmente <b>IgG</b>", "Geralmente <b>IgM</b>"], ["Temperatura Ótima", "<b>37°C</b> (temperatura corporal)", "<b>< 37°C</b> (temperaturas frias, extremidades)"], ["Principal Local de Hemólise", "<b>Extravascular</b> (principalmente no baço)", "<b>Intravascular</b> e <b>Extravascular</b> (principalmente no fígado)"], ["Mecanismo de Destruição", "Opsonização por IgG e fagocitose por macrófagos esplênicos", "Potente ativação do complemento (lise pelo MAC ou fagocitose de células opsonizadas com C3b)"], ["Achados no Esfregaço", "<b>Esferócitos</b>, policromasia", "<b>Aglutinação de hemácias</b>, policromasia"], ["Resultado Típico do TAD", "Positivo para <b>IgG</b> (com ou sem C3)", "Positivo <b>apenas para C3</b>"], ["Sintomas Característicos", "Sinais de anemia (fadiga, palidez), icterícia, esplenomegalia", "Acrocianose (extremidades azuladas), hemoglobinúria induzida pelo frio"] ] }
-            },
-            references: [
-                { source: "PubMed Central (PMC7171462)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7171462/", comment: "Uma revisão aprofundada sobre os mecanismos e a morfologia da lesão, adaptação e morte celular." }, { source: "NCBI Bookshelf (NBK526045)", url: "https://www.ncbi.nlm.nih.gov/books/NBK526045/", comment: "Um capítulo de referência sobre a histologia da morte celular, abordando apoptose e necrose." }, { source: "PubMed Central (PMC3271273)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3271273/", comment: "Artigo detalhado sobre o mecanismo da toxicidade do benzeno e seus efeitos hematológicos." }, { source: "American Society of Hematology (Blood)", url: "https://ashpublications.org/blood/article/139/16/2441/476633/Breakthrough-science-hypoxia-inducible-factors", comment: "Artigo de ponta sobre os fatores induzíveis por hipóxia (HIF) e sua regulação da hematopoiese." }, { source: "Mayo Clinic (Aplastic Anemia)", url: "https://www.mayoclinic.org/diseases-conditions/aplastic-anemia/symptoms-causes/syc-20355015", comment: "Recurso clínico confiável explicando as causas e sintomas da anemia aplásica para pacientes e profissionais." }, { source: "FSJ (Fisiopatologia da Anemia Falciforme)", url: "https://www.fsj.edu.br/transformar/index.php/transformar/article/download/60/56", comment: "Artigo em português que detalha a fisiopatologia da anemia falciforme, desde a molécula até a clínica." }, { source: "PubMed Central (PMC10486945)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC10486945/", comment: "Uma visão geral da fisiopatologia da Coagulação Intravascular Disseminada (CIVD) em condições críticas." }, { source: "Journal of Experimental Medicine", url: "https://rupress.org/jem/article/217/3/e20190103/133821/Transforming-growth-factor-in-tissue-fibrosisTGF", comment: "Investigação sobre o papel central do TGF-β na fibrose tecidual, relevante para a mielofibrose." }, { source: "ARUP Consult (Disseminated Intravascular Coagulation)", url: "https://arupconsult.com/content/disseminated-intravascular-coagulation", comment: "Guia prático para o diagnóstico laboratorial da CIVD, incluindo a aplicação do escore da ISTH." }, { source: "EPFL (Hallmarks of Cancer)", url: "https://www.epfl.ch/labs/hanahan-lab/wp-content/uploads/2019/02/HanahanWeinberg-CH_2-Oncology-DeVita2014.pdf", comment: "O capítulo original e fundamental de Hanahan e Weinberg que define o framework das 'Marcas do Câncer'." }, { source: "PubMed Central (PMC3461914)", url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3461914/", comment: "Análise da patogênese do Linfoma Folicular, com foco na translocação t(14;18) e no gene BCL2." }, { source: "Merck Manuals Professional (Autoimmune Hemolytic Anemia)", url: "https://www.merckmanuals.com/professional/hematology-and-oncology/anemias-caused-by-hemolysis/autoimmune-hemolytic-anemia", comment: "Referência clínica completa sobre a AHAI, detalhando as formas quente e fria." }, { source: "NCBI Bookshelf (NBK547707)", url: "https://www.ncbi.nlm.nih.gov/books/NBK547707/", comment: "Explicação detalhada sobre o Teste de Coombs (Antiglobulina), suas indicações, procedimento e interpretação." }
-            ]
+
+            questions: {
+                modulo1_secao1: [
+                    {
+                        question: "Qual é a principal moeda energética da célula?",
+                        options: ["ADP", "ATP", "AMP", "GTP"],
+                        correct: 1,
+                        explanation: "O ATP (Adenosina Trifosfato) é a principal moeda energética da célula, essencial para todos os processos que requerem energia."
+                    },
+                    {
+                        question: "Qual mecanismo NÃO está entre os quatro centrais da lesão celular?",
+                        options: ["Depleção de ATP", "Dano mitocondrial", "Síntese proteica aumentada", "Estresse oxidativo"],
+                        correct: 2,
+                        explanation: "A síntese proteica aumentada não é um mecanismo de lesão celular. Os quatro mecanismos centrais são: depleção de ATP, dano mitocondrial, influxo de cálcio e estresse oxidativo."
+                    },
+                    {
+                        question: "O benzeno causa hematotoxicidade através de:",
+                        options: ["Ação direta", "Metabólitos reativos", "Inibição ribossômica", "Todas as anteriores"],
+                        correct: 1,
+                        explanation: "O benzeno não é tóxico diretamente, mas seus metabólitos (quinonas e muconaldeídos) formados no fígado são transportados para a medula óssea onde causam toxicidade."
+                    },
+                    {
+                        question: "A aplasia medular idiossincrática por cloranfenicol ocorre em:",
+                        options: ["1 em 1.000 tratamentos", "1 em 10.000 tratamentos", "1 em 20.000-40.000 tratamentos", "1 em 100.000 tratamentos"],
+                        correct: 2,
+                        explanation: "A aplasia medular idiossincrática por cloranfenicol é rara, ocorrendo em 1 em 20.000 a 40.000 tratamentos, sendo independente da dose."
+                    }
+                ],
+                modulo1_secao2: [
+                    {
+                        question: "Qual adaptação celular representa aumento no número de células?",
+                        options: ["Hipertrofia", "Hiperplasia", "Atrofia", "Metaplasia"],
+                        correct: 1,
+                        explanation: "Hiperplasia é o aumento no número de células, enquanto hipertrofia é o aumento no tamanho das células."
+                    },
+                    {
+                        question: "Na policitemia secundária, qual fator é o principal regulador?",
+                        options: ["Eritropoietina", "Ferro", "Vitamina B12", "Ácido fólico"],
+                        correct: 0,
+                        explanation: "A eritropoietina (EPO) é o principal regulador da eritropoiese, sendo produzida pelos rins em resposta à hipóxia."
+                    },
+                    {
+                        question: "O sistema HIF-EPO responde principalmente a:",
+                        options: ["Temperatura", "pH", "Concentração de oxigênio", "Pressão arterial"],
+                        correct: 2,
+                        explanation: "O sistema HIF (Fator Induzível por Hipóxia) - EPO é o 'termostato de oxigênio' molecular que responde à baixa concentração de oxigênio."
+                    },
+                    {
+                        question: "Na anemia aplásica, o principal mecanismo é:",
+                        options: ["Deficiência nutricional", "Ataque imunológico às CTHs", "Infecção viral", "Toxicidade medicamentosa"],
+                        correct: 1,
+                        explanation: "A causa mais comum da anemia aplásica adquirida é o ataque imunológico mediado por linfócitos T contra as células-tronco hematopoiéticas."
+                    }
+                ],
+                modulo1_secao3: [
+                    {
+                        question: "Qual característica distingue apoptose de necrose?",
+                        options: ["Sempre patológica", "Mantém integridade da membrana", "Causa inflamação", "Afeta grupos de células"],
+                        correct: 1,
+                        explanation: "A apoptose mantém a integridade da membrana plasmática, formando corpos apoptóticos que são fagocitados sem causar inflamação."
+                    },
+                    {
+                        question: "Na anemia falciforme, a mutação ocorre no:",
+                        options: ["Gene da α-globina", "Gene da β-globina", "Gene da γ-globina", "Gene da δ-globina"],
+                        correct: 1,
+                        explanation: "A anemia falciforme é causada por uma mutação de ponto no gene da β-globina, substituindo ácido glutâmico por valina."
+                    },
+                    {
+                        question: "A polimerização da HbS ocorre quando:",
+                        options: ["Oxigenada", "Desoxigenada", "Em pH ácido", "Em temperatura baixa"],
+                        correct: 1,
+                        explanation: "A HbS polimeriza quando desoxigenada, formando fibras rígidas que deformam o eritrócito em forma de foice."
+                    },
+                    {
+                        question: "A vida média do eritrócito na anemia falciforme é:",
+                        options: ["120 dias (normal)", "60-80 dias", "10-20 dias", "5-10 dias"],
+                        correct: 2,
+                        explanation: "Na anemia falciforme, a vida média do eritrócito é drasticamente reduzida de 120 dias para cerca de 10-20 dias devido à hemólise."
+                    }
+                ],
+                modulo2_secao1: [
+                    {
+                        question: "Qual célula predomina na inflamação aguda?",
+                        options: ["Linfócitos", "Neutrófilos", "Macrófagos", "Eosinófilos"],
+                        correct: 1,
+                        explanation: "A inflamação aguda é caracterizada pelo predomínio de neutrófilos, que são rapidamente recrutados para o local da lesão."
+                    },
+                    {
+                        question: "O desvio à esquerda degenerativo indica:",
+                        options: ["Boa resposta medular", "Demanda excede produção", "Infecção viral", "Uso de corticoides"],
+                        correct: 1,
+                        explanation: "O desvio à esquerda degenerativo ocorre quando a demanda tecidual por neutrófilos supera a capacidade de produção da medula óssea."
+                    },
+                    {
+                        question: "Na CIVD, o que caracteriza a coagulopatia de consumo?",
+                        options: ["Aumento de plaquetas", "Consumo de fatores de coagulação", "Diminuição do D-dímero", "Aumento do fibrinogênio"],
+                        correct: 1,
+                        explanation: "Na CIVD, a formação disseminada de microtrombos consome plaquetas e fatores de coagulação em taxa maior que a produção."
+                    },
+                    {
+                        question: "Qual citocina é considerada pró-inflamatória?",
+                        options: ["IL-10", "TGF-β", "TNF-α", "IL-4"],
+                        correct: 2,
+                        explanation: "O TNF-α (Fator de Necrose Tumoral-alfa) é uma das principais citocinas pró-inflamatórias, junto com IL-1 e IL-6."
+                    }
+                ],
+                modulo2_secao2: [
+                    {
+                        question: "Qual processo restaura completamente a arquitetura original?",
+                        options: ["Fibrose", "Cicatrização", "Regeneração", "Metaplasia"],
+                        correct: 2,
+                        explanation: "A regeneração é a substituição ideal do tecido danificado por células do mesmo tipo, restaurando completamente a arquitetura e função originais."
+                    },
+                    {
+                        question: "Na mielofibrose primária, qual célula é o alvo inicial?",
+                        options: ["Eritroblastos", "Megacariócitos", "Mieloblastos", "Linfoblastos"],
+                        correct: 1,
+                        explanation: "Na mielofibrose primária, há proliferação clonal preferencial para a linhagem megacariocítica, que libera citocinas fibrogênicas."
+                    },
+                    {
+                        question: "Qual citocina é o principal indutor da fibrose?",
+                        options: ["TNF-α", "IL-6", "TGF-β", "IL-1"],
+                        correct: 2,
+                        explanation: "O TGF-β (Fator de Crescimento Transformador-beta) é o principal indutor da fibrose, estimulando fibroblastos e síntese de colágeno."
+                    },
+                    {
+                        question: "Os dacriócitos (hemácias em lágrima) sugerem:",
+                        options: ["Deficiência de ferro", "Fibrose medular", "Hemólise", "Infecção"],
+                        correct: 1,
+                        explanation: "Os dacriócitos são hemácias deformadas mecanicamente ao passar por medula fibrótica, sendo altamente sugestivos de fibrose medular."
+                    }
+                ],
+                modulo3_secao1: [
+                    {
+                        question: "A hemostasia primária envolve principalmente:",
+                        options: ["Cascata de coagulação", "Agregação plaquetária", "Fibrinólise", "Complemento"],
+                        correct: 1,
+                        explanation: "A hemostasia primária envolve a formação do tampão plaquetário através de adesão, ativação e agregação plaquetária."
+                    },
+                    {
+                        question: "Na PTI, o principal mecanismo é:",
+                        options: ["Produção diminuída", "Destruição aumentada", "Sequestro esplênico", "Diluição"],
+                        correct: 1,
+                        explanation: "Na PTI, autoanticorpos se ligam às plaquetas, que são então destruídas prematuramente por macrófagos, principalmente no baço."
+                    },
+                    {
+                        question: "Na hemofilia A, qual teste estará alterado?",
+                        options: ["TP", "TTPA", "Contagem de plaquetas", "Tempo de sangramento"],
+                        correct: 1,
+                        explanation: "Na hemofilia A, o TTPA (que avalia a via intrínseca) estará prolongado devido à deficiência do Fator VIII."
+                    },
+                    {
+                        question: "No escore ISTH para CIVD, quantos pontos indicam CIVD manifesta?",
+                        options: ["≥ 3 pontos", "≥ 4 pontos", "≥ 5 pontos", "≥ 6 pontos"],
+                        correct: 2,
+                        explanation: "Segundo o escore ISTH, ≥ 5 pontos é compatível com CIVD manifesta, enquanto < 5 pontos sugere CIVD não manifesta."
+                    }
+                ],
+                modulo4_secao1: [
+                    {
+                        question: "Qual gene é conhecido como 'guardião do genoma'?",
+                        options: ["RAS", "MYC", "TP53", "BCL2"],
+                        correct: 2,
+                        explanation: "O gene TP53 é conhecido como 'guardião do genoma' por sua função central em detectar danos ao DNA e induzir reparo ou apoptose."
+                    },
+                    {
+                        question: "Na LMC, qual alteração é característica?",
+                        options: ["t(14;18)", "t(9;22)", "t(8;14)", "t(15;17)"],
+                        correct: 1,
+                        explanation: "A LMC é definida pela translocação t(9;22) que cria o Cromossomo Filadélfia e o gene de fusão BCR-ABL1."
+                    },
+                    {
+                        question: "Quantas 'marcas do câncer' foram propostas por Hanahan e Weinberg?",
+                        options: ["6", "8", "10", "12"],
+                        correct: 1,
+                        explanation: "Hanahan e Weinberg propuseram 8 capacidades biológicas fundamentais que a maioria dos cânceres adquire durante seu desenvolvimento."
+                    },
+                    {
+                        question: "No linfoma folicular, qual proteína está superexpressa?",
+                        options: ["BCR-ABL1", "BCL2", "MYC", "p53"],
+                        correct: 1,
+                        explanation: "No linfoma folicular, a translocação t(14;18) leva à superexpressão da proteína anti-apoptótica BCL2."
+                    }
+                ],
+                modulo4_secao2: [
+                    {
+                        question: "Onde ocorre a tolerância central para células T?",
+                        options: ["Baço", "Linfonodos", "Timo", "Medula óssea"],
+                        correct: 2,
+                        explanation: "A tolerância central para células T ocorre no timo, onde linfócitos T imaturos que reconhecem fortemente autoantígenos são eliminados."
+                    },
+                    {
+                        question: "Na AHAI por anticorpos quentes, qual isotipo predomina?",
+                        options: ["IgM", "IgG", "IgA", "IgE"],
+                        correct: 1,
+                        explanation: "A AHAI por anticorpos quentes é mediada principalmente por autoanticorpos da classe IgG que reagem a 37°C."
+                    },
+                    {
+                        question: "O TAD positivo apenas para C3 sugere:",
+                        options: ["AHAI quente", "Doença da aglutinina a frio", "Hemólise mecânica", "Deficiência enzimática"],
+                        correct: 1,
+                        explanation: "TAD positivo apenas para C3 é característico da doença da aglutinina a frio, pois a IgM se dissocia a 37°C mas o complemento permanece."
+                    },
+                    {
+                        question: "Qual tipo de hipersensibilidade caracteriza a AHAI?",
+                        options: ["Tipo I", "Tipo II", "Tipo III", "Tipo IV"],
+                        correct: 1,
+                        explanation: "A AHAI é um exemplo clássico de hipersensibilidade do Tipo II, mediada por anticorpos que se ligam a antígenos celulares."
+                    }
+                ]
+            }
         };
 
-        const mainContent = document.getElementById('main-content');
-        const sidebarNav = document.getElementById('sidebar-nav');
-        const sidebar = document.getElementById('sidebar');
-        const hamburgerMenu = document.getElementById('hamburger-menu');
-        const quizModal = document.getElementById('quiz-modal');
-        const quizModalContent = document.getElementById('quiz-modal-content');
+        // Estado da aplicação
+        let currentSection = 'home';
+        let currentQuiz = null;
+        let quizAnswers = {};
+        let simuladoData = null;
+        let courseProgress = 0;
 
-        const getTableHtml = (tableId) => {
-            const tableData = courseData.tables[tableId];
-            if (!tableData) return '';
-            let html = `<h4>${tableData.title}</h4><table><thead><tr>${tableData.headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>`;
-            tableData.rows.forEach(row => { html += `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`; });
-            return html + '</tbody></table>';
-        };
+        // Funções de navegação
+        function showSection(sectionId) {
+            // Esconder todas as seções
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+                section.classList.remove('active');
+            });
 
-        const renderPage = (targetId) => {
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            const activeLink = document.querySelector(`.nav-link[data-target="${targetId}"]`);
-            if (activeLink) activeLink.classList.add('active');
+            // Mostrar seção selecionada
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+                targetSection.classList.add('active');
+                currentSection = sectionId;
 
-            let html = '';
-            if (targetId.startsWith('module-')) {
-                html = renderModuleContent(targetId.replace('module-', ''));
-            } else {
-                switch (targetId) {
-                    case 'home':
-                        html = `<div class="content-box"><h2>Bem-vindo ao Curso Interativo de Patologia e Hematologia</h2><p>Esta plataforma foi desenhada para transformar seu estudo em uma experiência dinâmica e eficaz. Navegue pelos módulos no menu expansível à esquerda para explorar o conteúdo, teste seus conhecimentos com quizzes e reforce o aprendizado com flashcards.</p><h3>Recursos Disponíveis:</h3><ul><li><b>📚 Conteúdo do Curso:</b> Quatro módulos completos, com textos, tabelas e estudos de caso.</li><li><b>🧠 Flashcards de Revisão:</b> Revise os principais termos e conceitos de forma rápida.</li><li><b>✍️ Montar Simulado:</b> Crie provas personalizadas para testar seu domínio.</li><li><b>🔗 Aprofundamento e Fontes:</b> Explore as referências bibliográficas comentadas para ir além.</li></ul></div>`;
-                        break;
-                    case 'flashcards': html = renderFlashcards(); break;
-                    case 'custom-quiz': html = renderCustomQuizBuilder(); break;
-                    case 'references': html = renderReferences(); break;
-                    default: html = '<div class="content-box"><h2>Página não encontrada</h2></div>';
+                // Atualizar navegação ativa
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                event.target.classList.add('active');
+
+                // Carregar conteúdo específico da seção
+                if (sectionId === 'flashcards') {
+                    loadFlashcards();
+                } else if (sectionId === 'glossario') {
+                    loadGlossario();
                 }
             }
-            mainContent.innerHTML = html;
-            attachEventListenersForPage(targetId);
-        };
-        
-        const renderModuleContent = (moduleId) => {
-            const module = courseData.modules.find(m => m.id === moduleId);
-            if (!module) return '<div class="content-box"><h2>Módulo não encontrado</h2></div>';
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
             
-            let html = `<div class="content-box"><h2>${module.title}</h2><div class="tabs-container">`;
-            module.sections.forEach((section, index) => {
-                html += `<button class="tab-button ${index === 0 ? 'active' : ''}" data-tab-target="${section.id}">${section.title}</button>`;
-            });
-            html += '</div>';
-            module.sections.forEach((section, index) => {
-                let sectionContent = section.content;
-                Object.keys(courseData.tables).forEach(tableId => {
-                    if (sectionContent.includes(`<div id="${tableId}-container"></div>`)) {
-                        sectionContent = sectionContent.replace(`<div id="${tableId}-container"></div>`, getTableHtml(tableId));
-                    }
-                });
-                html += `<div class="tab-content ${index === 0 ? 'active' : ''}" id="${section.id}">${sectionContent}<br><button class="button start-quiz-btn" data-section-id="${section.id}">Testar Conhecimentos</button></div>`;
-            });
-            html += '</div>';
-            return html;
-        };
-
-        const renderReferences = () => {
-            let html = '<div class="content-box"><h2>Aprofundamento e Fontes</h2><p>A seguir, uma lista comentada das principais referências utilizadas na elaboração do conteúdo deste curso. Utilize estes links para estudos aprofundados.</p><ul class="reference-list">';
-            courseData.references.forEach(ref => {
-                html += `<li><a href="${ref.url}" target="_blank" rel="noopener noreferrer">${ref.source}</a><p>${ref.comment}</p></li>`;
-            });
-            return html + '</ul></div>';
-        };
-
-        const attachEventListenersForPage = (pageId) => {
-            if (pageId.startsWith('module-')) {
-                const contentBox = mainContent.querySelector('.content-box');
-                contentBox.addEventListener('click', e => {
-                    if (e.target.matches('.tab-button')) {
-                        const tabId = e.target.dataset.tabTarget;
-                        contentBox.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-                        e.target.classList.add('active');
-                        contentBox.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                        document.getElementById(tabId).classList.add('active');
-                    } else if (e.target.matches('.start-quiz-btn')) {
-                        const sectionId = e.target.dataset.sectionId;
-                        const quizData = courseData.quizzes[sectionId];
-                        const section = courseData.modules.flatMap(m => m.sections).find(s => s.id === sectionId);
-                        if (quizData && section) {
-                            startQuiz(quizData, `Quiz: ${section.title}`);
-                        }
-                    }
-                });
-            } else if (pageId === 'flashcards') {
-                document.getElementById('flashcard')?.addEventListener('click', e => e.currentTarget.classList.toggle('flipped'));
-                document.getElementById('prev-card')?.addEventListener('click', () => navigateFlashcard(-1));
-                document.getElementById('next-card')?.addEventListener('click', () => navigateFlashcard(1));
-                document.getElementById('shuffle-cards')?.addEventListener('click', shuffleFlashcards);
-            } else if (pageId === 'custom-quiz') {
-                document.getElementById('num-questions').addEventListener('input', e => {
-                    document.getElementById('num-questions-value').textContent = e.target.value;
-                });
-                document.getElementById('custom-quiz-form').addEventListener('submit', e => {
-                    e.preventDefault();
-                    const formData = new FormData(e.target);
-                    const selectedTopics = formData.getAll('topics');
-                    const numQuestions = parseInt(formData.get('numQuestions'));
-                    const selectedDifficulties = formData.getAll('difficulty');
-                    if (selectedTopics.length === 0) { alert('Por favor, selecione pelo menos um tema.'); return; }
-                    let questionPool = [];
-                    selectedTopics.forEach(topicId => {
-                        if (courseData.quizzes[topicId]) {
-                            courseData.quizzes[topicId].forEach(q => {
-                                if (selectedDifficulties.includes(q.d)) {
-                                    questionPool.push(q);
-                                }
-                            });
-                        }
-                    });
-                    questionPool.sort(() => 0.5 - Math.random());
-                    const finalQuestions = questionPool.slice(0, numQuestions);
-                    if (finalQuestions.length === 0) { alert('Nenhuma questão encontrada para os critérios selecionados.'); return; }
-                    startQuiz(finalQuestions, 'Simulado Personalizado');
-                });
+            sidebar.classList.toggle('visible');
+            if (window.innerWidth <= 768) {
+                if (sidebar.classList.contains('visible')) {
+                    sidebar.classList.remove('hidden');
+                } else {
+                    sidebar.classList.add('hidden');
+                }
             }
-        };
+        }
 
-        sidebarNav.addEventListener('click', (e) => {
-            const navToggle = e.target.closest('.nav-toggle');
-            if (navToggle) {
-                navToggle.parentElement.classList.toggle('open');
+        // Funções de acordeão
+        function toggleAccordion(header) {
+            const content = header.nextElementSibling;
+            const isActive = content.classList.contains('active');
+
+            // Fechar todos os acordeões
+            document.querySelectorAll('.accordion-content').forEach(acc => {
+                acc.classList.remove('active');
+            });
+            document.querySelectorAll('.accordion-header').forEach(head => {
+                head.classList.remove('active');
+                head.querySelector('span:last-child').textContent = '▼';
+            });
+
+            // Abrir o clicado se não estava ativo
+            if (!isActive) {
+                content.classList.add('active');
+                header.classList.add('active');
+                header.querySelector('span:last-child').textContent = '▲';
+            }
+        }
+
+        // Funções de abas
+        function showTab(tabId, headerElement) {
+            // Esconder todas as abas
+            const tabContainer = headerElement.closest('.tabs');
+            tabContainer.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            tabContainer.querySelectorAll('.tab-header').forEach(header => {
+                header.classList.remove('active');
+            });
+
+            // Mostrar aba selecionada
+            document.getElementById(tabId).classList.add('active');
+            headerElement.classList.add('active');
+        }
+
+        // Funções de flashcards
+        function loadFlashcards() {
+            const container = document.getElementById('flashcardsContainer');
+            container.innerHTML = '';
+
+            courseData.flashcards.forEach((card, index) => {
+                const flashcardElement = document.createElement('div');
+                flashcardElement.className = 'flashcard';
+                flashcardElement.innerHTML = `
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <h3>${card.front}</h3>
+                        </div>
+                        <div class="flashcard-back">
+                            <p>${card.back}</p>
+                        </div>
+                    </div>
+                `;
+                
+                flashcardElement.addEventListener('click', () => {
+                    flashcardElement.classList.toggle('flipped');
+                });
+
+                container.appendChild(flashcardElement);
+            });
+        }
+
+        function shuffleFlashcards() {
+            const container = document.getElementById('flashcardsContainer');
+            const cards = Array.from(container.children);
+            
+            // Embaralhar array
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+            
+            // Reordenar no DOM
+            cards.forEach(card => container.appendChild(card));
+        }
+
+        function resetFlashcards() {
+            document.querySelectorAll('.flashcard').forEach(card => {
+                card.classList.remove('flipped');
+            });
+        }
+
+        // Funções de glossário
+        function loadGlossario() {
+            const container = document.getElementById('glossarioContent');
+            container.innerHTML = '';
+
+            const sortedTerms = Object.keys(courseData.glossario).sort();
+            
+            sortedTerms.forEach(term => {
+                const termElement = document.createElement('div');
+                termElement.className = 'content-box';
+                termElement.innerHTML = `
+                    <h3>${term}</h3>
+                    <p>${courseData.glossario[term]}</p>
+                `;
+                container.appendChild(termElement);
+            });
+        }
+
+        // Funções de quiz
+        function startQuiz(quizId) {
+            if (!courseData.questions[quizId]) {
+                alert('Quiz não encontrado!');
                 return;
             }
-            const navLink = e.target.closest('.nav-link');
-            if (navLink) {
-                e.preventDefault();
-                const targetId = navLink.dataset.target;
-                renderPage(targetId);
-                if (!navLink.closest('.has-submenu')) {
-                    sidebarNav.querySelector('.has-submenu').classList.remove('open');
-                }
-                if (window.innerWidth <= 992) {
-                    sidebar.classList.remove('active');
-                }
+
+            currentQuiz = quizId;
+            quizAnswers = {};
+            
+            const questions = courseData.questions[quizId];
+            let quizHtml = `
+                <div class="quiz-container">
+                    <h2>Quiz: ${getQuizTitle(quizId)}</h2>
+                    <form id="quizForm">
+            `;
+
+            questions.forEach((q, index) => {
+                quizHtml += `
+                    <div class="question">
+                        <h3>Questão ${index + 1}: ${q.question}</h3>
+                        <ul class="options">
+                `;
+                
+                q.options.forEach((option, optIndex) => {
+                    quizHtml += `
+                        <li>
+                            <input type="radio" id="q${index}_${optIndex}" name="question${index}" value="${optIndex}">
+                            <label for="q${index}_${optIndex}">${option}</label>
+                        </li>
+                    `;
+                });
+
+                quizHtml += `
+                        </ul>
+                    </div>
+                `;
+            });
+
+            quizHtml += `
+                    <button type="button" class="btn" onclick="submitQuiz()">Finalizar Quiz</button>
+                    </form>
+                </div>
+            `;
+
+            // Criar modal para o quiz
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                z-index: 2000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+            `;
+            
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background: white;
+                border-radius: 15px;
+                padding: 2rem;
+                max-width: 800px;
+                max-height: 80vh;
+                overflow-y: auto;
+                position: relative;
+            `;
+            
+            modalContent.innerHTML = `
+                <button onclick="closeQuiz()" style="position: absolute; top: 1rem; right: 1rem; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer;">×</button>
+                ${quizHtml}
+            `;
+            
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+            modal.id = 'quizModal';
+        }
+
+        function getQuizTitle(quizId) {
+            const titles = {
+                'modulo1_secao1': 'Lesão Celular e Toxicidade Medular',
+                'modulo1_secao2': 'Adaptação Celular e Respostas Medulares',
+                'modulo1_secao3': 'Morte Celular e Hemólise',
+                'modulo2_secao1': 'Inflamação e Leucograma',
+                'modulo2_secao2': 'Reparo Tecidual e Fibrose Medular',
+                'modulo3_secao1': 'Hemostasia e Trombose',
+                'modulo4_secao1': 'Neoplasia e Marcas do Câncer',
+                'modulo4_secao2': 'Autoimunidade e Citotoxicidade'
+            };
+            return titles[quizId] || 'Quiz';
+        }
+
+        function submitQuiz() {
+            const form = document.getElementById('quizForm');
+            const formData = new FormData(form);
+            const questions = courseData.questions[currentQuiz];
+            let score = 0;
+            let results = [];
+
+            questions.forEach((q, index) => {
+                const answer = formData.get(`question${index}`);
+                const isCorrect = answer == q.correct;
+                if (isCorrect) score++;
+                
+                results.push({
+                    question: q.question,
+                    userAnswer: answer ? q.options[answer] : 'Não respondida',
+                    correctAnswer: q.options[q.correct],
+                    isCorrect: isCorrect,
+                    explanation: q.explanation
+                });
+            });
+
+            showQuizResults(score, questions.length, results);
+            updateProgress();
+        }
+
+        function showQuizResults(score, total, results) {
+            const percentage = Math.round((score / total) * 100);
+            let resultHtml = `
+                <div class="quiz-container">
+                    <h2>Resultado do Quiz</h2>
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <h3>Pontuação: ${score}/${total} (${percentage}%)</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                    <h3>Revisão das Questões:</h3>
+            `;
+
+            results.forEach((result, index) => {
+                const statusClass = result.isCorrect ? 'btn-success' : 'btn-danger';
+                const statusText = result.isCorrect ? '✓ Correto' : '✗ Incorreto';
+                
+                resultHtml += `
+                    <div class="question" style="border-left: 4px solid ${result.isCorrect ? '#27ae60' : '#e74c3c'}; padding-left: 1rem;">
+                        <h4>Questão ${index + 1}: ${result.question}</h4>
+                        <p><strong>Sua resposta:</strong> ${result.userAnswer}</p>
+                        <p><strong>Resposta correta:</strong> ${result.correctAnswer}</p>
+                        <p><strong>Explicação:</strong> ${result.explanation}</p>
+                        <span class="btn ${statusClass}" style="font-size: 0.8rem; padding: 0.5rem 1rem;">${statusText}</span>
+                    </div>
+                `;
+            });
+
+            resultHtml += `
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn" onclick="closeQuiz()">Fechar</button>
+                </div>
+                </div>
+            `;
+
+            document.querySelector('#quizModal .quiz-container').innerHTML = resultHtml;
+        }
+
+        function closeQuiz() {
+            const modal = document.getElementById('quizModal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Funções do simulado
+        function updateSliderValue(sliderId, displayId) {
+            const slider = document.getElementById(sliderId);
+            const display = document.getElementById(displayId);
+            display.textContent = slider.value;
+        }
+
+        function startSimulado() {
+            // Coletar configurações
+            const modulos = [];
+            if (document.getElementById('sim_modulo1').checked) modulos.push('modulo1');
+            if (document.getElementById('sim_modulo2').checked) modulos.push('modulo2');
+            if (document.getElementById('sim_modulo3').checked) modulos.push('modulo3');
+            if (document.getElementById('sim_modulo4').checked) modulos.push('modulo4');
+
+            if (modulos.length === 0) {
+                alert('Selecione pelo menos um módulo!');
+                return;
+            }
+
+            const numQuestions = parseInt(document.getElementById('numQuestions').value);
+            const dificuldade = document.querySelector('input[name="dificuldade"]:checked').value;
+
+            // Gerar questões do simulado
+            const allQuestions = [];
+            modulos.forEach(modulo => {
+                Object.keys(courseData.questions).forEach(key => {
+                    if (key.startsWith(modulo)) {
+                        allQuestions.push(...courseData.questions[key]);
+                    }
+                });
+            });
+
+            // Embaralhar e selecionar questões
+            const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+            const selectedQuestions = shuffled.slice(0, Math.min(numQuestions, shuffled.length));
+
+            simuladoData = {
+                questions: selectedQuestions,
+                startTime: Date.now(),
+                config: { modulos, numQuestions, dificuldade }
+            };
+
+            showSimuladoQuiz(selectedQuestions);
+        }
+
+        function showSimuladoQuiz(questions) {
+            let quizHtml = `
+                <h2>Simulado Personalizado</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <p><strong>Questões:</strong> ${questions.length}</p>
+                    <p><strong>Tempo:</strong> <span id="timer">00:00</span></p>
+                </div>
+                <form id="simuladoForm">
+            `;
+
+            questions.forEach((q, index) => {
+                quizHtml += `
+                    <div class="question">
+                        <h3>Questão ${index + 1}: ${q.question}</h3>
+                        <ul class="options">
+                `;
+                
+                q.options.forEach((option, optIndex) => {
+                    quizHtml += `
+                        <li>
+                            <input type="radio" id="sim_q${index}_${optIndex}" name="question${index}" value="${optIndex}">
+                            <label for="sim_q${index}_${optIndex}">${option}</label>
+                        </li>
+                    `;
+                });
+
+                quizHtml += `
+                        </ul>
+                    </div>
+                `;
+            });
+
+            quizHtml += `
+                <div style="text-align: center;">
+                    <button type="button" class="btn btn-success" onclick="submitSimulado()">Finalizar Simulado</button>
+                    <button type="button" class="btn btn-secondary" onclick="cancelSimulado()">Cancelar</button>
+                </div>
+                </form>
+            `;
+
+            document.getElementById('simuladoQuiz').innerHTML = quizHtml;
+            document.getElementById('simuladoQuiz').style.display = 'block';
+            document.querySelector('.simulado-config').style.display = 'none';
+
+            // Iniciar cronômetro
+            startTimer();
+        }
+
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            const startTime = simuladoData.startTime;
+
+            const updateTimer = () => {
+                const elapsed = Date.now() - startTime;
+                const minutes = Math.floor(elapsed / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            };
+
+            updateTimer();
+            simuladoData.timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function submitSimulado() {
+            clearInterval(simuladoData.timerInterval);
+            
+            const form = document.getElementById('simuladoForm');
+            const formData = new FormData(form);
+            const questions = simuladoData.questions;
+            let score = 0;
+            let results = [];
+
+            questions.forEach((q, index) => {
+                const answer = formData.get(`question${index}`);
+                const isCorrect = answer == q.correct;
+                if (isCorrect) score++;
+                
+                results.push({
+                    question: q.question,
+                    userAnswer: answer ? q.options[answer] : 'Não respondida',
+                    correctAnswer: q.options[q.correct],
+                    isCorrect: isCorrect,
+                    explanation: q.explanation
+                });
+            });
+
+            const endTime = Date.now();
+            const totalTime = Math.round((endTime - simuladoData.startTime) / 1000);
+
+            showSimuladoResults(score, questions.length, results, totalTime);
+        }
+
+        function showSimuladoResults(score, total, results, timeInSeconds) {
+            const percentage = Math.round((score / total) * 100);
+            const minutes = Math.floor(timeInSeconds / 60);
+            const seconds = timeInSeconds % 60;
+
+            let resultHtml = `
+                <h2>Resultado do Simulado</h2>
+                <div class="content-box" style="text-align: center; margin: 2rem 0;">
+                    <h3>Relatório de Desempenho</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                        <div>
+                            <h4>Pontuação</h4>
+                            <p style="font-size: 2rem; color: #3498db;">${score}/${total}</p>
+                        </div>
+                        <div>
+                            <h4>Percentual</h4>
+                            <p style="font-size: 2rem; color: #27ae60;">${percentage}%</p>
+                        </div>
+                        <div>
+                            <h4>Tempo Total</h4>
+                            <p style="font-size: 2rem; color: #f39c12;">${minutes}:${seconds.toString().padStart(2, '0')}</p>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${percentage}%"></div>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab-headers">
+                        <button class="tab-header active" onclick="showTab('resumo', this)">Resumo</button>
+                        <button class="tab-header" onclick="showTab('questoes-erradas', this)">Questões Erradas</button>
+                        <button class="tab-header" onclick="showTab('todas-questoes', this)">Todas as Questões</button>
+                    </div>
+                    
+                    <div id="resumo" class="tab-content active">
+                        <h3>Análise de Desempenho</h3>
+                        <p><strong>Configuração do Simulado:</strong></p>
+                        <ul>
+                            <li>Módulos selecionados: ${simuladoData.config.modulos.join(', ')}</li>
+                            <li>Número de questões: ${simuladoData.config.numQuestions}</li>
+                            <li>Nível de dificuldade: ${simuladoData.config.dificuldade}</li>
+                        </ul>
+                        
+                        <p><strong>Recomendações:</strong></p>
+                        <ul>
+            `;
+
+            if (percentage >= 80) {
+                resultHtml += '<li>Excelente desempenho! Continue estudando para manter o nível.</li>';
+            } else if (percentage >= 60) {
+                resultHtml += '<li>Bom desempenho, mas há espaço para melhorias. Revise os tópicos das questões erradas.</li>';
+            } else {
+                resultHtml += '<li>É recomendado revisar o conteúdo antes de tentar novamente.</li>';
+            }
+
+            resultHtml += `
+                        </ul>
+                    </div>
+                    
+                    <div id="questoes-erradas" class="tab-content">
+                        <h3>Questões que Você Errou</h3>
+            `;
+
+            const wrongAnswers = results.filter(r => !r.isCorrect);
+            if (wrongAnswers.length === 0) {
+                resultHtml += '<p>Parabéns! Você acertou todas as questões!</p>';
+            } else {
+                wrongAnswers.forEach((result, index) => {
+                    resultHtml += `
+                        <div class="question" style="border-left: 4px solid #e74c3c; padding-left: 1rem; margin: 1rem 0;">
+                            <h4>${result.question}</h4>
+                            <p><strong>Sua resposta:</strong> ${result.userAnswer}</p>
+                            <p><strong>Resposta correta:</strong> ${result.correctAnswer}</p>
+                            <p><strong>Explicação:</strong> ${result.explanation}</p>
+                        </div>
+                    `;
+                });
+            }
+
+            resultHtml += `
+                    </div>
+                    
+                    <div id="todas-questoes" class="tab-content">
+                        <h3>Revisão Completa</h3>
+            `;
+
+            results.forEach((result, index) => {
+                const statusClass = result.isCorrect ? '#27ae60' : '#e74c3c';
+                const statusText = result.isCorrect ? '✓ Correto' : '✗ Incorreto';
+                
+                resultHtml += `
+                    <div class="question" style="border-left: 4px solid ${statusClass}; padding-left: 1rem; margin: 1rem 0;">
+                        <h4>Questão ${index + 1}: ${result.question}</h4>
+                        <p><strong>Sua resposta:</strong> ${result.userAnswer}</p>
+                        <p><strong>Resposta correta:</strong> ${result.correctAnswer}</p>
+                        <p><strong>Explicação:</strong> ${result.explanation}</p>
+                        <span style="color: ${statusClass}; font-weight: bold;">${statusText}</span>
+                    </div>
+                `;
+            });
+
+            resultHtml += `
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn" onclick="resetSimulado()">Novo Simulado</button>
+                </div>
+            `;
+
+            document.getElementById('simuladoQuiz').innerHTML = resultHtml;
+            updateProgress();
+        }
+
+        function cancelSimulado() {
+            if (simuladoData && simuladoData.timerInterval) {
+                clearInterval(simuladoData.timerInterval);
+            }
+            resetSimulado();
+        }
+
+        function resetSimulado() {
+            document.getElementById('simuladoQuiz').style.display = 'none';
+            document.querySelector('.simulado-config').style.display = 'block';
+            simuladoData = null;
+        }
+
+        // Função para atualizar progresso
+        function updateProgress() {
+            courseProgress = Math.min(courseProgress + 5, 100);
+            document.getElementById('courseProgress').style.width = courseProgress + '%';
+            document.getElementById('progressText').textContent = courseProgress + '%';
+        }
+
+        // Responsividade
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                document.getElementById('sidebar').classList.remove('hidden', 'visible');
+                document.getElementById('mainContent').classList.remove('expanded');
             }
         });
-        
-        hamburgerMenu.addEventListener('click', () => sidebar.classList.toggle('active'));
-        
-        const renderFlashcards = () => {
-            const allFlashcards = []; const tempDiv = document.createElement('div');
-            courseData.modules.forEach(mod => mod.sections.forEach(sec => {
-                tempDiv.innerHTML = sec.content;
-                tempDiv.querySelectorAll('.tooltip').forEach(t => allFlashcards.push({ term: t.textContent, definition: t.dataset.definition }));
-            }));
-            const uniqueFlashcards = allFlashcards.filter((v, i, a) => a.findIndex(t => t.term === v.term) === i);
-            if (uniqueFlashcards.length === 0) return `<div class="content-box"><h2>Flashcards</h2><p>Nenhum flashcard disponível.</p></div>`;
-            setTimeout(() => {
-                const container = document.getElementById('flashcard-container');
-                if (container) {
-                    container.dataset.state = JSON.stringify({ cards: uniqueFlashcards, currentIndex: 0 });
-                    updateFlashcardView();
-                }
-            }, 0);
-            return `<div class="content-box"><h2>Flashcards de Revisão</h2><p>Clique no card para virar. Use os botões para navegar.</p><div class="flashcard-container" id="flashcard-container"><div class="flashcard" id="flashcard"><div class="flashcard-inner"><div class="flashcard-front"></div><div class="flashcard-back"></div></div></div><div class="flashcard-nav"><button class="button secondary" id="prev-card">Anterior</button><span id="card-counter"></span><button class="button secondary" id="next-card">Próximo</button></div><button class="button" id="shuffle-cards" style="margin-top: 15px;">Embaralhar</button></div></div>`;
-        };
-        const updateFlashcardView = () => {
-            const container = document.getElementById('flashcard-container'); if (!container || !container.dataset.state) return;
-            let state = JSON.parse(container.dataset.state); const card = state.cards[state.currentIndex];
-            document.getElementById('flashcard-front').textContent = card.term; document.getElementById('flashcard-back').textContent = card.definition;
-            document.getElementById('card-counter').textContent = `${state.currentIndex + 1} / ${state.cards.length}`;
-            document.getElementById('flashcard').classList.remove('flipped');
-        };
-        const navigateFlashcard = (direction) => {
-            const container = document.getElementById('flashcard-container'); if (!container || !container.dataset.state) return;
-            let state = JSON.parse(container.dataset.state); state.currentIndex += direction;
-            if (state.currentIndex < 0) state.currentIndex = state.cards.length - 1;
-            if (state.currentIndex >= state.cards.length) state.currentIndex = 0;
-            container.dataset.state = JSON.stringify(state); updateFlashcardView();
-        };
-        const shuffleFlashcards = () => {
-            const container = document.getElementById('flashcard-container'); if (!container || !container.dataset.state) return;
-            let state = JSON.parse(container.dataset.state);
-            for (let i = state.cards.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [state.cards[i], state.cards[j]] = [state.cards[j], state.cards[i]]; }
-            state.currentIndex = 0; container.dataset.state = JSON.stringify(state); updateFlashcardView();
-        };
-        const renderCustomQuizBuilder = () => {
-            let quizOptionsHtml = '';
-            courseData.modules.forEach(mod => {
-                quizOptionsHtml += `<label style="font-weight:bold; margin-top:10px; display:block;">${mod.title}</label>`;
-                mod.sections.forEach(sec => { quizOptionsHtml += `<label><input type="checkbox" name="topics" value="${sec.id}"> ${sec.title}</label>`; });
-            });
-            return `<div class="content-box"><h2>Montar Simulado Personalizado</h2><form id="custom-quiz-form"><div class="quiz-builder-form-group"><label>1. Selecione os Temas:</label><div class="checkbox-group">${quizOptionsHtml}</div></div><div class="quiz-builder-form-group"><label for="num-questions">2. Número de Questões: <span id="num-questions-value">20</span></label><input type="range" id="num-questions" name="numQuestions" min="5" max="50" value="20"></div><div class="quiz-builder-form-group"><label>3. Nível de Dificuldade:</label><div class="checkbox-group"><label><input type="checkbox" name="difficulty" value="Fácil" checked> Fácil</label><label><input type="checkbox" name="difficulty" value="Médio" checked> Médio</label><label><input type="checkbox" name="difficulty" value="Difícil" checked> Difícil</label></div></div><button type="submit" class="button">Gerar Simulado</button></form></div>`;
-        };
-        const startQuiz = (quizData, title) => {
-             let quizHtml = `<span class="close-button">&times;</span><h2>${title}</h2><form id="quiz-form">`;
-            let startTime = Date.now();
-            quizData.forEach((q, index) => { quizHtml += `<div class="quiz-question"><p><b>${index + 1}. ${q.q}</b></p><div class="quiz-options">${q.options.map((opt, i) => `<label><input type="radio" name="question${index}" value="${i}"> ${opt}</label>`).join('')}</div></div>`; });
-            quizHtml += `<button type="submit" class="button">Finalizar Quiz</button></form>`;
-            quizModalContent.innerHTML = quizHtml; quizModal.style.display = 'flex';
-            quizModalContent.querySelector('.close-button').addEventListener('click', () => quizModal.style.display = 'none');
-            document.getElementById('quiz-form').addEventListener('submit', (e) => {
-                e.preventDefault(); const endTime = Date.now(); const timeTaken = Math.round((endTime - startTime) / 1000);
-                const formData = new FormData(e.target); let score = 0; let results = [];
-                quizData.forEach((q, index) => {
-                    const userAnswer = formData.get(`question${index}`); const isCorrect = userAnswer !== null && parseInt(userAnswer) === q.a;
-                    if (isCorrect) score++; results.push({ question: q, userAnswer, isCorrect });
-                });
-                showQuizResult(score, quizData.length, results, title, timeTaken);
-            });
-        };
-        const showQuizResult = (score, total, results, title, timeTaken) => {
-            const percentage = total > 0 ? ((score / total) * 100).toFixed(1) : 0;
-            const minutes = Math.floor(timeTaken / 60); const seconds = timeTaken % 60;
-            let resultHtml = `<span class="close-button">&times;</span><h2>Resultado: ${title}</h2><div class="quiz-result"><h3>Sua pontuação: ${score} de ${total} (${percentage}%)</h3><p><b>Tempo gasto:</b> ${minutes} min e ${seconds} seg</p><p>${percentage >= 70 ? 'Parabéns, ótimo resultado!' : 'Continue estudando para melhorar!'}</p><hr><h4>Revisão das Questões:</h4></div>`;
-            results.forEach(res => { resultHtml += `<div class="review-question ${res.isCorrect ? 'correct' : 'incorrect'}"><p><b>${res.question.q}</b></p><p>Sua resposta: ${res.userAnswer !== null ? res.question.options[res.userAnswer] : 'Não respondida'}</p>${!res.isCorrect ? `<p>Resposta correta: <b>${res.question.options[res.question.a]}</b></p>` : ''}</div>`; });
-            quizModalContent.innerHTML = resultHtml; quizModalContent.querySelector('.close-button').addEventListener('click', () => quizModal.style.display = 'none');
-        };
-        
-        renderPage('home');
 
-    });
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mostrar seção inicial
+            showSection('home');
+            
+            // Configurar responsividade inicial
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.add('hidden');
+                document.getElementById('mainContent').classList.add('expanded');
+            }
+        });
     </script>
 </body>
 </html>
+
