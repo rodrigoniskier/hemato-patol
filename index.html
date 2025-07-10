@@ -22,18 +22,22 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            height: 100%;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--text-color);
-            /* AJUSTE: Fundo de imagem em vez de gradiente */
             background: url('background3.png') center center/cover no-repeat fixed;
-            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
             display: flex;
-            min-height: 100vh;
+            flex: 1; /* Faz o container crescer para preencher o espaço */
         }
 
         .sidebar {
@@ -243,7 +247,6 @@
             font-size: 0.9rem;
             width: 280px;
             white-space: normal;
-            /* AJUSTE: Z-index alto para garantir que fique sobre outros elementos */
             z-index: 1001;
             opacity: 0;
             visibility: hidden;
@@ -394,6 +397,38 @@
         .reference-list a:hover { text-decoration: underline; }
         .reference-list p { margin-left: 20px; font-style: italic; color: #555; margin-top: 5px; margin-bottom: 0;}
 
+        /* AJUSTE: Estilos para o currículo */
+        .profile-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .profile-pic-container {
+            flex-shrink: 0;
+            text-align: center;
+        }
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .profile-text {
+            flex-grow: 1;
+        }
+
+        /* AJUSTE: Estilos para o rodapé */
+        .main-footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: rgba(44, 62, 80, 0.9);
+            color: #ecf0f1;
+            font-size: 0.9em;
+        }
+
         @media (max-width: 768px) {
             .hamburger {
                 display: block;
@@ -420,6 +455,11 @@
                 margin-right: 0;
                 margin-bottom: 0.5rem;
                 border-radius: 10px;
+            }
+            .profile-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
             }
         }
 
@@ -477,6 +517,11 @@
         </main>
     </div>
     
+    <!-- AJUSTE: Rodapé adicionado ao final do corpo -->
+    <footer class="main-footer">
+        <p>&copy; 2025 Rodrigo Niskier Ferreira Barbosa. Todos os direitos reservados.</p>
+    </footer>
+
     <!-- Modal para Quizzes -->
     <div id="quiz-modal" class="modal">
         <div class="modal-content" id="quiz-modal-content"></div>
@@ -634,7 +679,22 @@
                         <li>Analisar casos clínicos paradigmáticos e interpretar achados laboratoriais.</li>
                         <li>Desenvolver raciocínio clínico-patológico integrado.</li>
                     </ul>
-                </div>`;
+                </div>
+                <!-- AJUSTE: Box do currículo adicionado -->
+                <div class="content-box">
+                    <div class="profile-container">
+                        <div class="profile-pic-container">
+                            <img src="https://placehold.co/150x150/3498db/ffffff?text=Foto" alt="Foto de Rodrigo Niskier Ferreira Barbosa" class="profile-pic">
+                        </div>
+                        <div class="profile-text">
+                            <h2>Rodrigo Niskier Ferreira Barbosa</h2>
+                            <p>Formado em Biomedicina (2003, UFPE), especialista em Biologia Molecular (2006, UPE), mestrado em Genética e Biologia Molecular (2007, UFRN), atua como professor do ensino superior desde 2007 (aprox. 18 anos).</p>
+                            <p>Atualmente leciona Mecanismos de Agressão, Patológicos e de Defesa no curso de Medicina (UNIPE - João Pessoa). Dedica-se a pesquisa acadêmica teórica em diversas áreas, incluindo: Imunologia, Genética e Neoplasias.</p>
+                            <p>Desde 2024 vem publicando e desenvolvendo aplicações para Web em diversas áreas, utilizando ferramentas de AI-LLM.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
 
             const renderModule = (moduleId) => {
                 const module = courseData.modules.find(m => m.id === moduleId);
@@ -697,7 +757,6 @@
             };
 
             const getSimuladoPageHtml = () => {
-                // AJUSTE: Gerar checkboxes para os tópicos do simulado
                 let quizOptionsHtml = '';
                 courseData.modules.forEach(mod => {
                     quizOptionsHtml += `<h4 style="margin-top: 1rem;">${mod.title}</h4>`;
@@ -708,7 +767,7 @@
 
                 return `<div class="content-box">
                     <h1>📝 Simulado Personalizado</h1>
-                    <p>Selecione os assuntos para gerar um simulado. Serão incluídas 3 questões para cada assunto selecionado.</p>
+                    <p>Selecione os assuntos para gerar um simulado. Serão incluídas 2 questões para cada assunto selecionado.</p>
                     <div class="simulado-config" id="simulado-config">
                         <form id="custom-quiz-form">
                             <div class="config-group">
@@ -821,7 +880,6 @@
                         }
                         
                         let questionPool = [];
-                        // AJUSTE: Lógica para pegar 3 questões por tópico
                         selectedTopics.forEach(topicId => {
                             if (courseData.quizzes[topicId]) {
                                 let topicQuestions = courseData.quizzes[topicId].filter(q => selectedDifficulties.includes(q.d));
@@ -835,13 +893,11 @@
                             return;
                         }
 
-                        // Embaralha o pool final de questões de todos os tópicos
                         questionPool.sort(() => 0.5 - Math.random()); 
                         startQuiz(questionPool, 'Simulado Personalizado');
                     });
                 }
                 
-                // AJUSTE: Adiciona listeners para todos os tooltips na página renderizada
                 initializeTooltips();
             };
 
@@ -853,33 +909,28 @@
                         const tooltipContent = e.currentTarget.querySelector('.tooltip-content');
                         if (!tooltipContent) return;
 
-                        // Força o tooltip a ser visível para medir, mas fora da tela
                         tooltipContent.style.visibility = 'hidden';
                         tooltipContent.style.display = 'block';
 
                         const mainRect = mainContent.getBoundingClientRect();
                         const tipRect = tooltipContent.getBoundingClientRect();
 
-                        // Reseta os estilos de posicionamento
                         tooltipContent.style.left = '50%';
                         tooltipContent.style.transform = 'translateX(-50%)';
                         tooltipContent.style.right = 'auto';
 
-                        // Verifica se transborda à direita
-                        if (tipRect.right > mainRect.right - 16) { // 16px de margem
+                        if (tipRect.right > mainRect.right - 16) {
                            tooltipContent.style.left = 'auto';
                            tooltipContent.style.right = '0';
                            tooltipContent.style.transform = 'translateX(0)';
                         }
 
-                        // Verifica se transborda à esquerda
-                        if (tipRect.left < mainRect.left + 16) { // 16px de margem
+                        if (tipRect.left < mainRect.left + 16) {
                            tooltipContent.style.left = '0';
                            tooltipContent.style.right = 'auto';
                            tooltipContent.style.transform = 'translateX(0)';
                         }
                         
-                        // Torna visível na posição correta
                         tooltipContent.style.display = '';
                         tooltipContent.style.visibility = 'visible';
                     });
